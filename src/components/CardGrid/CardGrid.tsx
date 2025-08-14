@@ -202,7 +202,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
           >
             <Card
               card={card}
-              isFlipped={isCardFlipped(card.id)}
+              isFlipped={true}
               isSelected={isCardSelected(card.id)}
               onClick={onCardClick ? handleCardClick : undefined}
               size={cardSize}
