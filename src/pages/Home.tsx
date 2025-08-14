@@ -3,7 +3,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { TarotCard } from '../types/tarot';
-import type { CardGrid } from '../components/CardGrid/CardGrid';
+import { CardGrid } from '../components/CardGrid/CardGrid';
 import { useTarotCards } from '../hooks/useTarotCards';
 
 /**

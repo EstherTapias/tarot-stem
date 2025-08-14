@@ -1,8 +1,8 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Layout from '../components/Layout/Layout';
-import Home from '../pages/Home';
-import CardDetail from '../pages/CardDetail';
-import CardReading from '../pages/CardReading';
+import { Home } from '../pages/Home';
+import { CardDetail } from '../pages/CardDetail';
+import { CardReading } from '../pages/CardReading';
 
 /*Define todos las rutas de nuestra aplicación */
 

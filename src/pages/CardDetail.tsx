@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { TarotCard } from '../types/tarot';
+import type { TarotCard } from '../types/tarot';
 import { Card } from '../components/Card/Card';
 import { getCardById } from '../services/api';
 
