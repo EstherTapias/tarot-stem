@@ -1,0 +1,206 @@
+/*Estilos de navegación*/
+
+ .navigation {
+    background: rgba(26, 14, 46, 0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-medium);
+  }
+  
+  .nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-md);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 80px;
+    gap: var(--space-lg);
+  }
+  
+  /* 🔮 Marca/Logo */
+  .nav-brand {
+    text-decoration: none;
+    color: inherit;
+    transition: transform var(--transition-medium);
+  }
+  
+  .nav-brand:hover {
+    transform: scale(1.02);
+  }
+  
+  .brand-content {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+  }
+  
+  .brand-icon {
+    font-size: 2rem;
+    animation: rotate-slow 20s linear infinite;
+  }
+  
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  
+  .brand-title {
+    font-size: var(--font-size-xl);
+    font-family: var(--font-mystical);
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.2;
+  }
+  
+  .brand-subtitle {
+    font-size: var(--font-size-xs);
+    color: var(--color-gray);
+    margin: 0;
+    font-family: var(--font-primary);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  
+  /* 🌟 Enlaces de navegación */
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    flex: 1;
+    justify-content: center;
+  }
+  
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    color: var(--color-white);
+    font-weight: 500;
+    font-size: var(--font-size-md);
+    transition: all var(--transition-medium);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .nav-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-accent);
+    transition: left var(--transition-medium);
+    z-index: -1;
+  }
+  
+  .nav-link:hover::before {
+    left: 0;
+  }
+  
+  .nav-link:hover {
+    transform: translateY(-2px);
+    color: var(--color-white);
+    box-shadow: var(--shadow-glow);
+  }
+  
+  .nav-link-active {
+    background: var(--gradient-primary);
+    color: var(--color-white);
+    box-shadow: var(--shadow-medium);
+  }
+  
+  .nav-link-active::before {
+    display: none;
+  }
+  
+  .nav-icon {
+    font-size: var(--font-size-lg);
+  }
+  
+  .nav-text {
+    font-family: var(--font-primary);
+    letter-spacing: 0.02em;
+  }
+  
+  /* 🌙 Información adicional */
+  .nav-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .nav-tagline {
+    font-size: var(--font-size-xs);
+    color: var(--color-moon);
+    font-style: italic;
+    letter-spacing: 0.05em;
+  }
+  
+  /* 📱 Responsive design */
+  @media (max-width: 768px) {
+    .nav-container {
+      height: 70px;
+      padding: 0 var(--space-sm);
+      gap: var(--space-md);
+    }
+    
+    .brand-title {
+      font-size: var(--font-size-lg);
+    }
+    
+    .nav-links {
+      gap: var(--space-md);
+    }
+    
+    .nav-link {
+      padding: var(--space-sm);
+      font-size: var(--font-size-sm);
+    }
+    
+    .nav-text {
+      display: none;
+    }
+    
+    .nav-icon {
+      font-size: var(--font-size-xl);
+    }
+    
+    .nav-info {
+      display: none;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .nav-container {
+      height: 60px;
+      gap: var(--space-sm);
+    }
+    
+    .brand-content {
+      gap: var(--space-sm);
+    }
+    
+    .brand-icon {
+      font-size: 1.5rem;
+    }
+    
+    .brand-title {
+      font-size: var(--font-size-md);
+    }
+    
+    .brand-subtitle {
+      font-size: 10px;
+    }
+    
+    .nav-links {
+      gap: var(--space-sm);
+    }
+  }
