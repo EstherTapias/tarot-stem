@@ -1,10 +1,8 @@
 import React from 'react';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './router/router';
-
-// Importamos nuestros estilos místicos
-import './styles/globals.css';
-import './styles/mystical-theme.css';
+import '../src/styles/mystical-theme.css.css';
+import '../src/styles/globals.css';
 
 /**
  * 🔮 Componente principal de la aplicación Tarot STEM
