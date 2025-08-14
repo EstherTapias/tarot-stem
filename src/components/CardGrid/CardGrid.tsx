@@ -1,4 +1,3 @@
-// components/CardGrid/CardGrid.tsx
 // Componente para mostrar una cuadrícula de cartas de tarot
 
 import React from 'react';
