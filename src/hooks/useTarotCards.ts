@@ -1,24 +1,16 @@
-// src/hooks/useTarotCards.ts
-
 import { useState, useEffect, useCallback } from 'react';
 import type { TarotCard, LoadingState } from '../types/tarot';
 import { fetchAllTarotCards, fetchTarotCardById } from '../services/api';
 
-/**
- * 🔮 Hook mágico para gestionar las cartas del tarot
- * Este hechizo personalizado maneja toda la lógica de estado de nuestras cartas sagradas
- */
+/** maneja toda la lógica de estado de nuestras cartas*/
 
 export const useTarotCards = () => {
-  // 🌟 Estados místicos del componente
+  // 🌟 Estados del componente
   const [cards, setCards] = useState<TarotCard[]>([]);
   const [loadingState, setLoadingState] = useState<LoadingState>('idle');
   const [error, setError] = useState<string | null>(null);
 
-  /**
-   * 🌙 Ritual para cargar todas las cartas
-   * Invoca el poder de la API para obtener todas las cartas
-   */
+  /*Llama a la API para obtener todas las cartas   */
   const loadAllCards = useCallback(async () => {
     setLoadingState('loading');
     setError(null);
@@ -42,15 +34,15 @@ export const useTarotCards = () => {
   }, []);
 
   /**
-   * 🎭 Efecto secundario para cargar las cartas al montar el componente
-   * Se ejecuta automáticamente cuando el hook es invocado por primera vez
+   * Efecto secundario para cargar las cartas al montar el componente
+   * Se ejecuta automáticamente cuando el hook es llamado por primera vez
    */
   useEffect(() => {
     loadAllCards();
   }, [loadAllCards]);
 
   /**
-   * 🔄 Función para reiniciar el estado y recargar las cartas
+   * Función para reiniciar el estado y recargar las cartas
    * Útil cuando queremos comenzar una nueva sesión mística
    */
   const refreshCards = useCallback(() => {
@@ -59,7 +51,7 @@ export const useTarotCards = () => {
   }, [loadAllCards]);
 
   /**
-   * 🎴 Función para encontrar una carta por su ID
+   * Función para encontrar una carta por su ID
    * Busca en el estado local primero, luego en la API si es necesario
    */
   const findCardById = useCallback((cardId: string): TarotCard | undefined => {
@@ -72,7 +64,7 @@ export const useTarotCards = () => {
   const hasError = loadingState === 'error';
   const isSuccess = loadingState === 'success';
 
-  // 🌟 Retornamos el objeto mágico con toda la funcionalidad
+  // Retornamos el objeto con toda la funcionalidad
   return {
     // 📚 Datos
     cards,
@@ -101,7 +93,7 @@ export const useTarotCards = () => {
 };
 
 /**
- * 🎴 Hook especializado para obtener una carta específica por ID
+ * Hook especializado para obtener una carta específica por ID
  * Ideal para páginas de detalle de carta
  */
 export const useTarotCard = (cardId: string | undefined) => {
@@ -110,7 +102,7 @@ export const useTarotCard = (cardId: string | undefined) => {
   const [error, setError] = useState<string | null>(null);
 
   /**
-   * 🌟 Efecto para cargar la carta específica
+   * Efecto para cargar la carta específica
    */
   useEffect(() => {
     if (!cardId) {
