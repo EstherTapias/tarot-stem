@@ -1,70 +1,115 @@
 // Lógica centralizada para hacer peticiones a la API
+import type { TarotCard } from '../types/tarot';
 
-import axios from 'axios';
-import { TarotCard } from '../types/tarot';
-
-// URL base de la API proporcionada en el briefing
+// URL base de nuestro oráculo digital
 const API_BASE_URL = 'https://6872278c76a5723aacd3cbb3.mockapi.io/api/v1/tarot';
 
-// Crear instancia de axios con configuración base
-const apiClient = axios.create({
-  baseURL: API_BASE_URL,
-  timeout: 10000, // Timeout de 10 segundos
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-
-// Función para obtener todas las cartas de tarot
-export const getAllCards = async (): Promise<TarotCard[]> => {
+/**
+ * Realiza una consulta a la API para obtener todas las cartas 
+ * @returns Promise con el array de cartas místicas
+ */
+export const fetchAllTarotCards = async (): Promise<TarotCard[]> => {
   try {
-    console.log('🔮 Obteniendo todas las cartas de tarot...');
-    const response = await apiClient.get<TarotCard[]>('/');
-    console.log(`✨ Se obtuvieron ${response.data.length} cartas exitosamente`);
-    return response.data;
+    console.log('🌙 Iniciando ritual de invocación de todas las cartas...');
+    
+    const response = await fetch(API_BASE_URL);
+    
+    if (!response.ok) {
+      throw new Error(`Error en el ritual: ${response.status} - ${response.statusText}`);
+    }
+    
+    const cards: TarotCard[] = await response.json();
+    console.log(`✨ ¡${cards.length} cartas han sido invocadas exitosamente!`);
+    
+    return cards;
+    
   } catch (error) {
-    console.error('❌ Error al obtener las cartas:', error);
-    throw new Error('No se pudieron cargar las cartas del tarot. Inténtalo más tarde.');
+    console.error('💀 El ritual ha fallado:', error);
+    throw new Error('No se pudo conectar con el oráculo. Las energías están perturbadas.');
   }
 };
 
-// Función para obtener una carta específica por ID
-export const getCardById = async (id: string): Promise<TarotCard> => {
+/**
+ * 🎴 Consulta una carta específica por su ID
+ * Realiza una búsqueda dirigida en el reino de los arcanos
+ * @param cardId - El identificador único de la carta deseada
+ * @returns Promise con la carta específica
+ */
+export const fetchTarotCardById = async (cardId: string): Promise<TarotCard> => {
   try {
-    console.log(`🔮 Obteniendo carta con ID: ${id}...`);
-    const response = await apiClient.get<TarotCard>(`/${id}`);
-    console.log(`✨ Carta "${response.data.arcaneName}" obtenida exitosamente`);
-    return response.data;
+    console.log(`🔍 Buscando la carta con ID sagrado: ${cardId}...`);
+    
+    const response = await fetch(`${API_BASE_URL}/${cardId}`);
+    
+    if (!response.ok) {
+      if (response.status === 404) {
+        throw new Error('La carta solicitada no existe en este plano de realidad');
+      }
+      throw new Error(`Error en la consulta: ${response.status} - ${response.statusText}`);
+    }
+    
+    const card: TarotCard = await response.json();
+    console.log(`🌟 Carta encontrada: ${card.arcaneName} - ${card.goddessName}`);
+    
+    return card;
+    
   } catch (error) {
-    console.error(`❌ Error al obtener la carta con ID ${id}:`, error);
-    throw new Error(`No se pudo cargar la carta solicitada.`);
+    console.error('💫 Error en la búsqueda:', error);
+    throw error instanceof Error 
+      ? error 
+      : new Error('Error desconocido al consultar la carta');
   }
 };
 
-// Función utilitaria para mezclar cartas (útil para la funcionalidad de lectura)
-export const shuffleCards = (cards: TarotCard[]): TarotCard[] => {
-  console.log('🔀 Mezclando cartas para una nueva lectura...');
-  const shuffled = [...cards];
-  
-  // Algoritmo Fisher-Yates para mezclar array
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const randomIndex = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[i]];
+/**
+ * 🎲 Selecciona cartas aleatorias para la lectura
+ * @param count - Número de cartas a seleccionar (máximo recomendado: 3)
+ * @returns Promise con array de cartas seleccionadas aleatoriamente
+ */
+export const fetchRandomCards = async (count: number = 3): Promise<TarotCard[]> => {
+  try {
+    console.log(`🎯 Preparando lectura mística con ${count} cartas...`);
+    
+    // Primero obtenemos todas las cartas
+    const allCards = await fetchAllTarotCards();
+    
+    // Mezclamos las cartas usando el algoritmo de Fisher-Yates 
+    const shuffledCards = [...allCards];
+    for (let i = shuffledCards.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledCards[i], shuffledCards[j]] = [shuffledCards[j], shuffledCards[i]];
+    }
+    
+    // Seleccionamos las primeras 'count' cartas
+    const selectedCards = shuffledCards.slice(0, count);
+    
+    console.log(`🌟 ${selectedCards.length} cartas han sido elegidas por el destino`);
+    return selectedCards;
+    
+  } catch (error) {
+    console.error('🌑 Error en la selección aleatoria:', error);
+    throw new Error('Las fuerzas cósmicas están en desorden. No se pudieron seleccionar las cartas.');
   }
-  
-  console.log('✨ Cartas mezcladas exitosamente');
-  return shuffled;
 };
 
-// Función para validar si una carta tiene toda la información necesaria
-export const validateCard = (card: TarotCard): boolean => {
-  return !!(
-    card.id &&
-    card.arcaneName &&
-    card.arcaneDescription &&
-    card.goddessName &&
-    card.goddessDescription &&
-    card.arcaneImage?.imageSrc &&
-    card.goddessImage?.imageSrc
+/**
+ * 🧙‍♀️ Valida si una carta es válida según nuestra estructura
+ * Verifica que la carta contenga todos los elementos necesarios
+ * @param card - La carta a validar
+ * @returns boolean indicando si la carta es válida
+ */
+export const validateTarotCard = (card: any): card is TarotCard => {
+  return (
+    card &&
+    typeof card.id === 'string' &&
+    typeof card.arcaneName === 'string' &&
+    typeof card.arcaneNumber === 'string' &&
+    typeof card.arcaneDescription === 'string' &&
+    typeof card.goddessName === 'string' &&
+    typeof card.goddessDescription === 'string' &&
+    card.arcaneImage &&
+    typeof card.arcaneImage.imageSrc === 'string' &&
+    card.goddessImage &&
+    typeof card.goddessImage.imageSrc === 'string'
   );
 };
