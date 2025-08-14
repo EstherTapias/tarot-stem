@@ -1,0 +1,362 @@
+/* Estilos específicos para el componente Card */
+
+/* Base de la carta */
+.tarot-card {
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: var(--transition-magical);
+    cursor: default;
+    border: 2px solid var(--accent-gold);
+    box-shadow: var(--shadow-card);
+  }
+  
+  /* Tamaños de cartas */
+  .tarot-card--small {
+    width: 120px;
+    height: 180px;
+  }
+  
+  .tarot-card--medium {
+    width: 160px;
+    height: 240px;
+  }
+  
+  .tarot-card--large {
+    width: 200px;
+    height: 300px;
+  }
+  
+  /* Estados de la carta */
+  .tarot-card--clickable {
+    cursor: pointer;
+  }
+  
+  .tarot-card--clickable:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: var(--shadow-glow);
+  }
+  
+  .tarot-card--selected {
+    border-color: var(--accent-silver);
+    box-shadow: 0 0 25px rgba(212, 175, 55, 0.7);
+    transform: scale(1.08);
+  }
+  
+  .tarot-card--flipped {
+    background: linear-gradient(135deg, var(--starlight-white) 0%, #f0f0f0 100%);
+    color: var(--shadow-black);
+  }
+  
+  /* Reverso de la carta */
+  .card-back {
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-card-back);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  
+  .card-back__pattern {
+    text-align: center;
+    color: var(--accent-gold);
+  }
+  
+  .mystical-symbol {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+  }
+  
+  .mystical-border {
+    width: 60px;
+    height: 2px;
+    background: var(--accent-gold);
+    margin: 0.5rem auto;
+    position: relative;
+  }
+  
+  .mystical-border::before,
+  .mystical-border::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: var(--accent-gold);
+    border-radius: 50%;
+    top: -3px;
+  }
+  
+  .mystical-border::before {
+    left: -4px;
+  }
+  
+  .mystical-border::after {
+    right: -4px;
+  }
+  
+  .card-back__text {
+    font-family: var(--font-mystical);
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    margin-top: 0.5rem;
+  }
+  
+  /* Frente de la carta */
+  .card-front {
+    width: 100%;
+    height: 100%;
+    padding: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  
+  .card-front__header {
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  .arcane-number {
+    display: inline-block;
+    background: var(--accent-gold);
+    color: var(--shadow-black);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+  }
+  
+  .arcane-name {
+    font-family: var(--font-mystical);
+    font-size: 1rem;
+    margin: 0;
+    color: var(--shadow-black);
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
+  }
+  
+  /* Contenedor de imagen del arcano */
+  .card-front__image-container {
+    flex: 1;
+    position: relative;
+    margin-bottom: 0.5rem;
+  }
+  
+  .arcane-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid var(--mist-gray);
+  }
+  
+  .image-credits {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 1px 4px;
+    border-radius: 3px;
+    font-size: 0.6rem;
+  }
+  
+  /* Sección de la diosa */
+  .card-front__goddess {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(45, 27, 78, 0.1);
+    padding: 0.4rem;
+    border-radius: 8px;
+    border: 1px solid var(--accent-gold);
+  }
+  
+  .goddess-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid var(--accent-gold);
+    flex-shrink: 0;
+  }
+  
+  .goddess-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .goddess-name {
+    font-size: 0.7rem;
+    font-weight: 500;
+    margin: 0;
+    color: var(--shadow-black);
+    line-height: 1.2;
+  }
+  
+  /* Posición en lectura */
+  .card-position {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent-gold);
+    color: var(--shadow-black);
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    font-family: var(--font-mystical);
+    box-shadow: var(--shadow-card);
+    z-index: 10;
+  }
+  
+  /* Vista detallada */
+  .card-detailed {
+    width: 100%;
+    max-width: 800px;
+    background: var(--mystical-container);
+    border-radius: 20px;
+    overflow: hidden;
+    color: var(--starlight-white);
+  }
+  
+  .detailed-header {
+    text-align: center;
+    padding: 2rem;
+    background: var(--gradient-ethereal);
+  }
+  
+  .arcane-number-large {
+    display: inline-block;
+    background: var(--accent-gold);
+    color: var(--shadow-black);
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    line-height: 48px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  .arcane-name-large {
+    font-family: var(--font-mystical);
+    font-size: 2.5rem;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  .detailed-content {
+    padding: 2rem;
+  }
+  
+  .detailed-section {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 2rem;
+    margin-bottom: 3rem;
+    align-items: start;
+  }
+  
+  .detailed-image-container,
+  .detailed-goddess-container {
+    text-align: center;
+  }
+  
+  .detailed-arcane-image,
+  .detailed-goddess-image {
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: var(--shadow-card);
+    margin-bottom: 1rem;
+  }
+  
+  .image-credit {
+    font-size: 0.8rem;
+    color: var(--mist-gray);
+    font-style: italic;
+  }
+  
+  .detailed-description h3,
+  .detailed-goddess-info h3 {
+    font-family: var(--font-mystical);
+    font-size: 1.8rem;
+    color: var(--accent-gold);
+    margin-bottom: 1rem;
+  }
+  
+  .goddess-name-detailed {
+    font-size: 1.5rem;
+    color: var(--accent-silver);
+    margin-bottom: 1rem;
+  }
+  
+  .mystical-text {
+    line-height: 1.7;
+    font-size: 1.1rem;
+  }
+  
+  /* Efecto de brillo */
+  .card-shine {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: var(--transition-smooth);
+    pointer-events: none;
+  }
+  
+  .tarot-card:hover .card-shine {
+    left: 100%;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .tarot-card--small {
+      width: 100px;
+      height: 150px;
+    }
+  
+    .tarot-card--medium {
+      width: 130px;
+      height: 195px;
+    }
+  
+    .tarot-card--large {
+      width: 160px;
+      height: 240px;
+    }
+  
+    .detailed-section {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+  
+    .detailed-header {
+      padding: 1rem;
+    }
+  
+    .arcane-name-large {
+      font-size: 1.8rem;
+    }
+  
+    .detailed-content {
+      padding: 1rem;
+    }
+  }
