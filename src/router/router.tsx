@@ -4,28 +4,29 @@ import { Home } from '../pages/Home';
 import { CardDetail } from '../pages/CardDetail';
 import { CardReading } from '../pages/CardReading';
 
-/*Define todos las rutas de nuestra aplicación */
-
+/**
+ * Definición de todas las rutas de la aplicación
+ */
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
     children: [
+      // Página principal (index)
       {
-        //Página principal 
         index: true,
         element: <Home />,
       },
+      // Página de detalle de carta (ruta relativa)
       {
-        //Página de detalle de carta 
-        path: '/carta/:id',
+        path: 'carta/:id',
         element: <CardDetail />,
       },
+      // Página de lectura de 3 cartas (ruta relativa)
       {
-        //Página de lectura de 3 cartas
-        path: '/lectura',
+        path: 'lectura',
         element: <CardReading />,
-      }
-    ]
-  }
+      },
+    ],
+  },
 ]);

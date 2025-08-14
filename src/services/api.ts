@@ -109,7 +109,27 @@ export const validateTarotCard = (card: any): card is TarotCard => {
     typeof card.goddessDescription === 'string' &&
     card.arcaneImage &&
     typeof card.arcaneImage.imageSrc === 'string' &&
+    typeof card.arcaneImage.author === 'string' &&
     card.goddessImage &&
-    typeof card.goddessImage.imageSrc === 'string'
+    typeof card.goddessImage.imageSrc === 'string' &&
+    typeof card.goddessImage.author === 'string'
   );
 };
+
+// ⚡ ALIAS PARA COMPATIBILIDAD
+// Estas funciones son alias para mantener compatibilidad con importaciones existentes
+
+/**
+ * Alias para fetchTarotCardById - mantiene compatibilidad con imports existentes
+ */
+export const getCardById = fetchTarotCardById;
+
+/**
+ * Alias para fetchAllTarotCards - mantiene compatibilidad con imports existentes
+ */
+export const getAllCards = fetchAllTarotCards;
+
+/**
+ * Alias para fetchRandomCards - mantiene compatibilidad con imports existentes
+ */
+export const getRandomCards = fetchRandomCards;
