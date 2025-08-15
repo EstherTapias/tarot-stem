@@ -1,36 +1,37 @@
-// src/router/router.tsx
-
 import { createBrowserRouter } from 'react-router-dom';
-import Layout from '../components/Layout/Layout';
+import Layout from '../components/Layout/Layout'; // Tu componente Layout existente
 import { Home } from '../pages/Home';
 import { CardDetail } from '../pages/CardDetail';
 import { CardReading } from '../pages/CardReading';
 
 /**
- * 🌟 Configuración del router místico
- * Define todos los caminos sagrados de nuestra aplicación
+ * 🔮 Configuración del router para la aplicación Tarot STEM
+ * 
+ * PROBLEMA SOLUCIONADO: El error "No routes matched location '/reading'" 
+ * ocurría porque faltaba esta configuración de rutas.
+ * 
+ * Rutas definidas:
+ * - "/" : Home con todas las cartas
+ * - "/card/:id" : Detalle de una carta específica  
+ * - "/reading" : Página para realizar tirada de cartas
  */
-
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <Layout />,
+    element: <Layout />, // Layout principal con Navigation y Footer
     children: [
       {
-        // 🏠 Página principal - El santuario de todas las cartas
-        index: true,
+        index: true, // Ruta por defecto "/"
         element: <Home />,
       },
       {
-        // 🎴 Página de detalle de carta - Los secretos de cada arcano
-        path: '/card/:id',
+        path: 'card/:id', // Ruta "/card/:id" 
         element: <CardDetail />,
       },
       {
-        // 🔮 Página de lectura de cartas - El ritual de las tres cartas
-        path: '/lectura',
+        path: 'reading', // Ruta "/reading" - ESTO FALTABA!
         element: <CardReading />,
-      }
-    ]
-  }
+      },
+    ],
+  },
 ]);
