@@ -3,9 +3,7 @@ import { Outlet } from 'react-router-dom';
 import Navigation from '../Navigation/Navigation';
 import './Layout.module.css';
 
-/**
- * Estructura base que envuelve todas las páginas de la app
- */
+/* Estructura base que envuelve todas las páginas de la app */
 const Layout: React.FC = () => {
   return (
     <div className="layout">

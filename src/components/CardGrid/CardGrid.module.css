@@ -1,5 +1,3 @@
-/* 🎴 REJILLA DE CARTAS MÍSTICA */
-
 /* Contenedor principal de la sección */
 .card-grid-section {
   padding: 2rem 0;
@@ -7,7 +5,7 @@
   margin: 0 auto;
 }
 
-/* 📋 Cabecera de la rejilla */
+/* 📋 Cabecera */
 .grid-header {
   text-align: center;
   margin-bottom: 2rem;
@@ -32,7 +30,7 @@
   margin-bottom: 0;
 }
 
-/* 🎴 Rejilla principal */
+/* principal */
 .card-grid {
   display: grid;
   gap: 1.5rem;
@@ -85,7 +83,7 @@
   transform: translateY(-5px);
 }
 
-/* 🏷️ Información de la carta */
+/* Información de la carta */
 .card-info {
   margin-top: 1rem;
   text-align: center;
@@ -112,7 +110,7 @@
   margin: 0;
 }
 
-/* 💫 Overlay de selección para tiradas */
+/* Overlay de selección para tiradas */
 .selection-overlay {
   position: absolute;
   top: 0;
@@ -153,7 +151,7 @@
   }
 }
 
-/* 🔄 Estados de carga */
+/* Estados de carga */
 .card-grid-item.loading {
   animation: pulse-loading 1.5s ease-in-out infinite;
 }
@@ -184,7 +182,7 @@
   to { transform: rotate(360deg); }
 }
 
-/* 🌙 Estado vacío */
+/* Estado vacío */
 .empty-grid {
   grid-column: 1 / -1;
   text-align: center;
@@ -201,7 +199,7 @@
   opacity: 0.6;
 }
 
-/* 📊 Pie de la rejilla */
+/* Pie  */
 .grid-footer {
   text-align: center;
   margin-top: 2rem;

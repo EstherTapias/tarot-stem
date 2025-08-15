@@ -1,15 +1,11 @@
 import { createBrowserRouter } from 'react-router-dom';
-import Layout from '../components/Layout/Layout'; // Tu componente Layout existente
+import Layout from '../components/Layout/Layout'; 
 import { Home } from '../pages/Home';
 import { CardDetail } from '../pages/CardDetail';
 import { CardReading } from '../pages/CardReading';
 
 /**
- * 🔮 Configuración del router para la aplicación Tarot STEM
- * 
- * PROBLEMA SOLUCIONADO: El error "No routes matched location '/reading'" 
- * ocurría porque faltaba esta configuración de rutas.
- * 
+ * Configuración del router para la aplicación Tarot STEM 
  * Rutas definidas:
  * - "/" : Home con todas las cartas
  * - "/card/:id" : Detalle de una carta específica  
@@ -29,7 +25,7 @@ export const router = createBrowserRouter([
         element: <CardDetail />,
       },
       {
-        path: 'reading', // Ruta "/reading" - ESTO FALTABA!
+        path: 'reading', // Ruta "/reading" 
         element: <CardReading />,
       },
     ],

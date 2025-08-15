@@ -9,18 +9,10 @@ interface CardProps {
   onClick?: () => void;
   size?: 'small' | 'medium' | 'large';
   position?: string; // Opcional para mostrar etiqueta de posición en lectura (pasado, etc)
-  showBackside?: boolean; // ✅ NUEVO: Para mostrar reverso en tiradas
+  showBackside?: boolean; //Para mostrar reverso en tiradas
 }
 
-/**
- * 🃏 Componente Card MEJORADO
- * 
- * NUEVAS FUNCIONALIDADES:
- * ✅ showBackside prop - muestra reverso para tiradas
- * ✅ Mejor lógica de estados (reverso → arcano → científica)
- * ✅ Uso de imagen del reverso desde /public
- * ✅ Mantenidos todos los efectos visuales existentes
- * 
+/*
  * ESTADOS DE LA CARTA:
  * - showBackside=true: Muestra reverso místico (para tiradas)
  * - showBackside=false + isFlipped=false: Muestra arcano 
@@ -33,21 +25,19 @@ export const Card: React.FC<CardProps> = ({
   onClick,
   size = 'medium',
   position,
-  showBackside = false // ✅ NUEVO parámetro
+  showBackside = false 
 }) => {
 
   const sizeClass = `card-${size}`;
 
-  /**
-   * 🎭 Determina qué cara mostrar según el estado
-   */
+  /*Determina qué cara mostrar según el estado   */
   const getCardDisplay = () => {
     if (showBackside) {
       return 'backside'; // Reverso místico
     } else if (isFlipped) {
       return 'scientist'; // Científica (cara frontal original)
     } else {
-      return 'arcane'; // Arcano (nueva funcionalidad)
+      return 'arcane'; // Arcano
     }
   };
 
@@ -63,13 +53,13 @@ export const Card: React.FC<CardProps> = ({
       onKeyPress={(e) => { if (e.key === 'Enter') onClick && onClick(); }}
     >
 
-      {/* 🎴 REVERSO MÍSTICO - Para tiradas (showBackside=true) */}
+      {/*REVERSO MÍSTICO - Para tiradas (showBackside=true) */}
       {cardDisplay === 'backside' && (
         <div className="card-backside-face">
           {/* Intentar cargar imagen desde /public, fallback al patrón existente */}
           <div className="backside-image-container">
             <img 
-              src="/tarot-back.jpg" 
+              src="../public/tarot-back.jpg" 
               alt="Reverso místico del tarot"
               className="backside-image"
               onError={(e) => {
@@ -80,7 +70,7 @@ export const Card: React.FC<CardProps> = ({
               }}
             />
             
-            {/* ✨ Patrón de fallback (tu diseño original) */}
+            {/*  Patrón de fallback (tu diseño original) */}
             <div className="cosmic-pattern-fallback" style={{ display: 'none' }}>
               <div className="cosmic-circle">
                 <div className="inner-circle">
@@ -95,7 +85,7 @@ export const Card: React.FC<CardProps> = ({
             </div>
           </div>
 
-          {/* 💫 Efectos de selección para tiradas */}
+          {/*  Efectos de selección para tiradas */}
           {onClick && (
             <div className="selection-overlay">
               <span className="selection-text">✨ Elegir ✨</span>
@@ -104,7 +94,7 @@ export const Card: React.FC<CardProps> = ({
         </div>
       )}
 
-      {/* 🎴 ARCANO - Imagen del tarot tradicional */}
+      {/* ARCANO - Imagen del tarot tradicional */}
       {cardDisplay === 'arcane' && (
         <div className="card-arcane-face">
           <div className="arcane-image-container">
@@ -139,7 +129,7 @@ export const Card: React.FC<CardProps> = ({
         </div>
       )}
 
-      {/* 👩‍🔬 CIENTÍFICA - Tu diseño original (cara frontal) */}
+      {/* CIENTÍFICA - Tu diseño original (cara frontal) */}
       {cardDisplay === 'scientist' && (
         <div className="card-front">
           <div className="card-image-container">

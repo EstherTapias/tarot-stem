@@ -7,13 +7,7 @@ import { useTarotCards } from '../hooks/useTarotCards';
 
 /**
  * 🔮 Página para realizar lectura seleccionando 3 cartas.
- * 
- * PROBLEMAS SOLUCIONADOS:
- * 1. ❌ Error: 'loading' no existe → ✅ Cambiado a 'isLoading' 
- * 2. ❌ Faltaba manejo de cartas con reverso → ✅ Añadido estado para cartas ocultas
- * 3. ❌ No había imagen de reverso → ✅ Integrada imagen desde /public
- * 
- * Funcionalidades:
+  * Funcionalidades:
  * - Permite mezclar, seleccionar y reiniciar lectura
  * - Muestra cartas boca abajo hasta que se seleccionan
  * - Maneja estados: past, present, future
@@ -22,7 +16,7 @@ export const CardReading: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // ✅ CORREGIDO: Era 'loading' ahora es 'isLoading' 
+  //Era 'loading' ahora es 'isLoading' 
   const { cards, isLoading, error, shuffleForReading } = useTarotCards();
 
   // Estado de la lectura con las 3 posiciones
@@ -63,7 +57,7 @@ export const CardReading: React.FC = () => {
   }, [location.state, readingStarted]);
 
   /**
-   * 🎯 Obtiene la próxima posición libre para asignar carta
+   * Obtiene la próxima posición libre para asignar carta
    * @returns 'past' | 'present' | 'future' | null
    */
   const getNextPosition = (): Position | null => {
@@ -72,9 +66,7 @@ export const CardReading: React.FC = () => {
     return positions.find(pos => !selectedPositions.includes(pos)) ?? null;
   };
 
-  /**
-   * 🃏 Maneja la selección de una carta y la asigna a la siguiente posición
-   */
+  /*Maneja la selección de una carta y la asigna a la siguiente posición   */
   const handleCardSelection = (card: TarotCard): void => {
     const nextPos = getNextPosition();
     if (!nextPos) return;
@@ -97,9 +89,7 @@ export const CardReading: React.FC = () => {
     setReadingStarted(true);
   };
 
-  /**
-   * 🔄 Reinicia completamente la lectura
-   */
+  /*Reinicia completamente la lectura*/
   const handleResetReading = (): void => {
     shuffleForReading();
     setReadingState({
@@ -112,16 +102,12 @@ export const CardReading: React.FC = () => {
     setShowInstructions(true);
   };
 
-  /**
-   * 🎲 Mezcla las cartas disponibles
-   */
+  /* Mezcla las cartas disponibles */
   const handleShuffleCards = (): void => {
     shuffleForReading();
   };
 
-  /**
-   * ↩️ Deshace la última selección
-   */
+  /*Deshace la última selección*/
   const handleUndoLastSelection = (): void => {
     if (!readingState.selectedCards.length) return;
     const lastSelected = readingState.selectedCards[readingState.selectedCards.length - 1];
@@ -133,18 +119,14 @@ export const CardReading: React.FC = () => {
     }));
   };
 
-  /**
-   * 🏷️ Etiquetas en español para las posiciones
-   */
+  /*Etiquetas en español para las posiciones   */
   const getPositionLabel = (position: Position): string => ({
     past: 'Pasado',
     present: 'Presente',
     future: 'Futuro',
   }[position]);
 
-  /**
-   * 📋 Renderiza las instrucciones iniciales
-   */
+  /*Renderiza las instrucciones iniciales*/
   const renderInstructions = () => (
     <div className="reading-instructions mystical-container">
       <h2 className="mystical-title medium">🔮 Instrucciones de Lectura</h2>
@@ -160,7 +142,7 @@ export const CardReading: React.FC = () => {
     </div>
   );
 
-  // ✅ CORREGIDO: Cambié 'loading' por 'isLoading'
+  // Cambié 'loading' por 'isLoading'
   if (isLoading) {
     return (
       <div className="reading-loading mystical-container">
@@ -182,7 +164,7 @@ export const CardReading: React.FC = () => {
 
   return (
     <div className="card-reading-page">
-      {/* 🎭 Cabecera de la página de lectura */}
+      {/* Cabecera de la página de lectura */}
       <header className="reading-header">
         <h1 className="mystical-title large">🔮 Lectura de Tarot STEM</h1>
         <p className="reading-subtitle mystical-text">
@@ -192,7 +174,7 @@ export const CardReading: React.FC = () => {
 
       {showInstructions && !readingStarted ? renderInstructions() : (
         <>
-          {/* 📊 Estado actual de la selección */}
+          {/* Estado actual de la selección */}
           <section className="selection-status">
             {readingState.isComplete ? (
               <h3 className="mystical-title small">🌟 Lectura Completa</h3>
@@ -203,7 +185,7 @@ export const CardReading: React.FC = () => {
             )}
           </section>
 
-          {/* 🎛️ Controles de la lectura */}
+          {/* Controles de la lectura */}
           <section className="reading-controls">
             {readingState.selectedCards.length > 0 && (
               <button className="mystical-button" onClick={handleUndoLastSelection}>
@@ -233,7 +215,7 @@ export const CardReading: React.FC = () => {
             />
           )}
 
-          {/* 🎴 Grid de cartas disponibles para seleccionar (BOCA ABAJO) */}
+          {/* Grid de cartas disponibles para seleccionar (BOCA ABAJO) */}
           {!readingState.isComplete && readingState.availableCards.length > 0 && (
             <CardGrid
               cards={readingState.availableCards}
@@ -242,7 +224,7 @@ export const CardReading: React.FC = () => {
               subtitle={`Selecciona una carta para representar tu ${getPositionLabel(readingState.currentPosition!)}`}
               cardSize="medium"
               maxCards={15}
-              showBackside={true} // ✅ NUEVO: Muestra cartas boca abajo
+              showBackside={true} // Muestra cartas boca abajo
             />
           )}
         </>
