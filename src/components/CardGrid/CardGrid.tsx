@@ -1,231 +1,174 @@
-// Componente para mostrar una cuadrícula de cartas de tarot
-
 import React from 'react';
 import type { TarotCard } from '../../types/tarot';
 import { Card } from '../Card/Card';
-import './CardGrid.module.css';
 
-// Props que recibe el componente CardGrid
+/**
+ * 🎴 Props para el componente CardGrid
+ */
 interface CardGridProps {
-  cards: TarotCard[];                           // Array de cartas a mostrar
-  onCardClick?: (card: TarotCard) => void;     // Función al hacer click en una carta
-  flippedCards?: string[];                      // IDs de cartas que están volteadas
-  selectedCards?: string[];                     // IDs de cartas que están seleccionadas
-  cardSize?: 'small' | 'medium' | 'large';    // Tamaño de las cartas
-  maxCards?: number;                            // Número máximo de cartas a mostrar
-  title?: string;                               // Título opcional para el grid
-  subtitle?: string;                            // Subtítulo opcional
-  loading?: boolean;                            // Estado de carga
-  emptyMessage?: string;                        // Mensaje cuando no hay cartas
-  gridColumns?: number;                         // Número de columnas personalizadas
+  cards: TarotCard[];
+  onCardClick?: (card: TarotCard) => void;
+  flippedCards?: string[]; // IDs de cartas que están volteadas (mostrar científica)
+  title?: string;
+  subtitle?: string;
+  loading?: boolean;
+  cardSize?: 'small' | 'medium' | 'large';
+  maxCards?: number;
+  showBackside?: boolean; // NUEVO: Si true, muestra reverso de cartas
 }
 
 /**
- * Componente CardGrid - Muestra una cuadrícula de cartas de tarot
- * Maneja el estado visual de cada carta y las interacciones
+ * 🎴 Componente CardGrid - Rejilla de cartas del tarot
+ * 
+ * FUNCIONALIDADES:
+ * ✅ Muestra cartas en formato rejilla (tapete místico)
+ * ✅ Maneja efectos de volteo (arcano ↔ científica) 
+ * ✅ Modo "boca abajo" para tiradas (showBackside=true)
+ * ✅ Estados de carga con animaciones
+ * ✅ Responsive para diferentes tamaños de pantalla
+ * ✅ Efectos hover místicos
+ * 
+ * @param cards - Array de cartas a mostrar
+ * @param onCardClick - Función llamada al hacer clic en una carta
+ * @param flippedCards - IDs de cartas volteadas (para mostrar científica)
+ * @param showBackside - Si true, muestra todas las cartas boca abajo
  */
 export const CardGrid: React.FC<CardGridProps> = ({
   cards,
   onCardClick,
   flippedCards = [],
-  selectedCards = [],
-  cardSize = 'medium',
-  maxCards,
   title,
   subtitle,
   loading = false,
-  emptyMessage = 'No hay cartas disponibles en este momento.',
-  gridColumns
+  cardSize = 'medium',
+  maxCards,
+  showBackside = false
 }) => {
+  // 🎯 Limitar número de cartas si se especifica maxCards
+  const displayCards = maxCards ? cards.slice(0, maxCards) : cards;
 
   /**
-   * Procesa las cartas según las limitaciones
-   * Aplica filtros de cantidad máxima si se especifica
+   * 🎭 Maneja el clic en una carta
    */
-  const getDisplayCards = (): TarotCard[] => {
-    if (maxCards && maxCards > 0) {
-      return cards.slice(0, maxCards);
-    }
-    return cards;
-  };
-
-  /**
-   * Verifica si una carta está volteada
-   */
-  const isCardFlipped = (cardId: string): boolean => {
-    return flippedCards.includes(cardId);
-  };
-
-  /**
-   * Verifica si una carta está seleccionada
-   */
-  const isCardSelected = (cardId: string): boolean => {
-    return selectedCards.includes(cardId);
-  };
-
-  /**
-   * Genera las clases CSS para el contenedor del grid
-   */
-  const getGridClasses = (): string => {
-    const baseClass = 'card-grid';
-    const classes = [baseClass];
-
-    // Agregar clase de tamaño
-    classes.push(`card-grid--${cardSize}`);
-
-    // Si hay columnas personalizadas
-    if (gridColumns) {
-      classes.push(`card-grid--columns-${gridColumns}`);
-    }
-
-    return classes.join(' ');
-  };
-
-  /**
-   * Manejador del click en una carta
-   * Agrega logs para debugging
-   */
-  const handleCardClick = (card: TarotCard): void => {
-    console.log(`🎯 Click en carta desde grid: ${card.arcaneName}`);
-    
-    if (onCardClick) {
+  const handleCardClick = (card: TarotCard) => {
+    if (onCardClick && !loading) {
       onCardClick(card);
     }
   };
 
   /**
-   * Renderiza el estado de carga
+   * 🔄 Verifica si una carta está volteada (mostrando científica)
    */
-  const renderLoading = (): React.JSX.Element => (
-    <div className="card-grid-loading">
-      <div className="mystical-loading">
-        <div className="loading-spinner"></div>
-      </div>
-      <p className="loading-text">Consultando a las musas de la ciencia...</p>
-    </div>
-  );
-
-  /**
-   * Renderiza el mensaje cuando no hay cartas
-   */
-  const renderEmptyState = (): React.JSX.Element => (
-    <div className="card-grid-empty">
-      <div className="empty-icon">🔮</div>
-      <p className="empty-message">{emptyMessage}</p>
-      <p className="empty-suggestion">
-        Las cartas pueden estar descansando. Intenta recargar la página.
-      </p>
-    </div>
-  );
-
-  /**
-   * Renderiza el header del grid (título y subtítulo)
-   */
-  const renderHeader = (): React.JSX.Element | null => {
-    if (!title && !subtitle) return null;
-
-    return (
-      <div className="card-grid-header">
-        {title && (
-          <h2 className="mystical-title medium">{title}</h2>
-        )}
-        {subtitle && (
-          <p className="grid-subtitle mystical-text">{subtitle}</p>
-        )}
-      </div>
-    );
+  const isCardFlipped = (cardId: string): boolean => {
+    return !showBackside && flippedCards.includes(cardId);
   };
 
   /**
-   * Renderiza información adicional del grid
+   * 🎨 Obtiene la clase CSS para el tamaño de carta
    */
-  const renderGridInfo = (): React.JSX.Element => {
-    const displayCards = getDisplayCards();
-    const totalCards = cards.length;
+  const getSizeClass = (size: string): string => {
+    const sizeMap = {
+      small: 'card-small',
+      medium: 'card-medium', 
+      large: 'card-large'
+    };
+    return sizeMap[size as keyof typeof sizeMap] || 'card-medium';
+  };
+
+  /**
+   * 🎴 Renderiza una carta individual con todos sus efectos
+   */
+  const renderCard = (card: TarotCard, index: number) => {
+    const isFlipped = isCardFlipped(card.id);
+    const isClickable = !loading && onCardClick;
     
     return (
-      <div className="card-grid-info">
-        <span className="card-count">
-          {displayCards.length} {displayCards.length === 1 ? 'carta' : 'cartas'}
-          {maxCards && totalCards > maxCards && (
-            <span className="total-count"> de {totalCards} disponibles</span>
-          )}
-        </span>
+      <div
+        key={card.id}
+        className={`card-grid-item ${getSizeClass(cardSize)} ${isClickable ? 'clickable' : ''} mystical-hover`}
+        onClick={() => handleCardClick(card)}
+        style={{
+          // ✨ Animación escalonada de entrada
+          animationDelay: `${index * 0.1}s`
+        }}
+      >
+        <Card
+          card={card}
+          isFlipped={isFlipped}
+          size={cardSize}
+          showBackside={showBackside} // Pasar el prop de reverso
+        />
         
-        {selectedCards.length > 0 && (
-          <span className="selected-count">
-            {selectedCards.length} seleccionada{selectedCards.length !== 1 ? 's' : ''}
-          </span>
+        {/* 🏷️ Nombre de la carta (solo si no está boca abajo) */}
+        {!showBackside && (
+          <div className="card-info">
+            <h4 className="card-name">
+              {isFlipped ? card.goddessName : card.arcaneName}
+            </h4>
+            {isClickable && !isFlipped && (
+              <p className="card-hint mystical-text">Clic para voltear</p>
+            )}
+            {isClickable && isFlipped && (
+              <p className="card-hint mystical-text">Clic para ver detalle</p>
+            )}
+          </div>
+        )}
+        
+        {/* 💫 Efecto de selección para tiradas */}
+        {showBackside && isClickable && (
+          <div className="selection-overlay">
+            <span className="selection-text">✨ Elegir ✨</span>
+          </div>
         )}
       </div>
     );
   };
 
-  // Estados especiales
-  if (loading) {
-    return (
-      <div className="card-grid-container">
-        {renderHeader()}
-        {renderLoading()}
+  /**
+   * 🔄 Renderiza estado de carga con cartas fantasma
+   */
+  const renderLoadingCards = () => {
+    return Array.from({ length: 6 }, (_, index) => (
+      <div key={`loading-${index}`} className={`card-grid-item ${getSizeClass(cardSize)} loading`}>
+        <div className="loading-card mystical-container">
+          <div className="loading-spinner">🔮</div>
+        </div>
       </div>
-    );
-  }
-
-  if (cards.length === 0) {
-    return (
-      <div className="card-grid-container">
-        {renderHeader()}
-        {renderEmptyState()}
-      </div>
-    );
-  }
-
-  const displayCards = getDisplayCards();
+    ));
+  };
 
   return (
-    <div className="card-grid-container">
-      {renderHeader()}
-      {renderGridInfo()}
-      
-      <div 
-        className={getGridClasses()}
-        style={gridColumns ? { gridTemplateColumns: `repeat(${gridColumns}, 1fr)` } : undefined}
-      >
-        {displayCards.map((card, index) => (
-          <div 
-            key={card.id} 
-            className="card-grid-item"
-            style={{
-              // Animación escalonada al cargar
-              animationDelay: `${index * 0.1}s`
-            }}
-          >
-            <Card
-              card={card}
-              isFlipped={true}
-              isSelected={isCardSelected(card.id)}
-              onClick={onCardClick ? handleCardClick : undefined}
-              size={cardSize}
-            />
-            
-            {/* Indicador de posición si la carta está seleccionada */}
-            {isCardSelected(card.id) && (
-              <div className="card-selection-indicator">
-                <span className="selection-glow"></span>
-              </div>
-            )}
+    <section className="card-grid-section">
+      {/* 📋 Título y subtítulo de la sección */}
+      {(title || subtitle) && (
+        <header className="grid-header">
+          {title && <h2 className="grid-title mystical-title medium">{title}</h2>}
+          {subtitle && <p className="grid-subtitle mystical-text">{subtitle}</p>}
+        </header>
+      )}
+
+      {/* 🎴 Rejilla principal de cartas */}
+      <div className={`card-grid ${getSizeClass(cardSize)}`}>
+        {loading ? (
+          renderLoadingCards()
+        ) : displayCards.length > 0 ? (
+          displayCards.map((card, index) => renderCard(card, index))
+        ) : (
+          <div className="empty-grid mystical-container">
+            <p className="mystical-text">No hay cartas disponibles en este momento</p>
+            <span className="empty-icon">🌙</span>
           </div>
-        ))}
+        )}
       </div>
 
-      {/* Mensaje si hay más cartas disponibles */}
-      {maxCards && cards.length > maxCards && (
-        <div className="card-grid-footer">
-          <p className="more-cards-message">
-            ✨ Hay {cards.length - maxCards} cartas más esperando ser descubiertas
+      {/* 📊 Información adicional */}
+      {!loading && displayCards.length > 0 && maxCards && cards.length > maxCards && (
+        <div className="grid-footer">
+          <p className="cards-count mystical-text">
+            Mostrando {displayCards.length} de {cards.length} cartas
           </p>
         </div>
       )}
-    </div>
+    </section>
   );
 };
