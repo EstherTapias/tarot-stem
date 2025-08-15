@@ -1,29 +1,31 @@
-// Página para realizar una lectura de 3 cartas (Pasado, Presente, Futuro)
-
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import type { TarotCard, Position, SelectedCard, ReadingState } from '../types/tarot';
+import type { TarotCard, SelectedCard, Position, ReadingState } from '../types/tarot';
 import { CardGrid } from '../components/CardGrid/CardGrid';
 import { Reading } from '../components/Reading/Reading';
 import { useTarotCards } from '../hooks/useTarotCards';
 
 /**
- * Componente CardReading - Página para realizar lecturas de tarot
- * Permite seleccionar exactamente 3 cartas para Pasado, Presente y Futuro
+ * 🔮 Página para realizar lectura seleccionando 3 cartas.
+ * 
+ * PROBLEMAS SOLUCIONADOS:
+ * 1. ❌ Error: 'loading' no existe → ✅ Cambiado a 'isLoading' 
+ * 2. ❌ Faltaba manejo de cartas con reverso → ✅ Añadido estado para cartas ocultas
+ * 3. ❌ No había imagen de reverso → ✅ Integrada imagen desde /public
+ * 
+ * Funcionalidades:
+ * - Permite mezclar, seleccionar y reiniciar lectura
+ * - Muestra cartas boca abajo hasta que se seleccionan
+ * - Maneja estados: past, present, future
  */
 export const CardReading: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  
-  // Hook para obtener las cartas
-  const { 
-    shuffledCards, 
-    loading, 
-    error, 
-    shuffleForReading 
-  } = useTarotCards();
 
-  // Estado de la lectura
+  // ✅ CORREGIDO: Era 'loading' ahora es 'isLoading' 
+  const { cards, isLoading, error, shuffleForReading } = useTarotCards();
+
+  // Estado de la lectura con las 3 posiciones
   const [readingState, setReadingState] = useState<ReadingState>({
     selectedCards: [],
     availableCards: [],
@@ -31,286 +33,156 @@ export const CardReading: React.FC = () => {
     isComplete: false
   });
 
-  // Estado de la interfaz
-  const [showInstructions, setShowInstructions] = useState<boolean>(true);
-  const [readingStarted, setReadingStarted] = useState<boolean>(false);
+  const [showInstructions, setShowInstructions] = useState(true);
+  const [readingStarted, setReadingStarted] = useState(false);
 
-  /**
-   * Inicializa las cartas disponibles cuando se cargan
-   */
+  // Inicializar cartas disponibles y barajado al cargar
   useEffect(() => {
-    if (shuffledCards.length > 0) {
+    if (cards.length > 0) {
+      shuffleForReading();
+    }
+  }, []);
+
+  // Actualizar cartas disponibles cuando cambien las cartas
+  useEffect(() => {
+    if (cards.length > 0) {
       setReadingState(prev => ({
         ...prev,
-        availableCards: [...shuffledCards]
+        availableCards: [...cards]
       }));
     }
-  }, [shuffledCards]);
+  }, [cards]);
 
-  /**
-   * Maneja carta preseleccionada desde navegación
-   */
+  // Manejar preselección por navegación (cuando vienes desde CardDetail)
   useEffect(() => {
-    const preselectedCard = location.state?.preselectedCard as TarotCard;
-    if (preselectedCard && !readingStarted) {
-      console.log(`🔮 Carta preseleccionada: ${preselectedCard.arcaneName}`);
-      handleCardSelection(preselectedCard);
+    const preselect = location.state?.preselectedCard as TarotCard;
+    if (preselect && !readingStarted) {
+      handleCardSelection(preselect);
       setReadingStarted(true);
     }
   }, [location.state, readingStarted]);
 
   /**
-   * Obtiene la siguiente posición a seleccionar
+   * 🎯 Obtiene la próxima posición libre para asignar carta
+   * @returns 'past' | 'present' | 'future' | null
    */
   const getNextPosition = (): Position | null => {
     const positions: Position[] = ['past', 'present', 'future'];
     const selectedPositions = readingState.selectedCards.map(sc => sc.position);
-    
-    return positions.find(pos => !selectedPositions.includes(pos)) || null;
+    return positions.find(pos => !selectedPositions.includes(pos)) ?? null;
   };
 
   /**
-   * Maneja la selección de una carta
+   * 🃏 Maneja la selección de una carta y la asigna a la siguiente posición
    */
   const handleCardSelection = (card: TarotCard): void => {
-    const nextPosition = getNextPosition();
-    
-    if (!nextPosition) {
-      console.warn('⚠️ No hay más posiciones disponibles para seleccionar');
-      return;
-    }
+    const nextPos = getNextPosition();
+    if (!nextPos) return;
 
-    console.log(`🎯 Seleccionando carta ${card.arcaneName} para posición: ${nextPosition}`);
-
-    const newSelectedCard: SelectedCard = {
-      position: nextPosition,
-      card
-    };
+    const newSelected: SelectedCard = { position: nextPos, card };
 
     setReadingState(prev => {
-      const newSelectedCards = [...prev.selectedCards, newSelectedCard];
+      const newSelectedCards = [...prev.selectedCards, newSelected];
       const newAvailableCards = prev.availableCards.filter(c => c.id !== card.id);
-      const newCurrentPosition = getNextPosition();
       const isComplete = newSelectedCards.length === 3;
+      const currentPosition = getNextPosition();
 
       return {
         selectedCards: newSelectedCards,
         availableCards: newAvailableCards,
-        currentPosition: newCurrentPosition,
+        currentPosition,
         isComplete
       };
     });
-
     setReadingStarted(true);
   };
 
   /**
-   * Reinicia la lectura completa
+   * 🔄 Reinicia completamente la lectura
    */
   const handleResetReading = (): void => {
-    console.log('🔄 Reiniciando lectura...');
-    
+    shuffleForReading();
     setReadingState({
       selectedCards: [],
-      availableCards: [...shuffledCards],
+      availableCards: [...cards],
       currentPosition: 'past',
-      isComplete: false
+      isComplete: false,
     });
-    
     setReadingStarted(false);
     setShowInstructions(true);
-    shuffleForReading();
   };
 
   /**
-   * Mezcla las cartas sin reiniciar la selección
+   * 🎲 Mezcla las cartas disponibles
    */
   const handleShuffleCards = (): void => {
-    console.log('🎲 Mezclando cartas disponibles...');
     shuffleForReading();
   };
 
   /**
-   * Elimina la última carta seleccionada
+   * ↩️ Deshace la última selección
    */
   const handleUndoLastSelection = (): void => {
-    if (readingState.selectedCards.length === 0) return;
-
+    if (!readingState.selectedCards.length) return;
     const lastSelected = readingState.selectedCards[readingState.selectedCards.length - 1];
-    console.log(`↩️ Deshaciendo selección de: ${lastSelected.card.arcaneName}`);
-
     setReadingState(prev => ({
       selectedCards: prev.selectedCards.slice(0, -1),
       availableCards: [...prev.availableCards, lastSelected.card],
       currentPosition: lastSelected.position,
-      isComplete: false
+      isComplete: false,
     }));
   };
 
   /**
-   * Traduce posición a español
+   * 🏷️ Etiquetas en español para las posiciones
    */
-  const getPositionLabel = (position: Position): string => {
-    const labels = {
-      past: 'Pasado',
-      present: 'Presente', 
-      future: 'Futuro'
-    };
-    return labels[position];
-  };
+  const getPositionLabel = (position: Position): string => ({
+    past: 'Pasado',
+    present: 'Presente',
+    future: 'Futuro',
+  }[position]);
 
   /**
-   * Renderiza las instrucciones
+   * 📋 Renderiza las instrucciones iniciales
    */
-  const renderInstructions = (): React.JSX.Element => (
+  const renderInstructions = () => (
     <div className="reading-instructions mystical-container">
       <h2 className="mystical-title medium">🔮 Instrucciones de Lectura</h2>
-      
-      <div className="instructions-content">
-        <div className="instruction-step">
-          <span className="step-number">1</span>
-          <div className="step-content">
-            <h4>Selecciona tu primera carta</h4>
-            <p>Esta representará tu <strong>Pasado</strong> - los eventos que te trajeron hasta aquí</p>
-          </div>
-        </div>
-        
-        <div className="instruction-step">
-          <span className="step-number">2</span>
-          <div className="step-content">
-            <h4>Elige la segunda carta</h4>
-            <p>Esta simbolizará tu <strong>Presente</strong> - tu situación actual</p>
-          </div>
-        </div>
-        
-        <div className="instruction-step">
-          <span className="step-number">3</span>
-          <div className="step-content">
-            <h4>Completa con la tercera carta</h4>
-            <p>Esta revelará tu <strong>Futuro</strong> - las posibilidades que te esperan</p>
-          </div>
-        </div>
-      </div>
-      
-      <button 
-        className="mystical-button"
-        onClick={() => setShowInstructions(false)}
-      >
+      <p className="mystical-text">
+        Selecciona tres cartas que representarán tu <strong>Pasado</strong>, <strong>Presente</strong> y <strong>Futuro</strong>.
+      </p>
+      <p className="mystical-text">
+        Las cartas aparecerán boca abajo. Confía en tu intuición para elegir.
+      </p>
+      <button className="mystical-button" onClick={() => setShowInstructions(false)}>
         ✨ Comenzar Lectura
       </button>
     </div>
   );
 
-  /**
-   * Renderiza el estado actual de la selección
-   */
-  const renderSelectionStatus = (): React.JSX.Element => {
-    const currentPos = readingState.currentPosition;
-    const selectedCount = readingState.selectedCards.length;
-    
-    if (readingState.isComplete) {
-      return (
-        <div className="selection-status complete">
-          <h3 className="mystical-title small">🌟 Lectura Completa</h3>
-          <p className="mystical-text">Las cartas han sido reveladas. Descubre su mensaje.</p>
-        </div>
-      );
-    }
-
+  // ✅ CORREGIDO: Cambié 'loading' por 'isLoading'
+  if (isLoading) {
     return (
-      <div className="selection-status active">
-        <h3 className="mystical-title small">
-          Selecciona la carta para: <span className="highlight">{currentPos && getPositionLabel(currentPos)}</span>
-        </h3>
-        <div className="progress-indicator">
-          <span className="progress-text">{selectedCount}/3 cartas seleccionadas</span>
-          <div className="progress-bar">
-            <div 
-              className="progress-fill" 
-              style={{ width: `${(selectedCount / 3) * 100}%` }}
-            />
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  /**
-   * Renderiza los controles de la lectura
-   */
-  const renderReadingControls = (): React.JSX.Element => (
-    <div className="reading-controls">
-      {readingState.selectedCards.length > 0 && (
-        <button 
-          className="control-button mystical-button"
-          onClick={handleUndoLastSelection}
-          type="button"
-        >
-          ↩️ Deshacer Última
-        </button>
-      )}
-      
-      {!readingState.isComplete && readingState.availableCards.length > 0 && (
-        <button 
-          className="control-button mystical-button"
-          onClick={handleShuffleCards}
-          type="button"
-        >
-          🎲 Mezclar
-        </button>
-      )}
-      
-      <button 
-        className="control-button mystical-button"
-        onClick={handleResetReading}
-        type="button"
-      >
-        🔄 Nueva Lectura
-      </button>
-      
-      <Link to="/" className="control-button mystical-button">
-        🏠 Inicio
-      </Link>
-    </div>
-  );
-
-  /**
-   * Renderiza el estado de error
-   */
-  const renderError = (): React.JSX.Element => (
-    <div className="reading-error mystical-container">
-      <div className="error-icon">🔮💔</div>
-      <h2 className="mystical-title medium">Error en la Conexión Cósmica</h2>
-      <p className="mystical-text">{error}</p>
-      <Link to="/" className="mystical-button">
-        🏠 Regresar al Inicio
-      </Link>
-    </div>
-  );
-
-  // Manejo de estados especiales
-  if (loading) {
-    return (
-      <div className="card-reading-page">
-        <div className="mystical-loading">
-          <div className="loading-spinner"></div>
-          <p className="loading-text">Preparando las cartas para tu lectura...</p>
-        </div>
+      <div className="reading-loading mystical-container">
+        <div className="loading-spinner">🔮</div>
+        <p className="mystical-text">Preparando las cartas del destino...</p>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="card-reading-page">
-        {renderError()}
+      <div className="reading-error mystical-container">
+        <h3>💀 Error en la consulta</h3>
+        <p>{error}</p>
+        <Link to="/" className="mystical-button">🏠 Volver al Inicio</Link>
       </div>
     );
   }
 
   return (
     <div className="card-reading-page">
-      {/* Header de la página */}
+      {/* 🎭 Cabecera de la página de lectura */}
       <header className="reading-header">
         <h1 className="mystical-title large">🔮 Lectura de Tarot STEM</h1>
         <p className="reading-subtitle mystical-text">
@@ -318,39 +190,60 @@ export const CardReading: React.FC = () => {
         </p>
       </header>
 
-      {/* Mostrar instrucciones si no ha empezado */}
-      {showInstructions && !readingStarted && renderInstructions()}
-
-      {/* Contenido principal de la lectura */}
-      {!showInstructions && (
+      {showInstructions && !readingStarted ? renderInstructions() : (
         <>
-          {/* Estado de selección */}
-          {renderSelectionStatus()}
+          {/* 📊 Estado actual de la selección */}
+          <section className="selection-status">
+            {readingState.isComplete ? (
+              <h3 className="mystical-title small">🌟 Lectura Completa</h3>
+            ) : (
+              <h3 className="mystical-title small">
+                Selecciona la carta para: <span className="highlight">{getPositionLabel(readingState.currentPosition!)}</span>
+              </h3>
+            )}
+          </section>
 
-          {/* Controles */}
-          {renderReadingControls()}
+          {/* 🎛️ Controles de la lectura */}
+          <section className="reading-controls">
+            {readingState.selectedCards.length > 0 && (
+              <button className="mystical-button" onClick={handleUndoLastSelection}>
+                ↩️ Deshacer Última
+              </button>
+            )}
+            {!readingState.isComplete && readingState.availableCards.length > 0 && (
+              <button className="mystical-button" onClick={handleShuffleCards}>
+                🎲 Mezclar
+              </button>
+            )}
+            <button className="mystical-button" onClick={handleResetReading}>
+              🔄 Nueva Lectura
+            </button>
+            <Link className="mystical-button" to="/">
+              🏠 Inicio
+            </Link>
+          </section>
 
-          {/* Lectura actual (cartas seleccionadas) */}
+          {/* 🃏 Muestra las cartas seleccionadas si hay alguna */}
           {readingState.selectedCards.length > 0 && (
-            <Reading 
+            <Reading
               selectedCards={readingState.selectedCards}
               isComplete={readingState.isComplete}
               onCardClick={(card) => navigate(`/card/${card.id}`)}
+              showInterpretation
             />
           )}
 
-          {/* Grid de cartas disponibles */}
+          {/* 🎴 Grid de cartas disponibles para seleccionar (BOCA ABAJO) */}
           {!readingState.isComplete && readingState.availableCards.length > 0 && (
-            <section className="available-cards">
-              <CardGrid
-                cards={readingState.availableCards}
-                onCardClick={handleCardSelection}
-                title="Cartas Disponibles"
-                subtitle={`Selecciona una carta para representar tu ${readingState.currentPosition && getPositionLabel(readingState.currentPosition)}`}
-                cardSize="medium"
-                maxCards={15} // Limitar para mejor UX
-              />
-            </section>
+            <CardGrid
+              cards={readingState.availableCards}
+              onCardClick={handleCardSelection}
+              title="Cartas Disponibles"
+              subtitle={`Selecciona una carta para representar tu ${getPositionLabel(readingState.currentPosition!)}`}
+              cardSize="medium"
+              maxCards={15}
+              showBackside={true} // ✅ NUEVO: Muestra cartas boca abajo
+            />
           )}
         </>
       )}
