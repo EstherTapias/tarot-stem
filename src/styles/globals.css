@@ -1,206 +1,175 @@
-/**
- * 🌌 Estilos globales base para el Tarot STEM
- * Configuración fundamental del cosmos digital
- */
+/* Tema místico mejorado para el Tarot STEM */
 
-/* Reset básico y configuración de box-sizing */
-*, *::before, *::after {
-    box-sizing: border-box;
+:root {
+  /* Paleta de colores mística y elegante */
+  --primary-purple: #4a1a5c;
+  --secondary-purple: #6b2d7a;
+  --accent-gold: #d4af37;
+  --deep-blue: #1a1a2e;
+  --midnight-blue: #16213e;
+  --mystical-teal: #0f3460;
+  --soft-lavender: #8b5a8c;
+  --pearl-white: #f8f6ff;
+  --shadow-black: rgba(0, 0, 0, 0.3);
+  
+  /* Gradientes místicos */
+  --gradient-primary: linear-gradient(135deg, var(--primary-purple), var(--secondary-purple));
+  --gradient-secondary: linear-gradient(45deg, var(--deep-blue), var(--mystical-teal));
+  --gradient-card: linear-gradient(145deg, #2d1b3d, #1a1a2e);
+  --gradient-gold: linear-gradient(45deg, #d4af37, #f4e479);
+}
+
+/* Reset y estilos base mejorados */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  background: var(--gradient-secondary);
+  color: var(--pearl-white);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Efecto de estrellas de fondo */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(2px 2px at 20px 30px, rgba(212, 175, 55, 0.3), transparent),
+              radial-gradient(2px 2px at 40px 70px, rgba(139, 90, 140, 0.2), transparent),
+              radial-gradient(1px 1px at 90px 40px, rgba(212, 175, 55, 0.4), transparent),
+              radial-gradient(1px 1px at 130px 80px, rgba(139, 90, 140, 0.3), transparent),
+              radial-gradient(2px 2px at 160px 30px, rgba(212, 175, 55, 0.2), transparent);
+  background-repeat: repeat;
+  background-size: 200px 100px;
+  z-index: -1;
+  animation: twinkle 8s infinite alternate;
+}
+
+@keyframes twinkle {
+  0% { opacity: 0.3; }
+  100% { opacity: 0.8; }
+}
+
+/* Contenedor principal */
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Efectos de hover universales */
+.mystical-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mystical-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px var(--shadow-black);
+}
+
+/* Botones místicos */
+.mystical-button {
+  background: var(--gradient-gold);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  color: var(--primary-purple);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.mystical-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.mystical-button:hover::before {
+  left: 100%;
+}
+
+.mystical-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+}
+
+/* Texto brillante */
+.glowing-text {
+  color: var(--accent-gold);
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+  animation: gentle-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes gentle-glow {
+  from { text-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
+  to { text-shadow: 0 0 20px rgba(212, 175, 55, 0.8); }
+}
+
+/* Contenedor de tapete místico */
+.mystical-carpet {
+  background: var(--gradient-card);
+  border-radius: 20px;
+  padding: 30px;
+  margin: 20px;
+  border: 2px solid var(--accent-gold);
+  box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+  position: relative;
+}
+
+.mystical-carpet::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: var(--gradient-gold);
+  z-index: -1;
+  border-radius: 22px;
+  opacity: 0.3;
+}
+
+/* Animaciones de entrada */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .mystical-carpet {
+    margin: 10px;
+    padding: 20px;
   }
   
-  * {
-    margin: 0;
-    padding: 0;
+  .mystical-button {
+    padding: 10px 20px;
+    font-size: 14px;
   }
-  
-  /* Configuración del HTML y body */
-  html {
-    font-size: 16px; /* Base para rem */
-    scroll-behavior: smooth;
-  }
-  
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: var(--font-primary);
-    font-size: var(--font-size-md);
-    line-height: 1.6;
-    color: var(--color-white);
-    background: var(--gradient-cosmic);
-    min-height: 100vh;
-    
-    /* Mejoramos la renderización de fuentes */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
-  }
-  
-  /* Configuración de la aplicación principal */
-  #root {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .App {
-    min-height: 100vh;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  /* Configuración de imágenes responsive */
-  img, picture, video, canvas, svg {
-    display: block;
-    max-width: 100%;
-    height: auto;
-  }
-  
-  /* Mejora la accesibilidad de elementos interactivos */
-  input, button, textarea, select {
-    font: inherit;
-  }
-  
-  button {
-    cursor: pointer;
-    border: none;
-    background: none;
-    outline: none;
-    transition: all var(--transition-medium);
-  }
-  
-  button:focus-visible {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 2px;
-  }
-  
-  /* Links accesibles */
-  a {
-    color: var(--color-accent);
-    text-decoration: none;
-    transition: color var(--transition-medium);
-  }
-  
-  a:hover, a:focus {
-    color: var(--color-accent-light);
-  }
-  
-  /* Mejora el contraste para texto seleccionado */
-  ::selection {
-    background: var(--color-accent);
-    color: var(--color-white);
-  }
-  
-  /* Scrollbar personalizado para webkit */
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-  
-  ::-webkit-scrollbar-track {
-    background: var(--color-dark);
-  }
-  
-  ::-webkit-scrollbar-thumb {
-    background: var(--gradient-primary);
-    border-radius: var(--radius-full);
-  }
-  
-  ::-webkit-scrollbar-thumb:hover {
-    background: var(--gradient-accent);
-  }
-  
-  /* Utilidades de layout */
-  .container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 var(--space-md);
-  }
-  
-  .container-fluid {
-    width: 100%;
-    padding: 0 var(--space-md);
-  }
-  
-  /* Sistema de grid responsive */
-  .grid {
-    display: grid;
-    gap: var(--space-md);
-  }
-  
-  .grid-cols-1 { grid-template-columns: 1fr; }
-  .grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
-  .grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
-  .grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
-  
-  /* Flexbox utilities */
-  .flex { display: flex; }
-  .flex-col { flex-direction: column; }
-  .flex-row { flex-direction: row; }
-  .items-center { align-items: center; }
-  .items-start { align-items: flex-start; }
-  .items-end { align-items: flex-end; }
-  .justify-center { justify-content: center; }
-  .justify-between { justify-content: space-between; }
-  .justify-start { justify-content: flex-start; }
-  .justify-end { justify-content: flex-end; }
-  
-  /* Espaciado */
-  .gap-sm { gap: var(--space-sm); }
-  .gap-md { gap: var(--space-md); }
-  .gap-lg { gap: var(--space-lg); }
-  .gap-xl { gap: var(--space-xl); }
-  
-  .p-sm { padding: var(--space-sm); }
-  .p-md { padding: var(--space-md); }
-  .p-lg { padding: var(--space-lg); }
-  .p-xl { padding: var(--space-xl); }
-  
-  .m-sm { margin: var(--space-sm); }
-  .m-md { margin: var(--space-md); }
-  .m-lg { margin: var(--space-lg); }
-  .m-xl { margin: var(--space-xl); }
-  
-  /* Visibility utilities */
-  .hidden { display: none; }
-  .visible { visibility: visible; }
-  .invisible { visibility: hidden; }
-  
-  /* Text utilities */
-  .text-center { text-align: center; }
-  .text-left { text-align: left; }
-  .text-right { text-align: right; }
-  
-  .font-bold { font-weight: 700; }
-  .font-semibold { font-weight: 600; }
-  .font-medium { font-weight: 500; }
-  .font-normal { font-weight: 400; }
-  .font-light { font-weight: 300; }
-  
-  /* Estados de loading y placeholder */
-  .loading-placeholder {
-    background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 75%);
-    background-size: 200% 100%;
-    animation: shimmer 1.5s infinite;
-    border-radius: var(--radius-md);
-    min-height: 20px;
-  }
-  
-  /* Responsive breakpoints */
-  @media (max-width: 768px) {
-    .container {
-      padding: 0 var(--space-sm);
-    }
-    
-    .grid-cols-2 { grid-template-columns: 1fr; }
-    .grid-cols-3 { grid-template-columns: 1fr; }
-    .grid-cols-4 { grid-template-columns: repeat(2, 1fr); }
-  }
-  
-  @media (max-width: 480px) {
-    html {
-      font-size: 14px;
-    }
-    
-    .grid-cols-4 { grid-template-columns: 1fr; }
-  }
+}
