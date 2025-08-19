@@ -21,28 +21,20 @@ export const Card: React.FC<CardProps> = ({
   showControls = true
 }) => {
   const navigate = useNavigate();
-  const [localFlipped, setLocalFlipped] = useState(false);
 
-  const currentlyFlipped = isFlipped || localFlipped;
+  const currentlyFlipped = isFlipped;
   const displayImage = currentlyFlipped ? card.goddessImage : card.arcaneImage;
   const displayName = currentlyFlipped ? card.goddessName : card.arcaneName;
 
   const handleCardClick = () => {
     if (onClick) {
       onClick(card);
-    } else {
-      setLocalFlipped(!localFlipped);
     }
   };
 
   const handleLearnMore = (e: React.MouseEvent) => {
     e.stopPropagation();
     navigate(`/card/${card.id}`);
-  };
-
-  const handleFlipToggle = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setLocalFlipped(!localFlipped);
   };
 
   // Función para convertir número a romano
@@ -70,8 +62,7 @@ export const Card: React.FC<CardProps> = ({
       >
         {/* Número del arcano en romano */}
         <div className={styles.cardNumber}>
-        <span className={styles.numberText}>{toRoman(Number(card.id))}</span>
-
+          <span className={styles.numberText}>{toRoman(Number(card.id))}</span>
         </div>
 
         {/* Imagen principal */}
@@ -89,18 +80,11 @@ export const Card: React.FC<CardProps> = ({
           </div>
         </div>
 
-        {/* Controles */}
+        {/* Botón Saber más siempre visible */}
         {showControls && (
           <div className={styles.cardControls}>
             <button 
-              className={styles.flipButton} 
-              onClick={handleFlipToggle} 
-              title={currentlyFlipped ? 'Ver Arcano' : 'Ver Científica'}
-            >
-              {currentlyFlipped ? '🔮' : '🔬'}
-            </button>
-            <button 
-              className={styles.detailButton} 
+              className={styles.saberMasButton} 
               onClick={handleLearnMore} 
               title="Saber más"
             >
