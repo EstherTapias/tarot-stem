@@ -1,17 +1,16 @@
 import React from 'react';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './router/router';
-import '../src/styles/mystical-theme.css.css';
-import '../src/styles/globals.css';
+import './styles/mystical-theme.css';    // ✅ Tema principal (sin duplicar .css)
 
 /**
- * Componente principal de la aplicación Tarot STEM
- * Portal de entrada a nuestro universo místico-científico
+ * 🔮 Componente principal de la aplicación Tarot STEM
+ * Portal de entrada a nuestro universo místico-científico del bosque encantado
  */
 function App(): React.ReactElement {
   return (
     <div className="App">
-      {/* Proveedor del router que maneja toda la navegación*/}
+      {/* 🧭 Proveedor del router que maneja toda la navegación mística */}
       <RouterProvider router={router} />
     </div>
   );
