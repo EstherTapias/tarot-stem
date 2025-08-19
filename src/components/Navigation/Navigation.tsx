@@ -1,76 +1,76 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-const Navigation: React.FC = () => (
-  <nav className="mystical-nav">
-    {/* 🔮 Sección */}
-    <div className="nav-brand">
-      <div className="nav-logo">🔮</div>
-      <div className="nav-text">
-        <h1 className="nav-title">Tarot STEM</h1>
-        <p className="nav-subtitle">Diosas Contemporáneas</p>
-      </div>
-    </div>
+import { Link, useLocation } from 'react-router-dom';
+import styles from './Navigation.module.css';
 
-    {/* Enlaces de navegación con efectos */}
-    <div className="nav-links">
-      <NavLink 
-        to="/" 
-        className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-      >
-        <span className="nav-icon">🃏</span>
-        Todas las Cartas
-      </NavLink>
-      <NavLink 
-        to="/reading" 
-        className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-      >
-        <span className="nav-icon">✨</span>
-        Tirada de Cartas
-      </NavLink>
-    </div>
+/**
+ * 🔮 Navigation Component - Limpio y Místico
+ * 
+ * CARACTERÍSTICAS:
+ * ✅ Navegación limpia (Home, Tirada, Acerca de)
+ * ✅ Indicador de página activa
+ * ✅ Efectos hover encantados
+ * ✅ Logo místico
+ */
 
-    {/*Elementos místicos + decoración */}
-    <div className="nav-decoration">
-      {/* 🔥💧🌱💨 Los 4 elementos místicos con tooltips */}
-      <div className="mystical-elements">
-        <span 
-          className="element fire" 
-          title="Fuego - Pasión y Energía"
-          aria-label="Elemento Fuego"
-        >
-          🔥
-        </span>
-        <span 
-          className="element water" 
-          title="Agua - Intuición y Emociones"
-          aria-label="Elemento Agua"
-        >
-          💧
-        </span>
-        <span 
-          className="element earth" 
-          title="Tierra - Estabilidad y Práctica"
-          aria-label="Elemento Tierra"
-        >
-          🌱
-        </span>
-        <span 
-          className="element air" 
-          title="Aire - Intelecto y Comunicación"
-          aria-label="Elemento Aire"
-        >
-          💨
-        </span>
-      </div>
+const Navigation: React.FC = () => {
+  const location = useLocation();
 
-      {/* Decoración celestial renovada */}
-      <div className="celestial-decoration">
-        <span className="decoration-star">⭐</span>
-        <span className="decoration-moon">🌙</span>
-        <span className="decoration-star">⭐</span>
+  const isActiveRoute = (path: string): boolean => {
+    if (path === '/') {
+      return location.pathname === '/';
+    }
+    return location.pathname.startsWith(path);
+  };
+
+  return (
+    <nav className={styles.navigation}>
+      <div className={styles.container}>
+        {/* 🔮 Logo Místico */}
+        <div className={styles.logo}>
+          <Link to="/" className={styles.logoLink}>
+            <div className={styles.logoIcon}>🔮</div>
+            <div className={styles.logoText}>
+              <span className={styles.logoMain}>Tarot</span>
+              <span className={styles.logoSub}>STEM</span>
+            </div>
+          </Link>
+        </div>
+
+        {/* 🧭 Menú Principal */}
+        <ul className={styles.navMenu}>
+          <li className={styles.navItem}>
+            <Link 
+              to="/" 
+              className={`${styles.navLink} ${isActiveRoute('/') ? styles.active : ''}`}
+            >
+              <span className={styles.navIcon}>🏠</span>
+              <span className={styles.navText}>Home</span>
+              <div className={styles.navIndicator}></div>
+            </Link>
+          </li>
+          
+          <li className={styles.navItem}>
+            <Link 
+              to="/reading" 
+              className={`${styles.navLink} ${isActiveRoute('/reading') ? styles.active : ''}`}
+            >
+              <span className={styles.navIcon}>🃏</span>
+              <span className={styles.navText}>Tirada</span>
+              <div className={styles.navIndicator}></div>
+            </Link>
+          </li>         
+          
+        </ul>
+
+        {/* 🌟 Efectos Mágicos */}
+        <div className={styles.magicalEffects}>
+          <div className={styles.starParticle}>✨</div>
+          <div className={styles.moonParticle}>🌙</div>
+          <div className={styles.crystalParticle}>💎</div>
+        </div>
       </div>
-    </div>
-  </nav>
-);
+    </nav>
+  );
+};
 
 export default Navigation;
