@@ -3,13 +3,14 @@ import { Link, useLocation } from 'react-router-dom';
 import styles from './Navigation.module.css';
 
 /**
- * 🔮 Navigation Component - Limpio y Místico
+ * 🔮 Navigation Component - Más Disruptivo y Bonito
  * 
  * CARACTERÍSTICAS:
- * ✅ Navegación limpia (Home, Tirada, Acerca de)
- * ✅ Indicador de página activa
- * ✅ Efectos hover encantados
- * ✅ Logo místico
+ * ✅ Navegación disruptiva pero elegante
+ * ✅ Efectos más llamativos respetando la estética
+ * ✅ Indicador de página activa mejorado
+ * ✅ Efectos hover más impactantes
+ * ✅ Logo místico con más personalidad
  */
 
 const Navigation: React.FC = () => {
@@ -25,10 +26,13 @@ const Navigation: React.FC = () => {
   return (
     <nav className={styles.navigation}>
       <div className={styles.container}>
-        {/* 🔮 Logo Místico */}
+        {/* 🔮 Logo Místico Mejorado */}
         <div className={styles.logo}>
           <Link to="/" className={styles.logoLink}>
-            <div className={styles.logoIcon}>🔮</div>
+            <div className={styles.logoIconContainer}>
+              <div className={styles.logoIcon}>🔮</div>
+              <div className={styles.logoGlow}></div>
+            </div>
             <div className={styles.logoText}>
               <span className={styles.logoMain}>Tarot</span>
               <span className={styles.logoSub}>STEM</span>
@@ -36,16 +40,20 @@ const Navigation: React.FC = () => {
           </Link>
         </div>
 
-        {/* 🧭 Menú Principal */}
+        {/* 🧭 Menú Principal Disruptivo */}
         <ul className={styles.navMenu}>
           <li className={styles.navItem}>
             <Link 
               to="/" 
               className={`${styles.navLink} ${isActiveRoute('/') ? styles.active : ''}`}
             >
-              <span className={styles.navIcon}>🏠</span>
+              <div className={styles.navIconContainer}>
+                <span className={styles.navIcon}>🏠</span>
+                <div className={styles.iconPulse}></div>
+              </div>
               <span className={styles.navText}>Home</span>
               <div className={styles.navIndicator}></div>
+              <div className={styles.navRipple}></div>
             </Link>
           </li>
           
@@ -54,23 +62,35 @@ const Navigation: React.FC = () => {
               to="/reading" 
               className={`${styles.navLink} ${isActiveRoute('/reading') ? styles.active : ''}`}
             >
-              <span className={styles.navIcon}>🃏</span>
+              <div className={styles.navIconContainer}>
+                <span className={styles.navIcon}>🃏</span>
+                <div className={styles.iconPulse}></div>
+              </div>
               <span className={styles.navText}>Tirada</span>
               <div className={styles.navIndicator}></div>
+              <div className={styles.navRipple}></div>
             </Link>
           </li>         
-          
         </ul>
 
-        {/* 🌟 Efectos Mágicos */}
+        {/* 🌟 Efectos Mágicos Potenciados */}
         <div className={styles.magicalEffects}>
-          <div className={styles.starParticle}>✨</div>
-          <div className={styles.moonParticle}>🌙</div>
-          <div className={styles.crystalParticle}>💎</div>
+          <div className={styles.cosmicDust}></div>
+          <div className={styles.energyWave}></div>
+        </div>
+
+        {/* 🎭 Elemento Decorativo Central */}
+        <div className={styles.centerDecoration}>
+          <div className={styles.mysticalOrb}></div>
         </div>
       </div>
     </nav>
   );
 };
 
-export default Navigation;
+export default Navigation;0.
+
+
+
+
+
