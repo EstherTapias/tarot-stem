@@ -2,23 +2,15 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Navigation from '../Navigation/Navigation';
 import styles from './Layout.module.css';
-
-/**
- * 🔮 Layout Component con Footer Místico
- * 
- * CARACTERÍSTICAS:
- * ✅ Navegación limpia integrada
- * ✅ Footer sencillo y místico
- * ✅ Estructura responsive
- * ✅ Efectos visuales coherentes
- */
+// 👇 Importamos los iconos de react-icons
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 const Layout: React.FC = () => {
   return (
     <div className={styles.layout}>
-      {/* 🔮 Navegación mística */}
+      {/* 🔮 Navegación */}
       <Navigation />
-
+      
       {/* 📱 Contenido principal */}
       <main className={styles.mainContent}>
         <div className={styles.container}>
@@ -26,20 +18,18 @@ const Layout: React.FC = () => {
         </div>
       </main>
 
-      {/* 🌌 Footer Místico */}
+      {/* 🌌 Footer */}
       <footer className={styles.footer}>
         <div className={styles.container}>
-          {/* Línea divisoria sutil */}
+          
           <div className={styles.footerDivider}></div>
           
-          {/* Contenido principal del footer */}
           <div className={styles.footerContent}>
             <div className={styles.footerMain}>
               <div className={styles.footerLogo}>
                 <span className={styles.footerIcon}>🔮</span>
                 <span className={styles.footerTitle}>Tarot STEM</span>
               </div>
-              
               <p className={styles.footerDescription}>
                 ✨ Conectando la sabiduría ancestral con la ciencia moderna ✨
               </p>
@@ -51,22 +41,20 @@ const Layout: React.FC = () => {
                 href="https://www.linkedin.com/in/esther-tapias-paez-camino/" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className={styles.socialLink}
+                className={styles.socialIcon}
                 title="LinkedIn"
               >
-                <span className={styles.socialIcon}>💼</span>
-                <span className={styles.socialText}>LinkedIn</span>
+                <FaLinkedin />
               </a>
               
               <a 
                 href="https://github.com/EstherTapias" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className={styles.socialLink}
+                className={styles.socialIcon}
                 title="GitHub"
               >
-                <span className={styles.socialIcon}>👩‍💻</span>
-                <span className={styles.socialText}>GitHub</span>
+                <FaGithub />
               </a>
             </div>
             
@@ -76,13 +64,8 @@ const Layout: React.FC = () => {
               </p>
             </div>
           </div>
-          
-          {/* Efectos decorativos */}
-          <div className={styles.footerEffects}>
-            <div className={styles.mysticalParticle}>✨</div>
-            <div className={styles.cosmicParticle}>🌟</div>
-            <div className={styles.energyParticle}>💫</div>
-          </div>
+
+
         </div>
       </footer>
     </div>
