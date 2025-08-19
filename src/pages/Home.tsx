@@ -11,15 +11,14 @@ export const Home: React.FC = () => {
   // Estado local para cartas que están volteadas (giradas)
   const [flippedCards, setFlippedCards] = React.useState<string[]>([]);
 
-  // Maneja clic en carta para girarla o navegar a detalle si ya está girada
+  // Maneja clic en carta para girarla (solo voltear, no navegar)
   const handleCardClick = (card: TarotCard): void => {
-    if (flippedCards.includes(card.id)) {
-      // Ya está girada, navega a detalle
-      navigate(`/card/${card.id}`);
-    } else {
-      // Gira la carta agregándola a flippedCards
-      setFlippedCards(prev => [...prev, card.id]);
-    }
+    // Solo gira la carta agregándola o quitándola de flippedCards
+    setFlippedCards(prev => 
+      prev.includes(card.id) 
+        ? prev.filter(id => id !== card.id)
+        : [...prev, card.id]
+    );
   };
 
   // Voltear todas las cartas para "resetear" el tapete
@@ -27,7 +26,6 @@ export const Home: React.FC = () => {
 
   return (
     <div className="home-page fade-in">
-
       {/* 🎮 Controles de Acción */}
       <section className="home-actions">
         <button
@@ -70,9 +68,7 @@ export const Home: React.FC = () => {
             showGridStats={true}
           />
         </main>
-      )}     
-
-
+      )}
     </div>
   );
 };
