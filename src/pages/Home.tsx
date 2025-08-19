@@ -4,14 +4,8 @@ import type { TarotCard } from '../types/tarot';
 import { CardGrid } from '../components/CardGrid/CardGrid';
 import { useTarotCards } from '../hooks/useTarotCards';
 
-/**
- * Home Page - muestra todas las cartas boca abajo en un tapete místico.
- * Permite ver el arcano y nombre, girar carta para ver científica,
- * e ir a detalle con botón "Saber más".
- */
 export const Home: React.FC = () => {
   const navigate = useNavigate();
-
   const { cards, isLoading, error, refreshCards } = useTarotCards();
 
   // Estado local para cartas que están volteadas (giradas)
@@ -28,18 +22,13 @@ export const Home: React.FC = () => {
     }
   };
 
-  // Voltear todas las cartas para “resetear” el tapete
+  // Voltear todas las cartas para "resetear" el tapete
   const resetFlipped = (): void => setFlippedCards([]);
 
   return (
-    <div className="home-page mystical-carpet fade-in">
-      <header className="home-hero">
-        <h1 className="mystical-title large glowing-text">🔮 Tarot STEM 🔬</h1>
-        <p className="hero-subtitle mystical-text">
-          Conecta con la sabiduría de las pioneras de la ciencia
-        </p>
-      </header>
+    <div className="home-page fade-in">
 
+      {/* 🎮 Controles de Acción */}
       <section className="home-actions">
         <button
           className="mystical-button"
@@ -48,48 +37,42 @@ export const Home: React.FC = () => {
         >
           🔮 Realizar Lectura
         </button>
+
         <button
           className="mystical-button"
-          disabled={isLoading}
-          onClick={() => {
-            refreshCards();
-            resetFlipped();
-          }}
+          onClick={resetFlipped}
+          disabled={flippedCards.length === 0}
         >
-          ✨ Mezclar Cartas
+          🔄 Resetear Progreso
         </button>
       </section>
 
+      {/* ⚠️ Error Handler */}
       {error && (
         <section className="error-container mystical-container">
-          <h3 className="mystical-title small">Error al conectar con el cosmos</h3>
+          <h3 className="mystical-title small">💀 Error al conectar con el cosmos</h3>
           <p className="mystical-text">{error}</p>
-          <button className="mystical-button" onClick={refreshCards}>🔮 Intentar de Nuevo</button>
+          <button className="mystical-button" onClick={refreshCards}>
+            🔮 Intentar de Nuevo
+          </button>
         </section>
       )}
 
+      {/* 🃏 Grid Principal de Cartas - 4 por fila */}
       {!error && (
         <main className="home-main">
           <CardGrid
             cards={cards}
             flippedCards={flippedCards}
             onCardClick={handleCardClick}
-            loading={isLoading}
-            title="Explora las Cartas del Conocimiento"
-            subtitle="Haz clic en una carta para girar y descubrir su científica"
+            loading={isLoading}        
             cardSize="medium"
+            showGridStats={true}
           />
         </main>
-      )}
+      )}     
 
-      <footer className="home-footer mystical-container">
-        <p>
-          Un proyecto colaborativo con FactoriaF5 Barcelona 🌟
-        </p>
-        <p className="mystical-text quote">
-          "La ciencia es una forma de pensar mucho más que un cuerpo de conocimientos"
-        </p>
-      </footer>
+
     </div>
   );
 };
