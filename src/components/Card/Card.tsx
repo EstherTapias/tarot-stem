@@ -1,177 +1,129 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import type { TarotCard } from '../../types/tarot';
-import './Card.module.css';
+import styles from './Card.module.css';
 
 interface CardProps {
   card: TarotCard;
-  isFlipped?: boolean; // Determina si la carta muestra la científica (frente)
-  isSelected?: boolean;
-  onClick?: () => void;
+  isFlipped?: boolean;
+  onClick?: (card: TarotCard) => void;
   size?: 'small' | 'medium' | 'large';
-  position?: string; // Opcional para mostrar etiqueta de posición en lectura (pasado, etc)
-  showBackside?: boolean; //Para mostrar reverso en tiradas
+  className?: string;
+  showControls?: boolean;
 }
 
-/*
- * ESTADOS DE LA CARTA:
- * - showBackside=true: Muestra reverso místico (para tiradas)
- * - showBackside=false + isFlipped=false: Muestra arcano 
- * - showBackside=false + isFlipped=true: Muestra científica
- */
 export const Card: React.FC<CardProps> = ({
   card,
   isFlipped = false,
-  isSelected = false,
   onClick,
   size = 'medium',
-  position,
-  showBackside = false 
+  className = '',
+  showControls = true
 }) => {
+  const navigate = useNavigate();
+  const [localFlipped, setLocalFlipped] = useState(false);
 
-  const sizeClass = `card-${size}`;
+  const currentlyFlipped = isFlipped || localFlipped;
+  const displayImage = currentlyFlipped ? card.goddessImage : card.arcaneImage;
+  const displayName = currentlyFlipped ? card.goddessName : card.arcaneName;
 
-  /*Determina qué cara mostrar según el estado   */
-  const getCardDisplay = () => {
-    if (showBackside) {
-      return 'backside'; // Reverso místico
-    } else if (isFlipped) {
-      return 'scientist'; // Científica (cara frontal original)
+  const handleCardClick = () => {
+    if (onClick) {
+      onClick(card);
     } else {
-      return 'arcane'; // Arcano
+      setLocalFlipped(!localFlipped);
     }
   };
 
-  const cardDisplay = getCardDisplay();
+  const handleLearnMore = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    navigate(`/card/${card.id}`);
+  };
+
+  const handleFlipToggle = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setLocalFlipped(!localFlipped);
+  };
+
+  // Función para convertir número a romano
+  const toRoman = (num: number) => {
+    const romanMap: [number, string][] = [
+      [1000, 'M'], [900, 'CM'], [500, 'D'], [400, 'CD'],
+      [100, 'C'], [90, 'XC'], [50, 'L'], [40, 'XL'],
+      [10, 'X'], [9, 'IX'], [5, 'V'], [4, 'IV'], [1, 'I']
+    ];
+    let result = '';
+    for (const [value, numeral] of romanMap) {
+      while (num >= value) {
+        result += numeral;
+        num -= value;
+      }
+    }
+    return result;
+  };
 
   return (
-    <div
-      className={`mystical-card ${sizeClass} ${isFlipped ? 'card-flipped' : ''} ${isSelected ? 'card-selected' : ''} ${showBackside ? 'card-backside' : ''}`}
-      onClick={onClick}
-      role="button"
-      tabIndex={0}
-      aria-label={`${card.arcaneName} - ${position || ''}`}
-      onKeyPress={(e) => { if (e.key === 'Enter') onClick && onClick(); }}
-    >
+    <div className={`${styles.cardWrapper} ${className}`}>
+      <div 
+        className={`${styles.card} ${styles[size]}`}
+        onClick={handleCardClick}
+      >
+        {/* Número del arcano en romano */}
+        <div className={styles.cardNumber}>
+        <span className={styles.numberText}>{toRoman(Number(card.id))}</span>
 
-      {/*REVERSO MÍSTICO - Para tiradas (showBackside=true) */}
-      {cardDisplay === 'backside' && (
-        <div className="card-backside-face">
-          {/* Intentar cargar imagen desde /public, fallback al patrón existente */}
-          <div className="backside-image-container">
-            <img 
-              src="../public/tarot-back.jpg" 
-              alt="Reverso místico del tarot"
-              className="backside-image"
-              onError={(e) => {
-                // Si la imagen no existe, ocultar y mostrar patrón
-                (e.target as HTMLImageElement).style.display = 'none';
-                const fallback = (e.target as HTMLElement).nextElementSibling;
-                if (fallback) (fallback as HTMLElement).style.display = 'block';
-              }}
-            />
-            
-            {/*  Patrón de fallback (tu diseño original) */}
-            <div className="cosmic-pattern-fallback" style={{ display: 'none' }}>
-              <div className="cosmic-circle">
-                <div className="inner-circle">
-                  <span className="mystical-symbol">🔮</span>
-                </div>
-              </div>
-              <div className="constellation-pattern">
-                {[...Array(12)].map((_, i) => (
-                  <span key={i} className={`star star-${i + 1}`}>★</span>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/*  Efectos de selección para tiradas */}
-          {onClick && (
-            <div className="selection-overlay">
-              <span className="selection-text">✨ Elegir ✨</span>
-            </div>
-          )}
         </div>
-      )}
 
-      {/* ARCANO - Imagen del tarot tradicional */}
-      {cardDisplay === 'arcane' && (
-        <div className="card-arcane-face">
-          <div className="arcane-image-container">
-            {card.arcaneImage?.imageSrc ? (
-              <img src={card.arcaneImage.imageSrc} alt={card.arcaneName} className="arcane-image" />
-            ) : (
-              <div className="image-placeholder">
-                <span className="placeholder-icon">🎴</span>
-                <p className="placeholder-text">Arcano no disponible</p>
-              </div>
-            )}
-            <div className="image-overlay" />
-          </div>
-
-          <div className="card-info">
-            <div className="card-header">
-              <span className="arcane-number">{card.arcaneNumber}</span>
-              <h3 className="arcane-name">{card.arcaneName}</h3>
+        {/* Imagen principal */}
+        <div className={styles.cardImage}>
+          <img 
+            src={displayImage.imageSrc} 
+            alt={displayName} 
+            className={styles.image} 
+          />
+          <div className={styles.cardOverlay}>
+            <div className={styles.overlayContent}>
+              <h3 className={styles.cardTitle}>{displayName}</h3>
+              {currentlyFlipped && <p className={styles.cardSubtitle}>STEM Pioneer</p>}
             </div>
-            {position && (
-              <div className="position-info">
-                <span className="position-label">{position}</span>
-              </div>
-            )}
-          </div>
-
-          <div className="card-shine" />
-          <div className="hover-effects">
-            <div className="glow-ring" />
-            <div className="energy-pulse" />
           </div>
         </div>
-      )}
 
-      {/* CIENTÍFICA - Tu diseño original (cara frontal) */}
-      {cardDisplay === 'scientist' && (
-        <div className="card-front">
-          <div className="card-image-container">
-            {card.goddessImage?.imageSrc ? (
-              <img src={card.goddessImage.imageSrc} alt={card.goddessName} className="card-image" />
-            ) : (
-              <div className="image-placeholder">
-                <span className="placeholder-icon">❓</span>
-                <p className="placeholder-text">Imagen no disponible</p>
-              </div>
-            )}
-            <div className="image-overlay" />
-          </div>
-
-          <div className="card-info">
-            <div className="card-header">
-              <span className="arcane-number">{card.arcaneNumber}</span>
-              <h3 className="arcane-name">{card.arcaneName}</h3>
-            </div>
-            <div className="goddess-info">
-              <span className="goddess-label">La Diosa Contemporánea</span>
-              <h4 className="goddess-name">{card.goddessName}</h4>
-            </div>
-            <button
-              type="button"
-              className="mystical-button card-action"
-              onClick={(e) => {
-                e.stopPropagation();
-                if (onClick) onClick();
-              }}
+        {/* Controles */}
+        {showControls && (
+          <div className={styles.cardControls}>
+            <button 
+              className={styles.flipButton} 
+              onClick={handleFlipToggle} 
+              title={currentlyFlipped ? 'Ver Arcano' : 'Ver Científica'}
             >
-              Saber más →
+              {currentlyFlipped ? '🔮' : '🔬'}
+            </button>
+            <button 
+              className={styles.detailButton} 
+              onClick={handleLearnMore} 
+              title="Saber más"
+            >
+              📖 Saber más
             </button>
           </div>
+        )}
 
-          <div className="card-shine" />
-          <div className="hover-effects">
-            <div className="glow-ring" />
-            <div className="energy-pulse" />
-          </div>
+        {/* Indicador de tipo */}
+        <div className={`${styles.typeIndicator} ${currentlyFlipped ? styles.scientific : styles.mystical}`}>
+          <span className={styles.typeIcon}>
+            {currentlyFlipped ? '⚗️' : '✨'}
+          </span>
         </div>
-      )}
+      </div>
+
+      {/* Nombre de la carta debajo de la carta */}
+      <div className={styles.cardName}>
+        <h4 className={styles.nameText}>{displayName}</h4>
+        <p className={styles.nameSubtext}>
+          {currentlyFlipped ? 'Científica' : 'Arcano Mayor'}
+        </p>
+      </div>
     </div>
   );
 };

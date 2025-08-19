@@ -1,543 +1,232 @@
-/*Estilos místicos para las cartas del tarot */
-
- .mystical-card {
-  position: relative;
-  aspect-ratio: 3/5;
-  cursor: pointer;
-  transform-style: preserve-3d;
-  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-  border-radius: 16px;
-  overflow: hidden;
-  
-  /* Sombras místicas */
-  filter: drop-shadow(0 8px 32px rgba(13, 5, 36, 0.4));
-}
-
-/* Tamaños de carta */
-.card-small {
-  width: 140px;
-  height: 233px;
-}
-
-.card-medium {
-  width: 180px;
-  height: 300px;
-}
-
-.card-large {
-  width: 220px;
-  height: 367px;
-}
-
-/* Estados de la carta */
-.mystical-card.card-hovered {
-  transform: translateY(-12px) rotateX(5deg) rotateY(-5deg);
-  filter: drop-shadow(0 24px 48px rgba(13, 5, 36, 0.6));
-}
-
-.mystical-card.card-flipped .card-back {
-  transform: rotateY(180deg);
-}
-
-.mystical-card.card-flipped .card-front {
-  transform: rotateY(0deg);
-}
-
-/* 🌟 Aura de partículas mágicas */
-.card-aura {
-  position: absolute;
-  top: -20px;
-  left: -20px;
-  right: -20px;
-  bottom: -20px;
-  pointer-events: none;
-  z-index: -1;
-}
-
-.particle {
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  background: radial-gradient(circle, #FFD700, transparent);
-  border-radius: 50%;
-  opacity: 0;
-  animation: float-particle 4s infinite ease-in-out;
-}
-
-.particle-1 {
-  top: 10%;
-  left: 20%;
-  animation-delay: 0s;
-}
-
-.particle-2 {
-  top: 60%;
-  right: 15%;
-  animation-delay: 1.3s;
-}
-
-.particle-3 {
-  bottom: 20%;
-  left: 70%;
-  animation-delay: 2.6s;
-}
-
-@keyframes float-particle {
-  0%, 100% { 
-    opacity: 0;
-    transform: translateY(0px) scale(0.5);
-  }
-  50% { 
-    opacity: 1;
-    transform: translateY(-30px) scale(1);
-  }
-}
-
-/* 🔮 Cara trasera de la carta */
-.card-back,
-.card-front {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  border-radius: 16px;
-  overflow: hidden;
-}
-
-.card-back {
-  background: linear-gradient(135deg, 
-    #0D0524 0%,
-    #1A0E2E 25%,
-    #2D1B69 50%,
-    #4A148C 75%,
-    #6A1B9A 100%
-  );
-  transform: rotateY(0deg);
-}
-
-.card-front {
-  background: linear-gradient(135deg,
-    #1A0E2E 0%,
-    #2D1B69 50%,
-    #4A148C 100%
-  );
-  transform: rotateY(-180deg);
-}
-
-/* Patrón del dorso */
-.back-pattern {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.cosmic-circle {
-  width: 120px;
-  height: 120px;
-  border: 2px solid rgba(255, 215, 0, 0.6);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  
-  /* Animación de rotación */
-  animation: rotate-cosmic 20s linear infinite;
-}
-
-.cosmic-circle::before {
-  content: '';
-  position: absolute;
-  top: -5px;
-  left: -5px;
-  right: -5px;
-  bottom: -5px;
-  border: 1px solid rgba(255, 107, 53, 0.4);
-  border-radius: 50%;
-  animation: rotate-cosmic 15s linear infinite reverse;
-}
-
-.inner-circle {
-  width: 80px;
-  height: 80px;
-  background: radial-gradient(circle, rgba(255, 215, 0, 0.2), transparent);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(10px);
-}
-
-.mystical-symbol {
-  font-size: 2rem;
-  animation: pulse-symbol 3s ease-in-out infinite;
-}
-
-/* Constelación de fondo */
-.constellation-pattern {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-.star {
-  position: absolute;
-  color: rgba(255, 215, 0, 0.7);
-  font-size: 0.8rem;
-  animation: twinkle 2s ease-in-out infinite;
-}
-
-.star-1 { top: 15%; left: 20%; animation-delay: 0s; }
-.star-2 { top: 25%; right: 25%; animation-delay: 0.3s; }
-.star-3 { top: 45%; left: 15%; animation-delay: 0.6s; }
-.star-4 { top: 55%; right: 20%; animation-delay: 0.9s; }
-.star-5 { top: 75%; left: 30%; animation-delay: 1.2s; }
-.star-6 { top: 80%; right: 30%; animation-delay: 1.5s; }
-.star-7 { top: 35%; left: 75%; animation-delay: 1.8s; }
-.star-8 { top: 65%; right: 70%; animation-delay: 2.1s; }
-.star-9 { top: 10%; left: 60%; animation-delay: 2.4s; }
-.star-10 { top: 90%; left: 70%; animation-delay: 2.7s; }
-.star-11 { top: 20%; right: 60%; animation-delay: 3s; }
-.star-12 { bottom: 15%; left: 50%; animation-delay: 3.3s; }
-
-/* 🎨 Marco decorativo de la carta frontal */
-.card-frame {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 2;
-}
-
-.frame-corner {
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  border: 2px solid rgba(255, 215, 0, 0.8);
-}
-
-.frame-corner-tl {
-  top: 12px;
-  left: 12px;
-  border-right: none;
-  border-bottom: none;
-  border-top-left-radius: 8px;
-}
-
-.frame-corner-tr {
-  top: 12px;
-  right: 12px;
-  border-left: none;
-  border-bottom: none;
-  border-top-right-radius: 8px;
-}
-
-.frame-corner-bl {
-  bottom: 12px;
-  left: 12px;
-  border-right: none;
-  border-top: none;
-  border-bottom-left-radius: 8px;
-}
-
-.frame-corner-br {
-  bottom: 12px;
-  right: 12px;
-  border-left: none;
-  border-top: none;
-  border-bottom-right-radius: 8px;
-}
-
-/* 🖼️ Contenedor de imagen */
-.card-image-container {
-  position: relative;
-  width: calc(100% - 24px);
-  height: 60%;
-  top: 12px;
-  left: 12px;
-  border-radius: 12px;
-  overflow: hidden;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-  backdrop-filter: blur(10px);
-}
-
-.card-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  transition: transform 0.6s ease;
-}
-
-.mystical-card.card-hovered .card-image {
-  transform: scale(1.1);
-}
-
-.image-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    transparent 60%,
-    rgba(13, 5, 36, 0.7) 100%
-  );
-  pointer-events: none;
-}
-
-.image-placeholder {
+.cardWrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-heading);
+}
+
+.card {
+  position: relative;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: var(--transition);
+  box-shadow: var(--shadow-enchanted);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: var(--shadow-hover);
+}
+
+/* Tamaños de carta */
+.small { width: 160px; height: 280px; }
+.medium { width: 200px; height: 350px; }
+.large { width: 240px; height: 420px; }
+
+/* Imagen ocupa toda la carta */
+.cardImage {
+  width: 100%;
   height: 100%;
-  color: rgba(255, 255, 255, 0.6);
+  overflow: hidden;
 }
 
-.placeholder-icon {
-  font-size: 2.5rem;
-  margin-bottom: 8px;
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+  filter: brightness(0.9) contrast(1.1);
 }
 
-.placeholder-text {
-  font-size: 0.9rem;
-  margin: 0;
+.card:hover .image {
+  transform: scale(1.05);
+  filter: brightness(1) contrast(1.2);
 }
 
-/* 📝 Información de la carta */
-.card-info {
+/* Overlay con efectos hover */
+.cardOverlay {
   position: absolute;
-  bottom: 0;
+  top: 0;
   left: 0;
   right: 0;
-  padding: 16px 12px 12px;
+  bottom: 0;
   background: linear-gradient(
-    180deg,
-    transparent 0%,
-    rgba(13, 5, 36, 0.9) 30%,
-    rgba(13, 5, 36, 0.95) 100%
+    180deg, 
+    transparent 0%, 
+    rgba(0, 0, 0, 0.3) 50%,
+    rgba(0, 0, 0, 0.8) 100%
   );
-  color: white;
-}
-
-.card-header {
+  opacity: 0;
+  transition: opacity 0.3s ease;
   display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
+  align-items: flex-end;
+  padding: 12px;
 }
 
-.arcane-number {
-  background: linear-gradient(135deg, #FFD700, #FFA726);
-  color: #1A0E2E;
-  font-weight: 700;
-  font-size: 0.75rem;
-  padding: 4px 8px;
-  border-radius: 12px;
-  min-width: 24px;
-  text-align: center;
+.card:hover .cardOverlay {
+  opacity: 1;
 }
 
-.arcane-name {
-  flex: 1;
-  font-family: 'Playfair Display', serif;
-  font-size: 1rem;
-  font-weight: 600;
+.overlayContent {
+  text-align: left;
+  color: white;
+  transform: translateY(10px);
+  transition: transform 0.3s ease;
+}
+
+.card:hover .overlayContent {
+  transform: translateY(0);
+}
+
+.cardTitle {
+  font-size: 14px;
+  font-weight: bold;
   margin: 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
   line-height: 1.2;
-  color: #FFD700;
 }
 
-.goddess-info {
-  margin-bottom: 8px;
-}
-
-.goddess-label {
-  display: block;
-  font-size: 0.65rem;
-  color: rgba(255, 255, 255, 0.7);
+.cardSubtitle {
+  font-size: 10px;
+  margin: 2px 0 0 0;
+  color: #74b9ff;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 2px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
 }
 
-.goddess-name {
-  font-size: 0.85rem;
-  font-weight: 500;
-  margin: 0;
-  color: #E1BEE7;
+/* Número del arcano */
+.cardNumber {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+  padding: 4px 8px;
+  background: rgba(0,0,0,0.7);
+  border-radius: 12px;
+  font-family: var(--font-heading);
+  font-weight: bold;
+  color: var(--gold-mystical);
 }
 
-.card-action {
+/* Controles de la carta */
+.cardControls {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  right: 8px;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  gap: 6px;
   opacity: 0;
   transform: translateY(10px);
   transition: all 0.3s ease;
 }
 
-.mystical-card.card-hovered .card-action {
+.card:hover .cardControls {
   opacity: 1;
   transform: translateY(0);
 }
 
-.action-text {
-  font-size: 0.75rem;
-  color: #FFA726;
-  font-weight: 500;
+.flipButton,
+.detailButton {
+  flex: 1;
+  padding: 6px 8px;
+  font-size: 10px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(5px);
 }
 
-.action-icon {
+.flipButton {
+  border: 1px solid rgba(116, 185, 255, 0.3);
+  background: rgba(0, 0, 0, 0.8);
+  color: #74b9ff;
+}
+
+.flipButton:hover {
+  background: rgba(116, 185, 255, 0.2);
+  border-color: #74b9ff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(116, 185, 255, 0.2);
+}
+
+.detailButton {
+  background: rgba(138, 43, 226, 0.3);
+  border-color: rgba(167, 139, 250, 0.3);
+  color: #ddd6fe;
+}
+
+.detailButton:hover {
+  background: rgba(167, 139, 250, 0.2);
+  border-color: #a78bfa;
+  box-shadow: 0 4px 8px rgba(167, 139, 250, 0.2);
+}
+
+/* Tipo de carta */
+.typeIndicator {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 4px 6px;
+  border-radius: 8px;
+  backdrop-filter: blur(5px);
+  border: 1px solid;
+  z-index: 5;
+}
+
+.typeIndicator.mystical {
+  background: rgba(167, 139, 250, 0.2);
+  border-color: rgba(167, 139, 250, 0.3);
+  color: #ddd6fe;
+}
+
+.typeIndicator.scientific {
+  background: rgba(116, 185, 255, 0.2);
+  border-color: rgba(116, 185, 255, 0.3);
+  color: #74b9ff;
+}
+
+.typeIcon {
+  font-size: 10px;
+  filter: drop-shadow(0 0 2px currentColor);
+}
+
+/* Nombre debajo de la carta */
+.cardName {
+  text-align: center;
+}
+
+.nameText {
+  font-family: var(--font-heading);
+  font-weight: 600;
   font-size: 1rem;
-  color: #FFD700;
-  transform: translateX(0);
-  transition: transform 0.3s ease;
+  color: var(--pearl-white);
+  margin: 0;
 }
 
-.mystical-card.card-hovered .action-icon {
-  transform: translateX(5px);
+.nameSubtext {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--gold-mystical);
+  margin: 0;
+  text-transform: uppercase;
 }
 
-/* ✨ Efectos de brillo */
-.card-shine {
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    45deg,
-    transparent,
-    rgba(255, 255, 255, 0.1),
-    transparent
-  );
-  transform: rotate(45deg) translateX(-100%);
-  transition: transform 0.6s ease;
-  pointer-events: none;
-}
-
-.mystical-card.card-hovered .card-shine {
-  transform: rotate(45deg) translateX(100%);
-}
-
-/* 🌟 Efectos de hover adicionales */
-.hover-effects {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-}
-
-.glow-ring {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  border: 2px solid rgba(255, 215, 0, 0.6);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  transition: all 0.6s ease;
-}
-
-.mystical-card.card-hovered .glow-ring {
-  width: 120%;
-  height: 150%;
-}
-
-.energy-pulse {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100%;
-  height: 100%;
-  border-radius: 16px;
-  background: radial-gradient(
-    ellipse,
-    rgba(255, 107, 53, 0.1) 0%,
-    transparent 70%
-  );
-  transform: translate(-50%, -50%) scale(0);
-  transition: all 0.6s ease;
-}
-
-.mystical-card.card-hovered .energy-pulse {
-  transform: translate(-50%, -50%) scale(1.1);
-}
-
-/* Animaciones */
-@keyframes rotate-cosmic {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-@keyframes pulse-symbol {
-  0%, 100% { 
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% { 
-    transform: scale(1.1);
-    opacity: 0.8;
-  }
-}
-
-@keyframes twinkle {
-  0%, 100% { 
-    opacity: 0.3;
-    transform: scale(0.8);
-  }
-  50% { 
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* 📱 Responsive */
+/* Responsive */
 @media (max-width: 768px) {
-  .card-small {
-    width: 120px;
-    height: 200px;
-  }
-  
-  .card-medium {
-    width: 150px;
-    height: 250px;
-  }
-  
-  .card-large {
-    width: 180px;
-    height: 300px;
-  }
-  
-  .cosmic-circle {
-    width: 80px;
-    height: 80px;
-  }
-  
-  .inner-circle {
-    width: 60px;
-    height: 60px;
-  }
-  
-  .mystical-symbol {
-    font-size: 1.5rem;
-  }
+  .medium { width: 180px; height: 320px; }
+  .large { width: 200px; height: 360px; }
+  .nameText { font-size: 0.9rem; }
+}
+
+@media (max-width: 480px) {
+  .small { width: 140px; height: 260px; }
+  .medium { width: 160px; height: 290px; }
+  .nameText { font-size: 0.8rem; }
+  .nameSubtext { font-size: 0.7rem; }
 }
