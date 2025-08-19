@@ -1,93 +1,812 @@
-/* 🎴 PÁGINA DE LECTURA DE CARTAS */
-.cardReadingPage {
-  min-height: 100vh;
+/* 🔮 READING COMPONENT STYLES */
+
+.readingContainer {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-.readingControls {
+/* 📄 READING HEADER */
+.readingHeader {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 30px;
+  background: linear-gradient(135deg, rgba(26, 26, 46, 0.9), rgba(22, 33, 62, 0.9));
+  border: 2px solid #4a69bd;
+  border-radius: 20px;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 10px 30px rgba(74, 105, 189, 0.3);
+}
+
+.readingTitle {
+  font-size: 32px;
+  font-weight: bold;
+  color: #ddd6fe;
+  margin: 0 0 20px 0;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+  background: linear-gradient(135deg, #ddd6fe, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.readingProgress {
+  margin-top: 20px;
+}
+
+.progressSteps {
   display: flex;
   justify-content: center;
-  gap: var(--space-lg);
-  margin-bottom: var(--space-xxl);
-  flex-wrap: wrap;
-  padding: var(--space-lg);
-  background: var(--bg-glass);
-  border-radius: 16px;
-  backdrop-filter: blur(20px);
-  border: var(--border-golden);
-  box-shadow: var(--shadow-enchanted);
+  gap: 40px;
+  align-items: center;
 }
 
-.positionSlots {
-  display: flex;
-  justify-content: center;
-  gap: var(--space-xxl);
-  margin: var(--space-xxl) 0;
-  flex-wrap: wrap;
-}
-
-.positionSlot {
+.progressStep {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-md);
+  gap: 8px;
+  transition: all 0.3s ease;
 }
 
-.positionLabel {
-  font-family: var(--font-heading);
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: var(--gold-mystical);
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+.progressStep.completed .stepNumber {
+  background: linear-gradient(135deg, #74b9ff, #a78bfa);
+  color: white;
+  box-shadow: 0 4px 12px rgba(116, 185, 255, 0.4);
+  transform: scale(1.1);
 }
 
-.cardSlot {
-  width: 180px;
-  height: 270px;
-  border-radius: 16px;
+.stepNumber {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(74, 105, 189, 0.3);
+  border: 2px solid #4a69bd;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: var(--transition);
+  font-weight: bold;
+  color: #74b9ff;
+  transition: all 0.3s ease;
+}
+
+.stepLabel {
+  font-size: 14px;
+  color: #a78bfa;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* 🎴 READING SPREAD */
+.readingSpread {
+  margin: 40px 0;
+}
+
+.spreadLayout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  justify-content: center;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* 📍 POSITION SLOT */
+.positionSlot {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.positionHeader {
+  text-align: center;
+  padding: 15px;
+  background: linear-gradient(135deg, rgba(167, 139, 250, 0.1), rgba(116, 185, 255, 0.1));
+  border-radius: 12px;
+  border: 1px solid rgba(167, 139, 250, 0.3);
+  backdrop-filter: blur(5px);
+}
+
+.positionTitle {
+  font-size: 20px;
+  font-weight: bold;
+  color: #ddd6fe;
+  margin: 0 0 8px 0;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.positionDescription {
+  font-size: 12px;
+  color: #a78bfa;
+  margin: 0;
+  line-height: 1.4;
+  opacity: 0.9;
+}
+
+/* 🃏 CARD SLOT */
+.cardSlot {
+  min-height: 400px;
+  border-radius: 16px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+}
+
+.cardSlot.empty {
+  background: linear-gradient(135deg, rgba(26, 26, 46, 0.5), rgba(22, 33, 62, 0.5));
+  border: 2px dashed rgba(74, 105, 189, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardSlot.filled {
+  background: linear-gradient(135deg, rgba(26, 26, 46, 0.9), rgba(22, 33, 62, 0.9));
+  border: 2px solid #4a69bd;
+  box-shadow: 0 8px 25px rgba(74, 105, 189, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.cardSlot.filled:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(74, 105, 189, 0.4);
+  border-color: #74b9ff;
+}
+
+/* 🎯 SELECTED CARD */
+.selectedCard {
+  padding: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.selectedCard:hover {
+  transform: scale(1.02);
+}
+
+.cardImage {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.arcaneImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.selectedCard:hover .arcaneImage {
+  transform: scale(1.05);
+}
+
+.cardOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.3) 50%,
+    rgba(0, 0, 0, 0.8) 100%
+  );
+  display: flex;
+  align-items: flex-end;
+  padding: 15px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.selectedCard:hover .cardOverlay {
+  opacity: 1;
+}
+
+.cardInfo {
+  color: white;
+}
+
+.cardName {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0 0 4px 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.cardNumber {
+  font-size: 12px;
+  color: #74b9ff;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* 📝 CARD DETAILS */
+.cardDetails {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.cardTitle {
+  text-align: center;
+}
+
+.arcaneName {
+  font-size: 18px;
+  font-weight: bold;
+  color: #ddd6fe;
+  margin: 0 0 4px 0;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.goddessName {
+  font-size: 14px;
+  color: #a78bfa;
+  margin: 0;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+/* 🔬 SCIENTIFIC PREVIEW */
+.scientificPreview {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: rgba(116, 185, 255, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(116, 185, 255, 0.3);
+}
+
+.scientificImage {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #74b9ff;
+  box-shadow: 0 2px 8px rgba(116, 185, 255, 0.3);
+}
+
+.scientificLabel {
+  font-size: 11px;
+  color: #74b9ff;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* 🔘 DETAILS BUTTON */
+.detailsButton {
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #a78bfa, #74b9ff);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 12px rgba(167, 139, 250, 0.3);
+}
+
+.detailsButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(167, 139, 250, 0.4);
+}
+
+.detailsButton:active {
+  transform: translateY(0);
+}
+
+/* 🚫 EMPTY SLOT */
+.emptySlot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  color: #4a69bd;
+  text-align: center;
+}
+
+.slotIcon {
+  font-size: 48px;
+  opacity: 0.6;
+  animation: float 3s ease-in-out infinite;
+}
+
+.slotText {
+  font-size: 14px;
+  margin: 0;
+  opacity: 0.8;
+  font-weight: 500;
+}
+
+/* 📖 INTERPRETATION SECTION */
+.interpretationSection {
+  margin-top: 50px;
+  padding: 40px;
+  background: linear-gradient(135deg, rgba(26, 26, 46, 0.95), rgba(22, 33, 62, 0.95));
+  border: 2px solid #4a69bd;
+  border-radius: 20px;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 15px 40px rgba(74, 105, 189, 0.3);
+}
+
+.interpretationTitle {
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  color: #ddd6fe;
+  margin: 0 0 30px 0;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.interpretationContent {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.generalInterpretation {
+  text-align: center;
+  padding: 25px;
+  background: linear-gradient(135deg, rgba(167, 139, 250, 0.1), rgba(116, 185, 255, 0.1));
+  border-radius: 15px;
+  border: 1px solid rgba(167, 139, 250, 0.3);
+}
+
+.interpretationSubtitle {
+  font-size: 20px;
+  font-weight: bold;
+  color: #a78bfa;
+  margin: 0 0 15px 0;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.interpretationText {
+  font-size: 16px;
+  color: #ddd6fe;
+  line-height: 1.6;
+  margin: 0;
+  text-align: justify;
+}
+
+/* 🎯 POSITION INTERPRETATIONS */
+.positionInterpretations {
+  display: grid;
+  gap: 25px;
+}
+
+.positionInterpretation {
+  padding: 25px;
+  background: linear-gradient(135deg, rgba(26, 26, 46, 0.8), rgba(22, 33, 62, 0.8));
+  border-radius: 15px;
+  border: 1px solid rgba(74, 105, 189, 0.3);
+  backdrop-filter: blur(5px);
+}
+
+.interpretationHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.interpretationPosition {
+  font-size: 18px;
+  font-weight: bold;
+  color: #74b9ff;
+  margin: 0;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.interpretationCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.interpretationArcane {
+  font-size: 14px;
+  font-weight: bold;
+  color: #ddd6fe;
+}
+
+.interpretationGoddess {
+  font-size: 12px;
+  color: #a78bfa;
+}
+
+.interpretationBody {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.arcaneInterpretation,
+.goddessInterpretation {
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+  color: #ddd6fe;
+}
+
+/* 💫 FINAL ADVICE */
+.finalAdvice {
+  text-align: center;
+  padding: 30px;
+  background: linear-gradient(135deg, rgba(74, 105, 189, 0.2), rgba(167, 139, 250, 0.2));
+  border-radius: 15px;
+  border: 2px solid rgba(167, 139, 250, 0.3);
   position: relative;
   overflow: hidden;
 }
 
-.cardSlot.empty {
-  background: var(--bg-glass);
-  border: 2px dashed var(--gold-mystical);
-  backdrop-filter: blur(10px);
+.finalAdvice::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(167, 139, 250, 0.1) 0%, transparent 70%);
+  animation: rotate 20s linear infinite;
+  z-index: 0;
 }
 
-.cardSlot.filled {
-  background: transparent;
-  border: 2px solid var(--gold-mystical);
-  box-shadow: var(--glow-mystical);
+.adviceTitle {
+  font-size: 22px;
+  font-weight: bold;
+  color: #ddd6fe;
+  margin: 0 0 15px 0;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+  position: relative;
+  z-index: 1;
 }
 
-.slotPlaceholder {
-  font-size: 3rem;
-  color: var(--gold-mystical);
-  opacity: 0.6;
-  animation: mysticalGlow 2s ease-in-out infinite alternate;
+.adviceText {
+  font-size: 16px;
+  color: #a78bfa;
+  line-height: 1.6;
+  margin: 0;
+  text-align: justify;
+  position: relative;
+  z-index: 1;
 }
 
-@keyframes mysticalGlow {
-  0% { 
-    opacity: 0.4; 
-    text-shadow: 0 0 10px var(--gold-mystical);
+/* 🏁 READING FOOTER */
+.readingFooter {
+  text-align: center;
+  margin-top: 40px;
+  padding: 25px;
+  background: linear-gradient(135deg, rgba(116, 185, 255, 0.1), rgba(167, 139, 250, 0.1));
+  border-radius: 15px;
+  border: 1px solid rgba(116, 185, 255, 0.3);
+}
+
+.completionBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #74b9ff, #a78bfa);
+  border-radius: 25px;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 15px rgba(116, 185, 255, 0.3);
+}
+
+.badgeIcon {
+  font-size: 16px;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+.badgeText {
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.footerText {
+  font-size: 14px;
+  color: #a78bfa;
+  margin: 0;
+  font-style: italic;
+  opacity: 0.9;
+}
+
+/* 🚫 EMPTY READING */
+.emptyReading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.emptyIcon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  animation: float 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 15px rgba(116, 185, 255, 0.5));
+}
+
+.emptyTitle {
+  font-size: 24px;
+  color: #ddd6fe;
+  margin-bottom: 10px;
+  font-weight: bold;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.emptyText {
+  font-size: 16px;
+  color: #a78bfa;
+  max-width: 400px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* 🎭 ANIMATIONS */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(2deg); }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-5px); }
+  60% { transform: translateY(-3px); }
+}
+
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* 📱 RESPONSIVE DESIGN */
+@media (max-width: 1024px) {
+  .readingContainer {
+    padding: 15px;
   }
-  100% { 
-    opacity: 0.8; 
-    text-shadow: 0 0 20px var(--gold-mystical), 0 0 30px var(--gold-copper);
+  
+  .spreadLayout {
+    grid-template-columns: 1fr;
+    gap: 25px;
+    max-width: 600px;
+  }
+  
+  .progressSteps {
+    gap: 30px;
+  }
+  
+  .readingTitle {
+    font-size: 28px;
+  }
+  
+  .interpretationSection {
+    padding: 30px;
+  }
+  
+  .interpretationTitle {
+    font-size: 24px;
   }
 }
 
-/* 📱 RESPONSIVE READING */
-@media (max-width: 600px) {
-  .positionSlots {
+@media (max-width: 768px) {
+  .readingContainer {
+    padding: 10px;
+  }
+  
+  .readingHeader {
+    padding: 20px;
+    margin-bottom: 30px;
+  }
+  
+  .readingTitle {
+    font-size: 24px;
+  }
+  
+  .progressSteps {
+    gap: 20px;
+  }
+  
+  .stepNumber {
+    width: 35px;
+    height: 35px;
+    font-size: 14px;
+  }
+  
+  .stepLabel {
+    font-size: 12px;
+  }
+  
+  .spreadLayout {
+    gap: 20px;
+  }
+  
+  .cardSlot {
+    min-height: 350px;
+  }
+  
+  .selectedCard {
+    padding: 15px;
+  }
+  
+  .cardImage {
+    height: 150px;
+  }
+  
+  .arcaneName {
+    font-size: 16px;
+  }
+  
+  .goddessName {
+    font-size: 12px;
+  }
+  
+  .interpretationSection {
+    padding: 20px;
+    margin-top: 40px;
+  }
+  
+  .interpretationTitle {
+    font-size: 22px;
+  }
+  
+  .interpretationHeader {
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .interpretationCard {
+    align-items: flex-start;
+  }
+  
+  .finalAdvice {
+    padding: 20px;
+  }
+  
+  .adviceTitle {
+    font-size: 20px;
+  }
+  
+  .adviceText {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .readingHeader {
+    padding: 15px;
+  }
+  
+  .readingTitle {
+    font-size: 20px;
+  }
+  
+  .progressSteps {
+    gap: 15px;
+  }
+  
+  .stepNumber {
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+  }
+  
+  .stepLabel {
+    font-size: 10px;
+  }
+  
+  .positionTitle {
+    font-size: 18px;
+  }
+  
+  .positionDescription {
+    font-size: 11px;
+  }
+  
+  .cardSlot {
+    min-height: 320px;
+  }
+  
+  .selectedCard {
+    padding: 12px;
+  }
+  
+  .cardImage {
+    height: 120px;
+  }
+  
+  .arcaneName {
+    font-size: 14px;
+  }
+  
+  .goddessName {
+    font-size: 11px;
+  }
+  
+  .detailsButton {
+    padding: 10px 16px;
+    font-size: 11px;
+  }
+  
+  .interpretationSection {
+    padding: 15px;
+  }
+  
+  .interpretationTitle {
+    font-size: 20px;
+  }
+  
+  .generalInterpretation {
+    padding: 15px;
+  }
+  
+  .interpretationSubtitle {
+    font-size: 18px;
+  }
+  
+  .interpretationText {
+    font-size: 14px;
+  }
+  
+  .positionInterpretation {
+    padding: 15px;
+  }
+  
+  .interpretationPosition {
+    font-size: 16px;
+  }
+  
+  .arcaneInterpretation,
+  .goddessInterpretation {
+    font-size: 13px;
+  }
+  
+  .finalAdvice {
+    padding: 15px;
+  }
+  
+  .adviceTitle {
+    font-size: 18px;
+  }
+  
+  .adviceText {
+    font-size: 13px;
+  }
+  
+  .completionBadge {
+    font-size: 12px;
+    padding: 8px 16px;
+  }
+  
+  .footerText {
+    font-size: 12px;
   }
 }
