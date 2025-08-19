@@ -1,433 +1,93 @@
-/* Contenedor principal de la lectura */
-.reading-container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
+/* 🎴 PÁGINA DE LECTURA DE CARTAS */
+.cardReadingPage {
+  min-height: 100vh;
+}
+
+.readingControls {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-xxl);
+  flex-wrap: wrap;
+  padding: var(--space-lg);
+  background: var(--bg-glass);
+  border-radius: 16px;
+  backdrop-filter: blur(20px);
+  border: var(--border-golden);
+  box-shadow: var(--shadow-enchanted);
+}
+
+.positionSlots {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-xxl);
+  margin: var(--space-xxl) 0;
+  flex-wrap: wrap;
+}
+
+.positionSlot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.positionLabel {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--gold-mystical);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.cardSlot {
+  width: 180px;
+  height: 270px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.cardSlot.empty {
+  background: var(--bg-glass);
+  border: 2px dashed var(--gold-mystical);
+  backdrop-filter: blur(10px);
+}
+
+.cardSlot.filled {
+  background: transparent;
+  border: 2px solid var(--gold-mystical);
+  box-shadow: var(--glow-mystical);
+}
+
+.slotPlaceholder {
+  font-size: 3rem;
+  color: var(--gold-mystical);
+  opacity: 0.6;
+  animation: mysticalGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes mysticalGlow {
+  0% { 
+    opacity: 0.4; 
+    text-shadow: 0 0 10px var(--gold-mystical);
   }
-  
-  /* Header de la lectura */
-  .reading-header {
-    text-align: center;
-    margin-bottom: 3rem;
+  100% { 
+    opacity: 0.8; 
+    text-shadow: 0 0 20px var(--gold-mystical), 0 0 30px var(--gold-copper);
   }
-  
-  /* Estadísticas de la lectura */
-  .reading-stats {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    margin-top: 1rem;
-  }
-  
-  .stat-item {
-    text-align: center;
-    color: var(--accent-gold);
-  }
-  
-  .stat-number {
-    display: block;
-    font-size: 2rem;
-    font-family: var(--font-mystical);
-    font-weight: bold;
-  }
-  
-  .stat-label {
-    display: block;
-    font-size: 0.9rem;
-    opacity: 0.8;
-    margin-top: 0.25rem;
-  }
-  
-  /* Grid principal de posiciones */
-  .reading-main {
-    margin-bottom: 3rem;
-  }
-  
-  .reading-positions {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    justify-items: center;
-  }
-  
-  /* Contenedor de cada posición */
-  .position-container {
-    width: 100%;
-    max-width: 280px;
-  }
-  
-  .position-container.past {
-    animation: slideInLeft 0.8s ease-out;
-  }
-  
-  .position-container.present {
-    animation: slideInUp 0.8s ease-out 0.2s both;
-  }
-  
-  .position-container.future {
-    animation: slideInRight 0.8s ease-out 0.4s both;
-  }
-  
-  /* Estilos para posiciones */
-  .reading-position {
-    background: var(--mystical-container);
-    border-radius: 20px;
-    padding: 1.5rem;
-    text-align: center;
-    min-height: 500px;
-    display: flex;
+}
+
+/* 📱 RESPONSIVE READING */
+@media (max-width: 600px) {
+  .positionSlots {
     flex-direction: column;
-    transition: var(--transition-smooth);
-  }
-  
-  .reading-position:hover {
-    border-color: rgba(212, 175, 55, 0.4);
-    box-shadow: var(--shadow-glow);
-  }
-  
-  /* Header de posición */
-  .position-header {
-    margin-bottom: 1.5rem;
-  }
-  
-  .position-label {
-    font-family: var(--font-mystical);
-    font-size: 1.5rem;
-    color: var(--accent-gold);
-    margin: 0 0 0.5rem 0;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-  
-  .position-description {
-    color: var(--mist-gray);
-    font-size: 0.9rem;
-    line-height: 1.4;
-    margin: 0;
-    font-style: italic;
-  }
-  
-  /* Posiciones vacías */
-  .reading-position.empty {
-    border: 2px dashed rgba(212, 175, 55, 0.3);
-    justify-content: center;
     align-items: center;
   }
-  
-  .empty-card-placeholder {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    opacity: 0.6;
-  }
-  
-  .placeholder-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    animation: float 3s ease-in-out infinite;
-  }
-  
-  .placeholder-text {
-    color: var(--mist-gray);
-    font-family: var(--font-mystical);
-    font-size: 1rem;
-    margin: 0;
-  }
-  
-  /* Posiciones con cartas */
-  .reading-position.filled {
-    border: 2px solid var(--accent-gold);
-  }
-  
-  .position-card {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 1rem;
-  }
-  
-  /* Resumen de la carta */
-  .card-summary {
-    margin-top: 1rem;
-    text-align: center;
-  }
-  
-  .card-title {
-    font-family: var(--font-mystical);
-    font-size: 1.2rem;
-    color: var(--starlight-white);
-    margin: 0 0 0.5rem 0;
-  }
-  
-  .goddess-name {
-    color: var(--accent-silver);
-    font-size: 1rem;
-    font-weight: 500;
-    margin: 0 0 1rem 0;
-  }
-  
-  .card-meaning {
-    font-size: 0.85rem;
-    line-height: 1.4;
-    color: var(--mist-gray);
-    margin: 0;
-  }
-  
-  /* Interpretación de la lectura */
-  .reading-interpretation {
-    margin: 3rem 0;
-    text-align: center;
-  }
-  
-  .interpretation-content {
-    margin-top: 2rem;
-  }
-  
-  .interpretation-text {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    margin-bottom: 2rem;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  .interpretation-insights {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
-  }
-  
-  .insight-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-    text-align: left;
-    padding: 1.5rem;
-    background: rgba(45, 27, 78, 0.3);
-    border-radius: 15px;
-    border: 1px solid rgba(212, 175, 55, 0.2);
-  }
-  
-  .insight-icon {
-    font-size: 2rem;
-    flex-shrink: 0;
-  }
-  
-  .insight-text {
-    margin: 0;
-    line-height: 1.6;
-  }
-  
-  /* Footer de la lectura */
-  .reading-footer {
-    text-align: center;
-    margin-top: 3rem;
-  }
-  
-  .progress-message,
-  .completion-message {
-    text-align: center;
-  }
-  
-  .cosmic-animation {
-    font-size: 1.5rem;
-    margin-top: 1rem;
-    animation: sparkleRotate 2s linear infinite;
-  }
-  
-  /* Animaciones */
-  @keyframes slideInLeft {
-    from {
-      opacity: 0;
-      transform: translateX(-100px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-  
-  @keyframes slideInUp {
-    from {
-      opacity: 0;
-      transform: translateY(100px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  @keyframes slideInRight {
-    from {
-      opacity: 0;
-      transform: translateX(100px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-  
-  @keyframes float {
-    0%, 100% {
-      transform: translateY(0px);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
-  }
-  
-  @keyframes sparkleRotate {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 1024px) {
-    .reading-positions {
-      gap: 1.5rem;
-    }
-    
-    .position-container {
-      max-width: 240px;
-    }
-    
-    .reading-position {
-      padding: 1rem;
-      min-height: 450px;
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .reading-container {
-      padding: 1rem;
-    }
-    
-    .reading-positions {
-      grid-template-columns: 1fr;
-      gap: 2rem;
-      max-width: 320px;
-      margin: 0 auto;
-    }
-    
-    .position-container {
-      max-width: 100%;
-    }
-    
-    .reading-position {
-      min-height: 400px;
-    }
-    
-    .reading-stats {
-      gap: 1rem;
-    }
-    
-    .stat-number {
-      font-size: 1.5rem;
-    }
-    
-    .position-label {
-      font-size: 1.3rem;
-    }
-    
-    .interpretation-insights {
-      grid-template-columns: 1fr;
-      gap: 1rem;
-    }
-    
-    .insight-item {
-      padding: 1rem;
-    }
-    
-    /* Reactivar animaciones en móvil pero más suaves */
-    .position-container.past,
-    .position-container.present,
-    .position-container.future {
-      animation: fadeInUp 0.6s ease-out both;
-    }
-    
-    .position-container.present {
-      animation-delay: 0.2s;
-    }
-    
-    .position-container.future {
-      animation-delay: 0.4s;
-    }
-  }
-  
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .reading-header {
-      margin-bottom: 2rem;
-    }
-    
-    .reading-position {
-      padding: 0.8rem;
-      min-height: 350px;
-    }
-    
-    .position-label {
-      font-size: 1.1rem;
-    }
-    
-    .position-description {
-      font-size: 0.8rem;
-    }
-    
-    .card-title {
-      font-size: 1rem;
-    }
-    
-    .goddess-name {
-      font-size: 0.9rem;
-    }
-    
-    .card-meaning {
-      font-size: 0.8rem;
-    }
-    
-    .interpretation-text {
-      font-size: 1rem;
-    }
-  }
-  
-  /* Accesibilidad */
-  @media (prefers-reduced-motion: reduce) {
-    .position-container.past,
-    .position-container.present,
-    .position-container.future,
-    .placeholder-icon,
-    .cosmic-animation {
-      animation: none;
-    }
-  }
-  
-  /* Modo de alto contraste */
-  @media (prefers-contrast: high) {
-    .reading-position.empty {
-      border-color: var(--accent-gold);
-    }
-    
-    .position-description,
-    .card-meaning {
-      color: var(--starlight-white);
-      opacity: 0.8;
-    }
-  }
+}
