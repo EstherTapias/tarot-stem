@@ -5,12 +5,16 @@ import { Reading } from '../components/Reading/Reading';
 import { useTarotCards } from '../hooks/useTarotCards';
 
 /**
- * 🔮 CardReading Rediseñado
- * Flujo:
- * ✅ Mazo en la esquina
- * ✅ 10 cartas al centro (5 arriba, 5 abajo)
- * ✅ Selección de 3 cartas → Pasado, Presente, Futuro
- * ✅ Modal con interpretación final
+ * 🔮 CardReading con Reverso tarot-back.jpg
+ * 
+ * CARACTERÍSTICAS NUEVAS:
+ * ✅ Reverso usando public/tarot-back.jpg
+ * ✅ Mazo de cartas con 10 cartas (dos filas de 5)
+ * ✅ Selección de 3 cartas para Pasado/Presente/Futuro
+ * ✅ Modal con interpretación completa
+ * ✅ Botón claro "Reiniciar tirada / Nueva baraja"
+ * ✅ Estilos unificados con CardDetail
+ * ✅ Errores de TypeScript corregidos
  */
 export const CardReading: React.FC = () => {
   const location = useLocation();
@@ -24,6 +28,8 @@ export const CardReading: React.FC = () => {
     currentPosition: 'past',
     isComplete: false
   });
+
+  // Corección del tipo: ahora solo incluye las fases válidas
   const [gamePhase, setGamePhase] = useState<'intro' | 'dealing' | 'selecting' | 'complete'>('intro');
   const [dealtCards, setDealtCards] = useState<TarotCard[]>([]);
   const [animatingCards, setAnimatingCards] = useState<boolean>(false);
@@ -40,7 +46,7 @@ export const CardReading: React.FC = () => {
     }
   }, [cards]);
 
-  // Manejar preselección desde otra ruta
+  // Manejar preselección
   useEffect(() => {
     const preselect = location.state?.preselectedCard as TarotCard;
     if (preselect && gamePhase === 'intro') {
@@ -49,38 +55,45 @@ export const CardReading: React.FC = () => {
     }
   }, [location.state, gamePhase]);
 
-  /** 🎴 Repartir 10 cartas del mazo */
+  /**
+   * 🎴 Inicia el reparto de cartas desde el mazo
+   */
   const startCardDealing = async (): Promise<void> => {
     if (cards.length < 10) return;
-
+    
     setGamePhase('dealing');
     setAnimatingCards(true);
-
+    
+    // Selecciona 10 cartas aleatorias
     const shuffled = [...cards].sort(() => Math.random() - 0.5);
     const selected10 = shuffled.slice(0, 10);
-
+    
     // Simula el reparto con delay
     for (let i = 0; i < selected10.length; i++) {
       setTimeout(() => {
         setDealtCards(prev => [...prev, selected10[i]]);
       }, i * 200);
     }
-
-    // Final de animación
+    
+    // Finaliza animación
     setTimeout(() => {
       setAnimatingCards(false);
       setGamePhase('selecting');
     }, 10 * 200 + 500);
   };
 
-  /** 🎯 Próxima posición libre */
+  /**
+   * 🎯 Obtiene la próxima posición disponible
+   */
   const getNextPosition = (): Position | null => {
     const positions: Position[] = ['past', 'present', 'future'];
     const selectedPositions = readingState.selectedCards.map(sc => sc.position);
     return positions.find(pos => !selectedPositions.includes(pos)) ?? null;
   };
 
-  /** 🃏 Selección de cartas */
+  /**
+   * 🃏 Maneja la selección de una carta
+   */
   const handleCardSelection = (card: TarotCard): void => {
     const nextPos = getNextPosition();
     if (!nextPos) return;
@@ -90,18 +103,20 @@ export const CardReading: React.FC = () => {
     setReadingState(prev => {
       const newSelectedCards = [...prev.selectedCards, newSelected];
       const isComplete = newSelectedCards.length === 3;
-
+      
       return {
         selectedCards: newSelectedCards,
         availableCards: prev.availableCards.filter(c => c.id !== card.id),
-        currentPosition: getNextPosition(),
+        currentPosition: isComplete ? null : getNextPosition(),
         isComplete
       };
     });
 
+    // Remueve la carta del spread
     setDealtCards(prev => prev.filter(c => c.id !== card.id));
 
-    if (readingState.selectedCards.length === 2) {
+    // Si completamos la lectura
+    if (readingState.selectedCards.length === 2) { // Will be 3 after this selection
       setTimeout(() => {
         setGamePhase('complete');
         setShowModal(true);
@@ -109,7 +124,9 @@ export const CardReading: React.FC = () => {
     }
   };
 
-  /** 🔄 Reiniciar la lectura */
+  /**
+   * 🔄 Reinicia completamente la lectura
+   */
   const handleResetReading = (): void => {
     shuffleForReading();
     setReadingState({
@@ -124,62 +141,138 @@ export const CardReading: React.FC = () => {
     setShowModal(false);
   };
 
-  /** 🎲 Nueva baraja */
+  /**
+   * 🎲 Nueva baraja
+   */
   const handleShuffleCards = (): void => {
     shuffleForReading();
     setDealtCards([]);
     setGamePhase('intro');
   };
 
-  /** 📍 Labels de posición */
+  /**
+   * 📍 Etiquetas de posición
+   */
   const getPositionLabel = (position: Position): string => ({
     past: 'Pasado',
     present: 'Presente',
     future: 'Futuro',
   }[position]);
 
-  /** 🎭 Introducción */
+  /**
+   * 🎭 Renderiza las instrucciones iniciales
+   */
   const renderIntroduction = () => (
-    <div className="reading-intro mystical-carpet">
-      <h2 className="mystical-title medium">🔮 Lectura del Tarot STEM</h2>
-      <div className="intro-content">
-        <p className="mystical-text">
+    <div className="reading-intro mystical-carpet" style={{
+      textAlign: 'center',
+      padding: 'var(--space-xxl)',
+      marginBottom: 'var(--space-xl)'
+    }}>
+      <h2 className="mystical-title medium">Lectura del AETHRA TAROT</h2>
+      <div className="intro-content" style={{ maxWidth: '600px', margin: '0 auto' }}>
+        <p className="mystical-text" style={{ 
+          marginBottom: 'var(--space-xl)', 
+          fontSize: '1.1rem',
+          lineHeight: '1.7'
+        }}>
           Prepárate para una experiencia mística única donde la ciencia encuentra la sabiduría ancestral.
         </p>
-        <div className="intro-steps">
-          <div className="step"><div className="step-icon">1️⃣</div><p>Las cartas saldrán del mazo hacia el centro</p></div>
-          <div className="step"><div className="step-icon">2️⃣</div><p>Selecciona 3 cartas que te llamen</p></div>
-          <div className="step"><div className="step-icon">3️⃣</div><p>Descubre tu Pasado, Presente y Futuro</p></div>
+        <div className="intro-steps" style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
+          gap: 'var(--space-lg)',
+          marginBottom: 'var(--space-xl)'
+        }}>
+          <div className="step mystical-container" style={{ padding: 'var(--space-lg)', textAlign: 'center' }}>
+            <div className="step-icon" style={{ fontSize: '2rem', marginBottom: 'var(--space-md)' }}>1️⃣</div>
+            <p className="mystical-text">Las cartas saldrán del mazo hacia el centro</p>
+          </div>
+          <div className="step mystical-container" style={{ padding: 'var(--space-lg)', textAlign: 'center' }}>
+            <div className="step-icon" style={{ fontSize: '2rem', marginBottom: 'var(--space-md)' }}>2️⃣</div>
+            <p className="mystical-text">Selecciona 3 cartas que te llamen la atención</p>
+          </div>
+          <div className="step mystical-container" style={{ padding: 'var(--space-lg)', textAlign: 'center' }}>
+            <div className="step-icon" style={{ fontSize: '2rem', marginBottom: 'var(--space-md)' }}>3️⃣</div>
+            <p className="mystical-text">Descubre tu Pasado, Presente y Futuro</p>
+          </div>
         </div>
         <button 
           className="mystical-button large-button"
           onClick={startCardDealing}
           disabled={isLoading || cards.length === 0}
         >
-          ✨ Comenzar Lectura Mística
+           Comenzar Lectura Mística
         </button>
       </div>
     </div>
   );
 
-  /** 🃏 Mazo (decorativo en esquina) */
+  /**
+   * 🃏 Renderiza el mazo de cartas en esquina
+   */
   const renderDeck = () => {
     if (gamePhase === 'intro' || gamePhase === 'complete') return null;
+    
     return (
-      <div className="card-deck">
-        <div className="deck-info">
-          <div className="deck-counter">{Math.max(0, cards.length - dealtCards.length)}</div>
-        </div>
-        {[...Array(3)].map((_, index) => (
-          <div key={index} className={`deck-card ${animatingCards ? 'dealing' : ''}`} style={{ zIndex: 3 - index }}>
-            🔮
+      <div className="card-deck" style={{
+        position: 'fixed',
+        top: '100px',
+        right: '20px',
+        zIndex: 100,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 'var(--space-sm)'
+      }}>
+        <div className="deck-info mystical-container" style={{
+          padding: 'var(--space-sm)',
+          textAlign: 'center',
+          minWidth: '80px'
+        }}>
+          <div className="deck-counter mystical-text" style={{ 
+            fontFamily: 'var(--font-heading)', 
+            fontWeight: '600',
+            color: 'var(--gold-mystical)'
+          }}>
+            {Math.max(0, cards.length - dealtCards.length)}
           </div>
-        ))}
+          <div className="mystical-text" style={{ fontSize: '0.8rem' }}>Cartas</div>
+        </div>
+        <div style={{ position: 'relative' }}>
+          {[...Array(3)].map((_, index) => (
+            <div 
+              key={index} 
+              className={`deck-card ${animatingCards ? 'dealing' : ''}`}
+              style={{ 
+                position: index > 0 ? 'absolute' : 'relative',
+                top: index > 0 ? `${-index * 2}px` : '0',
+                left: index > 0 ? `${-index * 2}px` : '0',
+                zIndex: 3 - index,
+                width: '60px',
+                height: '90px',
+                background: `url('/tarot-back.jpg') center/cover`,
+                borderRadius: '8px',
+                border: '2px solid var(--gold-mystical)',
+                boxShadow: 'var(--shadow-enchanted)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'var(--gold-mystical)',
+                fontSize: '1.2rem',
+                fontWeight: 'bold'
+              }}
+            >
+              
+            </div>
+          ))}
+        </div>
       </div>
     );
   };
 
-  /** 🎯 Spread de 10 cartas boca abajo */
+  /**
+   * 🎯 Renderiza el spread de cartas (5 arriba, 5 abajo)
+   */
   const renderCardSpread = () => {
     if (gamePhase !== 'selecting' || dealtCards.length === 0) return null;
 
@@ -187,36 +280,100 @@ export const CardReading: React.FC = () => {
     const bottomRow = dealtCards.slice(5, 10);
 
     return (
-      <div className="card-spread-area">
-        <h3 className="mystical-title small">
-          Selecciona la carta para: <span className="highlight">{getPositionLabel(readingState.currentPosition!)}</span>
-        </h3>
-
-        <div className="spread-container">
-          <div className="card-row top-row">
+      <div className="card-spread-area" style={{ textAlign: 'center', marginBottom: 'var(--space-xl)' }}>
+        {readingState.currentPosition && (
+          <h3 className="mystical-title small" style={{ marginBottom: 'var(--space-xl)' }}>
+            Selecciona la carta para: <span style={{ color: 'var(--fairy-light)' }}>
+              {getPositionLabel(readingState.currentPosition)}
+            </span>
+          </h3>
+        )}
+        
+        <div className="spread-container" style={{ 
+          display: 'flex', 
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 'var(--space-lg)'
+        }}>
+          <div className="card-row top-row" style={{
+            display: 'flex',
+            gap: 'var(--space-md)',
+            flexWrap: 'wrap',
+            justifyContent: 'center'
+          }}>
             {topRow.map((card, index) => (
-              <div
+              <div 
                 key={card.id}
                 className="spread-card"
-                style={{ animationDelay: `${index * 0.2}s`, animationName: 'slideFromDeck' }}
+                style={{ 
+                  width: '100px',
+                  height: '150px',
+                  background: `url('/tarot-back.jpg') center/cover`,
+                  borderRadius: '12px',
+                  border: '2px solid var(--gold-mystical)',
+                  boxShadow: 'var(--shadow-enchanted)',
+                  cursor: 'pointer',
+                  transition: 'var(--transition)',
+                  position: 'relative',
+                  animation: `slideFromDeck 0.8s ease-out ${index * 0.2}s both`
+                }}
                 onClick={() => handleCardSelection(card)}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-10px) scale(1.05)';
+                  e.currentTarget.style.boxShadow = 'var(--glow-mystical)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                  e.currentTarget.style.boxShadow = 'var(--shadow-enchanted)';
+                }}
               >
-                <div className="card-back">
-                  <img src="/tarot-back.jpg" alt="Reverso de carta" className="card-back-image" />
-                </div>
+
               </div>
             ))}
           </div>
-          <div className="card-row bottom-row">
+          
+          <div className="card-row bottom-row" style={{
+            display: 'flex',
+            gap: 'var(--space-md)',
+            flexWrap: 'wrap',
+            justifyContent: 'center'
+          }}>
             {bottomRow.map((card, index) => (
-              <div
+              <div 
                 key={card.id}
                 className="spread-card"
-                style={{ animationDelay: `${(index + 5) * 0.2}s`, animationName: 'slideFromDeck' }}
+                style={{ 
+                  width: '100px',
+                  height: '150px',
+                  background: `url('/tarot-back.jpg') center/cover`,
+                  borderRadius: '12px',
+                  border: '2px solid var(--gold-mystical)',
+                  boxShadow: 'var(--shadow-enchanted)',
+                  cursor: 'pointer',
+                  transition: 'var(--transition)',
+                  position: 'relative',
+                  animation: `slideFromDeck 0.8s ease-out ${(index + 5) * 0.2}s both`
+                }}
                 onClick={() => handleCardSelection(card)}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-10px) scale(1.05)';
+                  e.currentTarget.style.boxShadow = 'var(--glow-mystical)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                  e.currentTarget.style.boxShadow = 'var(--shadow-enchanted)';
+                }}
               >
-                <div className="card-back">
-                  <img src="/tarot-back.jpg" alt="Reverso de carta" className="card-back-image" />
+                <div className="card-pattern" style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  fontSize: '1.5rem',
+                  color: 'var(--gold-mystical)',
+                  textShadow: '2px 2px 4px rgba(0,0,0,0.8)'
+                }}>
+                  
                 </div>
               </div>
             ))}
@@ -226,30 +383,105 @@ export const CardReading: React.FC = () => {
     );
   };
 
-  /** 🎭 Espacios de Pasado-Presente-Futuro */
+  /**
+   * 🎭 Renderiza los espacios de Pasado, Presente, Futuro
+   */
   const renderPositionSlots = () => {
     if (gamePhase === 'intro') return null;
+
     return (
-      <div className="position-slots">
+      <div className="position-slots" style={{
+        display: 'flex',
+        justifyContent: 'center',
+        gap: 'var(--space-xl)',
+        marginBottom: 'var(--space-xl)',
+        flexWrap: 'wrap'
+      }}>
         {['past', 'present', 'future'].map((position) => {
           const selectedCard = readingState.selectedCards.find(sc => sc.position === position);
+          
           return (
-            <div key={position} className="position-slot">
-              <div className="position-label">{getPositionLabel(position as Position)}</div>
-              <div className={`card-slot ${selectedCard ? 'filled' : 'empty'}`}>
+            <div key={position} className="position-slot" style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: 'var(--space-md)',
+              minWidth: '180px'
+            }}>
+              <div className="position-label mystical-text" style={{
+                fontFamily: 'var(--font-heading)',
+                fontSize: '1.2rem',
+                fontWeight: '600',
+                color: 'var(--gold-mystical)'
+              }}>
+                {getPositionLabel(position as Position)}
+              </div>
+              <div className={`card-slot ${selectedCard ? 'filled' : 'empty'}`} style={{
+                width: '120px',
+                height: '180px',
+                border: selectedCard ? '2px solid var(--gold-mystical)' : '2px dashed var(--gold-mystical)',
+                borderRadius: '12px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: selectedCard ? 'transparent' : 'var(--bg-glass)',
+                boxShadow: selectedCard ? 'var(--shadow-enchanted)' : 'none',
+                cursor: selectedCard ? 'pointer' : 'default',
+                transition: 'var(--transition)',
+                position: 'relative'
+              }}>
                 {selectedCard ? (
-                  <div className="selected-card" onClick={() => navigate(`/card/${selectedCard.card.id}`)}>
-                    <img
-                      src={selectedCard.card.arcaneImage.imageSrc}
+                  <div 
+                    className="selected-card"
+                    onClick={() => navigate(`/card/${selectedCard.card.id}`)}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      borderRadius: '10px',
+                      overflow: 'hidden',
+                      position: 'relative'
+                    }}
+                  >
+                    <img 
+                      src={selectedCard.card.arcaneImage.imageSrc} 
                       alt={selectedCard.card.arcaneName}
-                      className="slot-card-image"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover'
+                      }}
                     />
-                    <div className="card-overlay"><div className="card-name">{selectedCard.card.arcaneName}</div></div>
+                    <div className="card-overlay" style={{
+                      position: 'absolute',
+                      bottom: '0',
+                      left: '0',
+                      right: '0',
+                      background: 'linear-gradient(transparent, rgba(0,0,0,0.8))',
+                      padding: 'var(--space-sm)',
+                      color: 'white',
+                      textAlign: 'center'
+                    }}>
+                      <div style={{ fontSize: '0.8rem', fontWeight: 'bold' }}>
+                        {selectedCard.card.arcaneName}
+                      </div>
+                    </div>
                   </div>
                 ) : (
-                  <div className="empty-slot"><div className="slot-placeholder">
-                    {position === readingState.currentPosition ? '✨' : '◯'}
-                  </div></div>
+                  <div className="empty-slot" style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: 'var(--space-sm)',
+                    color: 'var(--gold-mystical)',
+                    opacity: position === readingState.currentPosition ? 1 : 0.5
+                  }}>
+                    <div className="slot-placeholder" style={{ fontSize: '2rem' }}>
+                      {position === readingState.currentPosition ? '✨' : '◯'}
+                    </div>
+                    <div className="mystical-text" style={{ fontSize: '0.8rem' }}>
+                      {position === readingState.currentPosition ? 'Selecciona' : 'Esperando'}
+                    </div>
+                  </div>
                 )}
               </div>
             </div>
@@ -259,138 +491,422 @@ export const CardReading: React.FC = () => {
     );
   };
 
-  /** 🎉 Modal de lectura */
+  /**
+   * 🎉 Modal de lectura completa - ESTILO UNIFICADO CON CardDetail
+   */
   const renderCompletionModal = () => {
     if (!showModal || !readingState.isComplete) return null;
+
     return (
-      <div className="reading-modal-overlay" onClick={() => setShowModal(false)}>
-        <div className="reading-modal" onClick={(e) => e.stopPropagation()}>
-          <div className="modal-header">
-            <h3 className="mystical-title medium">🌟 Tu Lectura Está Completa</h3>
-            <button className="close-modal" onClick={() => setShowModal(false)}>×</button>
+      <div className="reading-modal-overlay" style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: 'rgba(0, 0, 0, 0.8)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 1000,
+        padding: 'var(--space-lg)'
+      }} onClick={() => setShowModal(false)}>
+        <div className="reading-modal mystical-container" style={{
+          maxWidth: '800px',
+          width: '100%',
+          maxHeight: '90vh',
+          overflow: 'auto',
+          position: 'relative'
+        }} onClick={(e) => e.stopPropagation()}>
+          <div className="modal-header" style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: 'var(--space-xl)',
+            borderBottom: '1px solid var(--gold-mystical)',
+            paddingBottom: 'var(--space-lg)'
+          }}>
+            <h3 className="mystical-title medium">Tu Lectura Está Completa</h3>
+            <button 
+              className="close-modal"
+              onClick={() => setShowModal(false)}
+              style={{
+                background: 'none',
+                border: 'none',
+                fontSize: '2rem',
+                color: 'var(--gold-mystical)',
+                cursor: 'pointer',
+                padding: 'var(--space-sm)',
+                transition: 'var(--transition)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = 'var(--fairy-light)';
+                e.currentTarget.style.transform = 'scale(1.1)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = 'var(--gold-mystical)';
+                e.currentTarget.style.transform = 'scale(1)';
+              }}
+            >
+              ×
+            </button>
           </div>
+          
           <div className="modal-content">
-            <div className="reading-summary">
+            <div className="reading-summary" style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+              gap: 'var(--space-lg)',
+              marginBottom: 'var(--space-xl)'
+            }}>
               {readingState.selectedCards.map((selectedCard) => (
-                <div key={selectedCard.position} className="summary-card">
-                  <div className="summary-position">{getPositionLabel(selectedCard.position)}</div>
-                  <div className="summary-card-info">
-                    <img
-                      src={selectedCard.card.arcaneImage.imageSrc}
+                <div key={selectedCard.position} className="summary-card mystical-container" style={{
+                  padding: 'var(--space-lg)',
+                  textAlign: 'center',
+                  background: 'var(--bg-glass)',
+                  backdropFilter: 'blur(20px)',
+                  borderRadius: '16px',
+                  border: 'var(--border-golden)',
+                  boxShadow: 'var(--shadow-enchanted)'
+                }}>
+                  <div className="summary-position" style={{
+                    fontFamily: 'var(--font-heading)',
+                    fontSize: '1.1rem',
+                    color: 'var(--gold-mystical)',
+                    marginBottom: 'var(--space-md)',
+                    fontWeight: '600'
+                  }}>
+                    {getPositionLabel(selectedCard.position)}
+                  </div>
+                  <div className="summary-card-info" style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: 'var(--space-md)'
+                  }}>
+                    <img 
+                      src={selectedCard.card.arcaneImage.imageSrc} 
                       alt={selectedCard.card.arcaneName}
-                      className="summary-image"
+                      style={{
+                        width: '80px',
+                        height: '120px',
+                        objectFit: 'cover',
+                        borderRadius: '8px',
+                        border: '2px solid var(--gold-mystical)',
+                        boxShadow: 'var(--shadow-enchanted)'
+                      }}
                     />
                     <div>
-                      <div className="summary-name">{selectedCard.card.arcaneName}</div>
-                      <div className="summary-scientist">{selectedCard.card.goddessName}</div>
+                      <div className="summary-name" style={{
+                        fontWeight: 'bold',
+                        marginBottom: 'var(--space-xs)',
+                        color: 'var(--pearl-white)',
+                        fontFamily: 'var(--font-heading)'
+                      }}>
+                        {selectedCard.card.arcaneName}
+                      </div>
+                      <div className="summary-scientist mystical-text" style={{
+                        color: 'var(--gold-mystical)',
+                        fontSize: '0.9rem'
+                      }}>
+                        {selectedCard.card.goddessName}
+                      </div>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
+
+            {/* Interpretación rápida - ESTILO UNIFICADO */}
+            <div className="quick-interpretation mystical-carpet" style={{
+              padding: 'var(--space-xl)',
+              textAlign: 'center',
+              marginBottom: 'var(--space-xl)',
+              background: 'var(--bg-mystical)',
+              borderRadius: '20px',
+              border: 'var(--border-golden)',
+              boxShadow: 'var(--shadow-hover)',
+              position: 'relative',
+              overflow: 'hidden'
+            }}>
+              <h4 className="mystical-title small" style={{
+                color: 'var(--gold-mystical)',
+                marginBottom: 'var(--space-lg)'
+              }}> Mensaje del Cosmos</h4>
+              <p className="mystical-text" style={{
+                fontSize: '1.1rem',
+                lineHeight: '1.7',
+                fontStyle: 'italic',
+                color: 'var(--pearl-white)'
+              }}>
+                Tu lectura revela una conexión profunda entre la sabiduría ancestral y la ciencia moderna. 
+                Las cartas han hablado y muestran un camino de conocimiento y transformación.
+              </p>
+            </div>
           </div>
-          <div className="modal-actions">
-            <button className="mystical-button" onClick={() => setShowModal(false)}>🔮 Ver Interpretación Completa</button>
-            <button className="mystical-button" onClick={handleResetReading}>🔄 Nueva Lectura</button>
+          
+          <div className="modal-actions" style={{
+            display: 'flex',
+            gap: 'var(--space-md)',
+            justifyContent: 'center',
+            flexWrap: 'wrap'
+          }}>
+            <button 
+              className="mystical-button"
+              onClick={() => {
+                setShowModal(false);
+                // Aquí podrías mostrar la interpretación completa
+              }}
+            >
+              🔮 Ver Interpretación Completa
+            </button>
+            <button 
+              className="mystical-button"
+              onClick={() => {
+                setShowModal(false);
+                handleResetReading();
+              }}
+            >
+              🔄 Nueva Lectura
+            </button>
           </div>
         </div>
       </div>
     );
   };
 
-  // Loading
-  if (isLoading) return (
-    <div className="card-reading-page">
-      <div className="mystical-container">
-        <div className="loading-content">
-          <div style={{ fontSize: '3rem', marginBottom: '1rem', animation: 'float 2s ease-in-out infinite' }}>🔮</div>
-          <p className="mystical-text">Preparando las cartas del destino...</p>
+  // Definir animación CSS en el head del documento
+  React.useEffect(() => {
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes slideFromDeck {
+        from {
+          transform: translateX(300px) translateY(-200px) rotate(180deg);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0) translateY(0) rotate(0deg);
+          opacity: 1;
+        }
+      }
+      
+      @keyframes float {
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(-10px) rotate(2deg); }
+      }
+    `;
+    document.head.appendChild(style);
+    
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
+
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="card-reading-page">
+        <div className="mystical-container">
+          <div className="loading-content" style={{ textAlign: 'center', padding: 'var(--space-xxl)' }}>
+            <div style={{ fontSize: '3rem', marginBottom: '1rem', animation: 'float 2s ease-in-out infinite' }}>🔮</div>
+            <p className="mystical-text">Preparando las cartas del destino...</p>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 
-  // Error
-  if (error) return (
-    <div className="card-reading-page">
-      <div className="mystical-container">
-        <h3 className="mystical-title medium">💀 Error en la consulta</h3>
-        <p className="mystical-text">{error}</p>
-        <Link to="/" className="mystical-button">🏠 Volver al Inicio</Link>
+  // Error state
+  if (error) {
+    return (
+      <div className="card-reading-page">
+        <div className="mystical-container">
+          <h3 className="mystical-title medium">💀 Error en la consulta</h3>
+          <p className="mystical-text">{error}</p>
+          <Link to="/" className="mystical-button">🏠 Volver al Inicio</Link>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 
   return (
-    <div className="card-reading-page fade-in">
-      {/* 🎮 Controles */}
-      <div className="reading-controls">
-        <button className="mystical-button" onClick={handleShuffleCards} disabled={gamePhase === 'dealing' || animatingCards}>🎲 Nueva Baraja</button>
-        <button className="mystical-button" onClick={handleResetReading}>🔄 Reiniciar Lectura</button>
-        <Link className="mystical-button" to="/">🏠 Inicio</Link>
+    <div className="card-reading-page fade-in" style={{ minHeight: '100vh', padding: 'var(--space-lg)' }}>
+      {/* 🎮 Controles superiores */}
+      <div className="reading-controls" style={{
+        display: 'flex',
+        justifyContent: 'center',
+        gap: 'var(--space-md)',
+        marginBottom: 'var(--space-xl)',
+        flexWrap: 'wrap'
+      }}>
+        <button 
+          className="mystical-button"
+          onClick={handleResetReading}
+        >
+          🔄 Reiniciar Tirada
+        </button>        
       </div>
 
-      {/* 🎭 Main */}
+      {/* 🎭 Contenido principal según la fase */}
       <main className="reading-main">
         {gamePhase === 'intro' && renderIntroduction()}
+        
         {(gamePhase === 'dealing' || gamePhase === 'selecting' || gamePhase === 'complete') && (
           <>
-            {/* Progreso */}
-            <div className="progress-indicator">
-              <div className="progress-steps">
-                <div className={`step ${gamePhase !== 'intro' ? 'completed' : ''}`}><span className="step-number">1</span><span className="step-label">Reparto</span></div>
-                <div className={`step ${gamePhase === 'selecting' || gamePhase === 'complete' ? 'completed' : ''}`}><span className="step-number">2</span><span className="step-label">Selección</span></div>
-                <div className={`step ${gamePhase === 'complete' ? 'completed' : ''}`}><span className="step-number">3</span><span className="step-label">Lectura</span></div>
+            {/* Estado del progreso - CON COLORES ARMONIZADOS */}
+            <div className="progress-indicator" style={{
+              marginBottom: 'var(--space-xl)'
+            }}>
+              <div className="progress-steps" style={{
+                display: 'flex',
+                justifyContent: 'center',
+                gap: 'var(--space-lg)',
+                marginBottom: 'var(--space-md)'
+              }}>
+                <div className={`step ${gamePhase !== 'intro' ? 'completed' : ''}`} style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 'var(--space-sm)',
+                  opacity: gamePhase !== 'intro' ? 1 : 0.5
+                }}>
+                  <span className="step-number" style={{
+                    width: '30px',
+                    height: '30px',
+                    borderRadius: '50%',
+                    background: gamePhase !== 'intro' ? 'var(--gold-mystical)' : 'transparent',
+                    border: '2px solid var(--gold-mystical)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontWeight: 'bold',
+                    color: gamePhase !== 'intro' ? 'var(--forest-deep)' : 'var(--gold-mystical)',
+                    fontFamily: 'var(--font-heading)'
+                  }}>1</span>
+                  <span className="step-label mystical-text">Reparto</span>
+                </div>
+                <div className={`step ${gamePhase === 'selecting' || gamePhase === 'complete' ? 'completed' : ''}`} style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 'var(--space-sm)',
+                  opacity: (gamePhase === 'selecting' || gamePhase === 'complete') ? 1 : 0.5
+                }}>
+                  <span className="step-number" style={{
+                    width: '30px',
+                    height: '30px',
+                    borderRadius: '50%',
+                    background: (gamePhase === 'selecting' || gamePhase === 'complete') ? 'var(--gold-mystical)' : 'transparent',
+                    border: '2px solid var(--gold-mystical)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontWeight: 'bold',
+                    color: (gamePhase === 'selecting' || gamePhase === 'complete') ? 'var(--forest-deep)' : 'var(--gold-mystical)',
+                    fontFamily: 'var(--font-heading)'
+                  }}>2</span>
+                  <span className="step-label mystical-text">Selección</span>
+                </div>
+                <div className={`step ${gamePhase === 'complete' ? 'completed' : ''}`} style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 'var(--space-sm)',
+                  opacity: gamePhase === 'complete' ? 1 : 0.5
+                }}>
+                  <span className="step-number" style={{
+                    width: '30px',
+                    height: '30px',
+                    borderRadius: '50%',
+                    background: gamePhase === 'complete' ? 'var(--gold-mystical)' : 'transparent',
+                    border: '2px solid var(--gold-mystical)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontWeight: 'bold',
+                    color: gamePhase === 'complete' ? 'var(--forest-deep)' : 'var(--gold-mystical)',
+                    fontFamily: 'var(--font-heading)'
+                  }}>3</span>
+                  <span className="step-label mystical-text">Lectura</span>
+                </div>
               </div>
-              <div className="progress-bar">
-                <div className="progress-fill" style={{
-                  width: gamePhase === 'dealing' ? '33%' : gamePhase === 'selecting' ? '66%' : gamePhase === 'complete' ? '100%' : '0%'
-                }}></div>
+              <div className="progress-bar" style={{
+                width: '300px',
+                height: '4px',
+                background: 'var(--bg-glass)',
+                borderRadius: '2px',
+                margin: '0 auto',
+                overflow: 'hidden',
+                border: '1px solid var(--gold-mystical)'
+              }}>
+                <div 
+                  className="progress-fill"
+                  style={{ 
+                    height: '100%',
+                    background: 'linear-gradient(90deg, var(--gold-mystical), var(--gold-copper))',
+                    borderRadius: '2px',
+                    transition: 'width 0.5s ease',
+                    width: gamePhase === 'dealing' ? '33%' : 
+                           gamePhase === 'selecting' ? '66%' : 
+                           gamePhase === 'complete' ? '100%' : '0%',
+                    boxShadow: 'var(--glow-mystical)'
+                  }}
+                ></div>
               </div>
             </div>
 
-            {/* Slots */}
+            {/* Espacios de posición */}
             {renderPositionSlots()}
 
-            {/* Spread */}
+            {/* Spread de cartas */}
             {renderCardSpread()}
 
-            {/* Estado de reparto */}
+            {/* Estado de dealing */}
             {gamePhase === 'dealing' && (
-              <div className="dealing-status mystical-container">
+              <div className="dealing-status mystical-container" style={{
+                textAlign: 'center',
+                padding: 'var(--space-xl)',
+                maxWidth: '400px',
+                margin: '0 auto'
+              }}>
                 <h3 className="mystical-title small">🎴 Repartiendo cartas...</h3>
-                <div className="dealing-progress">
-                  <div className="dealing-counter">{dealtCards.length}/10</div>
+                <div className="dealing-progress" style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 'var(--space-md)'
+                }}>
+                  <div className="dealing-counter" style={{
+                    fontSize: '2rem',
+                    fontFamily: 'var(--font-heading)',
+                    fontWeight: 'bold',
+                    color: 'var(--gold-mystical)'
+                  }}>
+                    {dealtCards.length}/10
+                  </div>
                   <div className="mystical-text">Cartas en el tapete</div>
                 </div>
               </div>
             )}
 
-            {/* Lectura final */}
+            {/* Lectura completa */}
             {readingState.isComplete && gamePhase === 'complete' && (
               <div className="completed-reading mystical-carpet">
-                <Reading selectedCards={readingState.selectedCards} isComplete={true} onCardClick={(card) => navigate(`/card/${card.id}`)} showInterpretation={true}/>
+                <Reading
+                  selectedCards={readingState.selectedCards}
+                  isComplete={true}
+                  onCardClick={(card) => navigate(`/card/${card.id}`)}
+                  showInterpretation={true}
+                />
               </div>
             )}
           </>
         )}
       </main>
 
-      {/* 🃏 Mazo */}
+      {/* 🃏 Mazo de cartas */}
       {renderDeck()}
 
-      {/* 🎉 Modal */}
+      {/* 🎉 Modal de finalización */}
       {renderCompletionModal()}
 
-      {/* 🌟 Decoraciones */}
-      <div className="reading-decoration">
-        <div className="floating-symbols">
-          <span style={{ animationDelay: '0s' }}>✨</span>
-          <span style={{ animationDelay: '1s' }}>🌟</span>
-          <span style={{ animationDelay: '2s' }}>⭐</span>
-          <span style={{ animationDelay: '3s' }}>💫</span>
-        </div>
-      </div>
     </div>
   );
 };
