@@ -60,21 +60,21 @@ export const CardReading: React.FC = () => {
    */
   const startCardDealing = async (): Promise<void> => {
     if (cards.length < 10) return;
-    
+
     setGamePhase('dealing');
     setAnimatingCards(true);
-    
+
     // Selecciona 10 cartas aleatorias
     const shuffled = [...cards].sort(() => Math.random() - 0.5);
     const selected10 = shuffled.slice(0, 10);
-    
+
     // Simula el reparto con delay
     for (let i = 0; i < selected10.length; i++) {
       setTimeout(() => {
         setDealtCards(prev => [...prev, selected10[i]]);
       }, i * 200);
     }
-    
+
     // Finaliza animación
     setTimeout(() => {
       setAnimatingCards(false);
@@ -103,7 +103,7 @@ export const CardReading: React.FC = () => {
     setReadingState(prev => {
       const newSelectedCards = [...prev.selectedCards, newSelected];
       const isComplete = newSelectedCards.length === 3;
-      
+
       return {
         selectedCards: newSelectedCards,
         availableCards: prev.availableCards.filter(c => c.id !== card.id),
@@ -142,15 +142,6 @@ export const CardReading: React.FC = () => {
   };
 
   /**
-   * 🎲 Nueva baraja
-   */
-  const handleShuffleCards = (): void => {
-    shuffleForReading();
-    setDealtCards([]);
-    setGamePhase('intro');
-  };
-
-  /**
    * 📍 Etiquetas de posición
    */
   const getPositionLabel = (position: Position): string => ({
@@ -170,8 +161,8 @@ export const CardReading: React.FC = () => {
     }}>
       <h2 className="mystical-title medium">Lectura del AETHRA TAROT</h2>
       <div className="intro-content" style={{ maxWidth: '600px', margin: '0 auto' }}>
-        <p className="mystical-text" style={{ 
-          marginBottom: 'var(--space-xl)', 
+        <p className="mystical-text" style={{
+          marginBottom: 'var(--space-xl)',
           fontSize: '1.1rem',
           lineHeight: '1.7'
         }}>
@@ -196,12 +187,12 @@ export const CardReading: React.FC = () => {
             <p className="mystical-text">Descubre tu Pasado, Presente y Futuro</p>
           </div>
         </div>
-        <button 
+        <button
           className="mystical-button large-button"
           onClick={startCardDealing}
           disabled={isLoading || cards.length === 0}
         >
-           Comenzar Lectura Mística
+          Comenzar Lectura Mística
         </button>
       </div>
     </div>
@@ -212,7 +203,7 @@ export const CardReading: React.FC = () => {
    */
   const renderDeck = () => {
     if (gamePhase === 'intro' || gamePhase === 'complete') return null;
-    
+
     return (
       <div className="card-deck" style={{
         position: 'fixed',
@@ -229,8 +220,8 @@ export const CardReading: React.FC = () => {
           textAlign: 'center',
           minWidth: '80px'
         }}>
-          <div className="deck-counter mystical-text" style={{ 
-            fontFamily: 'var(--font-heading)', 
+          <div className="deck-counter mystical-text" style={{
+            fontFamily: 'var(--font-heading)',
             fontWeight: '600',
             color: 'var(--gold-mystical)'
           }}>
@@ -240,10 +231,10 @@ export const CardReading: React.FC = () => {
         </div>
         <div style={{ position: 'relative' }}>
           {[...Array(3)].map((_, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className={`deck-card ${animatingCards ? 'dealing' : ''}`}
-              style={{ 
+              style={{
                 position: index > 0 ? 'absolute' : 'relative',
                 top: index > 0 ? `${-index * 2}px` : '0',
                 left: index > 0 ? `${-index * 2}px` : '0',
@@ -262,7 +253,7 @@ export const CardReading: React.FC = () => {
                 fontWeight: 'bold'
               }}
             >
-              
+
             </div>
           ))}
         </div>
@@ -288,9 +279,9 @@ export const CardReading: React.FC = () => {
             </span>
           </h3>
         )}
-        
-        <div className="spread-container" style={{ 
-          display: 'flex', 
+
+        <div className="spread-container" style={{
+          display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           gap: 'var(--space-lg)'
@@ -302,10 +293,10 @@ export const CardReading: React.FC = () => {
             justifyContent: 'center'
           }}>
             {topRow.map((card, index) => (
-              <div 
+              <div
                 key={card.id}
                 className="spread-card"
-                style={{ 
+                style={{
                   width: '100px',
                   height: '150px',
                   background: `url('/tarot-back.jpg') center/cover`,
@@ -331,7 +322,7 @@ export const CardReading: React.FC = () => {
               </div>
             ))}
           </div>
-          
+
           <div className="card-row bottom-row" style={{
             display: 'flex',
             gap: 'var(--space-md)',
@@ -339,10 +330,10 @@ export const CardReading: React.FC = () => {
             justifyContent: 'center'
           }}>
             {bottomRow.map((card, index) => (
-              <div 
+              <div
                 key={card.id}
                 className="spread-card"
-                style={{ 
+                style={{
                   width: '100px',
                   height: '150px',
                   background: `url('/tarot-back.jpg') center/cover`,
@@ -373,7 +364,7 @@ export const CardReading: React.FC = () => {
                   color: 'var(--gold-mystical)',
                   textShadow: '2px 2px 4px rgba(0,0,0,0.8)'
                 }}>
-                  
+
                 </div>
               </div>
             ))}
@@ -399,7 +390,7 @@ export const CardReading: React.FC = () => {
       }}>
         {['past', 'present', 'future'].map((position) => {
           const selectedCard = readingState.selectedCards.find(sc => sc.position === position);
-          
+
           return (
             <div key={position} className="position-slot" style={{
               display: 'flex',
@@ -431,7 +422,7 @@ export const CardReading: React.FC = () => {
                 position: 'relative'
               }}>
                 {selectedCard ? (
-                  <div 
+                  <div
                     className="selected-card"
                     onClick={() => navigate(`/card/${selectedCard.card.id}`)}
                     style={{
@@ -442,8 +433,8 @@ export const CardReading: React.FC = () => {
                       position: 'relative'
                     }}
                   >
-                    <img 
-                      src={selectedCard.card.arcaneImage.imageSrc} 
+                    <img
+                      src={selectedCard.card.arcaneImage.imageSrc}
                       alt={selectedCard.card.arcaneName}
                       style={{
                         width: '100%',
@@ -496,7 +487,7 @@ export const CardReading: React.FC = () => {
    */
   const renderCompletionModal = () => {
     if (!showModal || !readingState.isComplete) return null;
-
+  
     return (
       <div className="reading-modal-overlay" style={{
         position: 'fixed',
@@ -509,15 +500,20 @@ export const CardReading: React.FC = () => {
         alignItems: 'center',
         justifyContent: 'center',
         zIndex: 1000,
-        padding: 'var(--space-lg)'
+        padding: 'var(--space-lg)',
       }} onClick={() => setShowModal(false)}>
-        <div className="reading-modal mystical-container" style={{
-          maxWidth: '800px',
-          width: '100%',
-          maxHeight: '90vh',
-          overflow: 'auto',
-          position: 'relative'
-        }} onClick={(e) => e.stopPropagation()}>
+        <div
+          className="reading-modal mystical-container"
+          style={{
+            maxWidth: '1100px', // Modal ancho
+            width: '100%',
+            maxHeight: '95vh',
+            overflowY: 'auto', // Solo scroll vertical si es necesario
+            overflowX: 'hidden', // Nunca scroll horizontal
+            position: 'relative'
+          }}
+          onClick={(e) => e.stopPropagation()}
+        >
           <div className="modal-header" style={{
             display: 'flex',
             justifyContent: 'space-between',
@@ -551,23 +547,34 @@ export const CardReading: React.FC = () => {
               ×
             </button>
           </div>
-          
+  
           <div className="modal-content">
+            {/* Cartas centradas, alineadas horizontalmente */}
             <div className="reading-summary" style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-              gap: 'var(--space-lg)',
-              marginBottom: 'var(--space-xl)'
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'stretch',
+              gap: 'var(--space-xl)',
+              marginBottom: 'var(--space-xl)',
+              width: '100%',
+              flexWrap: 'nowrap' // nunca saltan una debajo de la otra
             }}>
               {readingState.selectedCards.map((selectedCard) => (
                 <div key={selectedCard.position} className="summary-card mystical-container" style={{
+                  width: '240px',
+                  minHeight: '340px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'flex-start',
                   padding: 'var(--space-lg)',
                   textAlign: 'center',
                   background: 'var(--bg-glass)',
                   backdropFilter: 'blur(20px)',
                   borderRadius: '16px',
                   border: 'var(--border-golden)',
-                  boxShadow: 'var(--shadow-enchanted)'
+                  boxShadow: 'var(--shadow-enchanted)',
                 }}>
                   <div className="summary-position" style={{
                     fontFamily: 'var(--font-heading)',
@@ -588,8 +595,8 @@ export const CardReading: React.FC = () => {
                       src={selectedCard.card.arcaneImage.imageSrc} 
                       alt={selectedCard.card.arcaneName}
                       style={{
-                        width: '80px',
-                        height: '120px',
+                        width: '100px',
+                        height: '160px',
                         objectFit: 'cover',
                         borderRadius: '8px',
                         border: '2px solid var(--gold-mystical)',
@@ -616,8 +623,8 @@ export const CardReading: React.FC = () => {
                 </div>
               ))}
             </div>
-
-            {/* Interpretación rápida - ESTILO UNIFICADO */}
+  
+            {/* Mensaje del cosmos */}
             <div className="quick-interpretation mystical-carpet" style={{
               padding: 'var(--space-xl)',
               textAlign: 'center',
@@ -674,6 +681,8 @@ export const CardReading: React.FC = () => {
       </div>
     );
   };
+  
+  
 
   // Definir animación CSS en el head del documento
   React.useEffect(() => {
@@ -696,7 +705,7 @@ export const CardReading: React.FC = () => {
       }
     `;
     document.head.appendChild(style);
-    
+
     return () => {
       document.head.removeChild(style);
     };
@@ -739,18 +748,18 @@ export const CardReading: React.FC = () => {
         marginBottom: 'var(--space-xl)',
         flexWrap: 'wrap'
       }}>
-        <button 
+        <button
           className="mystical-button"
           onClick={handleResetReading}
         >
           🔄 Reiniciar Tirada
-        </button>        
+        </button>
       </div>
 
       {/* 🎭 Contenido principal según la fase */}
       <main className="reading-main">
         {gamePhase === 'intro' && renderIntroduction()}
-        
+
         {(gamePhase === 'dealing' || gamePhase === 'selecting' || gamePhase === 'complete') && (
           <>
             {/* Estado del progreso - CON COLORES ARMONIZADOS */}
@@ -836,16 +845,16 @@ export const CardReading: React.FC = () => {
                 overflow: 'hidden',
                 border: '1px solid var(--gold-mystical)'
               }}>
-                <div 
+                <div
                   className="progress-fill"
-                  style={{ 
+                  style={{
                     height: '100%',
                     background: 'linear-gradient(90deg, var(--gold-mystical), var(--gold-copper))',
                     borderRadius: '2px',
                     transition: 'width 0.5s ease',
-                    width: gamePhase === 'dealing' ? '33%' : 
-                           gamePhase === 'selecting' ? '66%' : 
-                           gamePhase === 'complete' ? '100%' : '0%',
+                    width: gamePhase === 'dealing' ? '33%' :
+                      gamePhase === 'selecting' ? '66%' :
+                        gamePhase === 'complete' ? '100%' : '0%',
                     boxShadow: 'var(--glow-mystical)'
                   }}
                 ></div>
