@@ -217,7 +217,7 @@ export const CardDetail: React.FC = () => {
             {/* 🔮 Sección del Arcano */}
             <div className="content-section">
               <div className="section-header" style={{ marginBottom: 'var(--space-lg)' }}>
-                <h3 className="mystical-title medium">🔮 El Arcano</h3>
+                <h3 className="mystical-title medium">El Arcano</h3>
               </div>
               <div className="section-content">
                 <p className="mystical-text description" style={{ 
@@ -235,7 +235,7 @@ export const CardDetail: React.FC = () => {
                     fontSize: '1.2rem',
                     color: 'var(--gold-mystical)',
                     marginBottom: 'var(--space-md)'
-                  }}>🎭 Elementos Simbólicos</h4>
+                  }}>Elementos Simbólicos</h4>
                   <div className="symbol-grid" style={{
                     display: 'grid',
                     gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
@@ -301,7 +301,7 @@ export const CardDetail: React.FC = () => {
             {/* 🔬 Sección de la Científica */}
             <div className="content-section">
               <div className="section-header" style={{ marginBottom: 'var(--space-lg)' }}>
-                <h3 className="mystical-title medium">🔬 La Diosa Contemporánea</h3>
+                <h3 className="mystical-title medium">La Diosa Contemporánea</h3>
               </div>
               <div className="section-content">
                 <p className="mystical-text description" style={{ 
@@ -319,7 +319,7 @@ export const CardDetail: React.FC = () => {
                     fontSize: '1.2rem',
                     color: 'var(--gold-mystical)',
                     marginBottom: 'var(--space-md)'
-                  }}>🏆 Logros Destacados</h4>
+                  }}>Logros Destacados</h4>
                   <div className="achievement-grid" style={{
                     display: 'grid',
                     gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
@@ -386,7 +386,7 @@ export const CardDetail: React.FC = () => {
 
         {/* 🎯 Conexión Arcano-Científica */}
         <section className="connection-section mystical-carpet">
-          <h3 className="mystical-title medium">🌟 La Conexión Sagrada</h3>
+          <h3 className="mystical-title medium">La Conexión Sagrada</h3>
           <div className="connection-content">
             <div className="connection-visual" style={{
               display: 'flex',
@@ -396,14 +396,7 @@ export const CardDetail: React.FC = () => {
               marginBottom: 'var(--space-lg)',
               flexWrap: 'wrap'
             }}>
-              <div className="connection-element" style={{ fontSize: '2rem' }}>🔮</div>
-              <div className="connection-bridge" style={{ 
-                fontSize: '1.5rem',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 'var(--space-xs)'
-              }}>⚡✨⚡</div>
-              <div className="connection-element" style={{ fontSize: '2rem' }}>🔬</div>
+
             </div>
             <p className="mystical-text connection-text" style={{
               lineHeight: '1.7',
