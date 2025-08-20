@@ -1,11 +1,11 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import type { SelectedCard, Position } from '../../types/tarot';
 import styles from './Reading.module.css';
 
 interface ReadingProps {
   selectedCards: SelectedCard[];
   isComplete: boolean;
-  onCardClick?: (card: any) => void;
   showInterpretation?: boolean;
   className?: string;
 }
@@ -13,10 +13,11 @@ interface ReadingProps {
 export const Reading: React.FC<ReadingProps> = ({
   selectedCards,
   isComplete,
-  onCardClick,
   showInterpretation = false,
   className = ''
 }) => {
+  const navigate = useNavigate();
+
   // Obtiene carta por posición
   const getCardByPosition = (position: Position) => {
     return selectedCards.find(sc => sc.position === position);
@@ -49,6 +50,14 @@ export const Reading: React.FC<ReadingProps> = ({
     ${futureCard?.card.arcaneName}. La ciencia y el misticismo se entrelazan en tu destino, 
     donde ${pastCard?.card.goddessName}, ${presentCard?.card.goddessName} y ${futureCard?.card.goddessName} 
     guían tu camino hacia el conocimiento y la transformación.`;
+  };
+
+  // Función para navegar al detalle de la carta
+  const handleCardClick = (card: any) => {
+    navigate(`/card/${card.id}`, { 
+      state: { from: '/reading' },
+      replace: false
+    });
   };
 
   if (selectedCards.length === 0) {
@@ -111,7 +120,7 @@ export const Reading: React.FC<ReadingProps> = ({
                   {selectedCard ? (
                     <div 
                       className={styles.selectedCard}
-                      onClick={() => onCardClick?.(selectedCard.card)}
+                      onClick={() => handleCardClick(selectedCard.card)}
                     >
                       {/* Imagen del Arcano */}
                       <div className={styles.cardImage}>
@@ -151,7 +160,7 @@ export const Reading: React.FC<ReadingProps> = ({
                         className={styles.detailsButton}
                         onClick={(e) => {
                           e.stopPropagation();
-                          onCardClick?.(selectedCard.card);
+                          handleCardClick(selectedCard.card);
                         }}
                       >
                         📖 Ver Detalles
