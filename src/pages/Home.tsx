@@ -1,11 +1,9 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import type { TarotCard } from '../types/tarot';
 import { CardGrid } from '../components/CardGrid/CardGrid';
 import { useTarotCards } from '../hooks/useTarotCards';
 
 export const Home: React.FC = () => {
-  const navigate = useNavigate();
   const { cards, isLoading, error, refreshCards } = useTarotCards();
 
   // Estado local para cartas que están volteadas (giradas)
@@ -21,30 +19,8 @@ export const Home: React.FC = () => {
     );
   };
 
-  // Voltear todas las cartas para "resetear" el tapete
-  const resetFlipped = (): void => setFlippedCards([]);
-
   return (
     <div className="home-page fade-in">
-      {/* 🎮 Controles de Acción */}
-      <section className="home-actions">
-        <button
-          className="mystical-button"
-          disabled={isLoading || cards.length === 0}
-          onClick={() => navigate('/reading')}
-        >
-          🔮 Realizar Lectura
-        </button>
-
-        <button
-          className="mystical-button"
-          onClick={resetFlipped}
-          disabled={flippedCards.length === 0}
-        >
-          🔄 Resetear Progreso
-        </button>
-      </section>
-
       {/* ⚠️ Error Handler */}
       {error && (
         <section className="error-container mystical-container">
