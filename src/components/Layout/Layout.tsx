@@ -27,11 +27,11 @@ const Layout: React.FC = () => {
           <div className={styles.footerContent}>
             <div className={styles.footerMain}>
               <div className={styles.footerLogo}>
-                <span className={styles.footerIcon}>🔮</span>
-                <span className={styles.footerTitle}>Tarot STEM</span>
+                <span className={styles.footerIcon}></span>
+                <span className={styles.footerTitle}>Aethra TAROT</span>
               </div>
               <p className={styles.footerDescription}>
-                ✨ Conectando la sabiduría ancestral con la ciencia moderna ✨
+                 Conectando la sabiduría ancestral con la ciencia moderna 
               </p>
             </div>
             
@@ -60,7 +60,7 @@ const Layout: React.FC = () => {
             
             <div className={styles.footerSignature}>
               <p className={styles.signatureText}>
-                Creado con 💜 para celebrar a las Diosas Contemporáneas de STEM
+                Creado con 💜 para celebrar a las Diosas Contemporáneas de STEM    ·    Realizado por Esther Tapias.
               </p>
             </div>
           </div>
