@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import type { TarotCard } from '../types/tarot';
 import { getCardById } from '../services/api';
 
 export const CardDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [card, setCard] = useState<TarotCard | null>(null);
   const [loading, setLoading] = useState(true);
@@ -32,7 +33,18 @@ export const CardDetail: React.FC = () => {
     loadCard();
   }, [id]);
 
-  const handleGoBack = () => navigate(-1);
+  const handleGoBack = () => {
+    // Verificar si venimos de la página de lectura
+    const fromReading = location.state?.from === '/reading';
+    
+    if (fromReading) {
+      // Si venimos de lectura, volver específicamente ahí
+      navigate('/reading', { replace: true });
+    } else {
+      // Si venimos de otro lugar (como Home), usar navigate(-1)
+      navigate(-1);
+    }
+  };
 
   // Función para convertir número a romano
   const toRoman = (num: number) => {

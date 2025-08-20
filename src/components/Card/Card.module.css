@@ -47,6 +47,8 @@
   background: transparent;
 }
 
+
+
 .card:hover .image {
   transform: scale(1.05);
   filter: brightness(1) contrast(1.2);

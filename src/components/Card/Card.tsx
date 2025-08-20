@@ -71,14 +71,7 @@ export const Card: React.FC<CardProps> = ({
             alt={displayName} 
             className={styles.image} 
           />
-          <div className={styles.cardOverlay}>
-            <div className={styles.overlayContent}>
-              <h3 className={styles.cardTitle}>{displayName}</h3>
-              {currentlyFlipped && <p className={styles.cardSubtitle}>STEM Pioneer</p>}
-            </div>
-          </div>
         </div>
-
         {/* Botón Saber más siempre visible */}
         {showControls && (
           <div className={styles.cardControls}>
