@@ -1,69 +1,107 @@
-# React + TypeScript + Vite
+# 🌙🔮 Proyecto Tarot STEM
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Bienvenida/o a **AETHRA TAROT**, una aplicación web mística donde se unen el **tarot** y las **mujeres científicas** ✨.  
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📖 Descripción del Proyecto
 
-## Expanding the ESLint configuration
+La aplicación combina la estética mística del tarot con un enfoque educativo:  
+- Podrás **explorar cartas** que representan científicas y arcanos.  
+- Realizar una **tirada de cartas** con interpretación de pasado, presente y futuro.  
+- Descubrir la historia detrás de cada carta con un estilo visual mágico y envolvente.  
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+El objetivo es ofrecer una experiencia interactiva y educativa que mezcla **sabiduría, ciencia y misterio** 🔮.
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+## 🗂️ Estructura del Proyecto
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+src
+ ┣ components
+ ┃ ┣ Card
+ ┃ ┃ ┣ Card.module.css       # Estilos de las cartas
+ ┃ ┃ ┗ Card.tsx              # Componente de carta individual
+ ┃ ┣ CardGrid
+ ┃ ┃ ┣ CardGrid.module.css   # Estilos del grid de cartas
+ ┃ ┃ ┗ CardGrid.tsx          # Vista en cuadrícula de las cartas
+ ┃ ┣ Layout
+ ┃ ┃ ┣ Layout.module.css     # Estilos del layout general
+ ┃ ┃ ┗ Layout.tsx            # Layout principal
+ ┃ ┣ Navigation
+ ┃ ┃ ┣ Navigation.module.css # Estilos del menú de navegación
+ ┃ ┃ ┗ Navigation.tsx        # Barra de navegación
+ ┃ ┗ Reading
+ ┃ ┃ ┣ Reading.module.css    # Estilos de la tirada de cartas
+ ┃ ┃ ┗ Reading.tsx           # Lógica de la lectura
+ ┣ pages
+ ┃ ┣ CardDetail.tsx          # Detalle de cada carta
+ ┃ ┣ CardReading.tsx         # Tirada completa y su interpretación
+ ┃ ┗ Home.tsx                # Página principal
+ ┣ router
+ ┃ ┗ useTarotCards.ts        # Hook personalizado para gestionar cartas
+ ┣ services
+ ┃ ┗ api.ts                  # Servicios de conexión a API
+ ┣ styles
+ ┃ ┗ mystical-theme.css      # Tema de estilos global místico
+ ┣ types
+ ┃ ┗ tarot.ts                # Tipado de las cartas
+ ┣ App.tsx                   # Punto de entrada de la app
+ ┗ main.tsx                  # Renderizado de la aplicación
+ ```
+
+🚀 Cómo Clonar y Ejecutar el Proyecto
+Clona el repositorio:
+
+```bash
+
+git clone https://github.com/EstherTapias/tarot-stem.git
 ```
+Accede a la carpeta del proyecto:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+cd tarot-stem
 ```
+Instala las dependencias:
+```bash
+npm install
+```
+Ejecuta el servidor de desarrollo:
+```bash
+npm run dev
+```
+Abre en tu navegador:
+```adruino
+http://localhost:5173
+```
+## ⚙️ Funcionalidades
+
+🃏 Exploración de cartas → Descubre científicas y arcanos con animaciones místicas.
+
+🔮 Tirada de tarot → Pasado, presente y futuro con interpretación.
+
+✨ Estilo visual místico → Basado en colores y diseño de tarot.
+
+📚 Información educativa → Biografías de científicas y referencias.
+
+## 👩‍💻 Desarrollado por
+*Esther Tapias*
+
+🌟 Fullstack Developer en formación (con DevOps e IA).
+
+✨ Apasionada por la mezcla de ciencia, tecnología y creatividad.
+
+## 🛠️ Tecnologías Utilizadas
+⚛️ React.js
+
+🎨 CSS Modules + mystical-theme.css
+
+🧩 TypeScript
+
+⚡ Vite
+
+🔗 Axios (para servicios/API)
+
+---
+*💫 "La ciencia y el misterio pueden caminar de la mano." 🔮*
