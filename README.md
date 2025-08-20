@@ -51,7 +51,7 @@ src
  ┗ main.tsx                  # Renderizado de la aplicación
  ```
 
-🚀 Cómo Clonar y Ejecutar el Proyecto
+## 🚀 Cómo Clonar y Ejecutar el Proyecto
 Clona el repositorio:
 
 ```bash
