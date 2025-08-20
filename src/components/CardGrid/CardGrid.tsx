@@ -117,38 +117,16 @@ export const CardGrid: React.FC<CardGridProps> = ({
                 isFlipped={isFlipped}
                 onClick={onCardClick}
                 size={cardSize}
-                className={`${styles.gridCard} ${isFlipped ? styles.flipped : ''}`}
-              />
+                className={`${styles.gridCard} ${isFlipped ? styles.flipped : ''}`}            />
               
-              {/* Card Position Indicator */}
-              <div className={styles.cardPosition}>
-                #{index + 1}
-              </div>
+
               
-              {/* Flip Status Indicator */}
-              {isFlipped && (
-                <div className={styles.flipStatus}>
-                  <span className={styles.flipIcon}>🔬</span>
-                </div>
-              )}
+
             </div>
           );
         })}
       </div>
 
-      {/* Grid Footer */}
-      {showGridStats && (
-        <div className={styles.gridFooter}>
-          <div className={styles.footerContent}>
-            <p className={styles.footerText}>
-              ✨ Haz clic en una carta para revelar su forma científica
-            </p>
-            <p className={styles.footerSubtext}>
-              📖 Haz clic nuevamente para conocer más detalles
-            </p>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
