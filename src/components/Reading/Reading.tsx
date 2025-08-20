@@ -123,7 +123,7 @@ export const Reading: React.FC<ReadingProps> = ({
                         <div className={styles.cardOverlay}>
                           <div className={styles.cardInfo}>
                             <h4 className={styles.cardName}>{selectedCard.card.arcaneName}</h4>
-                            <p className={styles.cardNumber}>#{selectedCard.card.id}</p>
+                            
                           </div>
                         </div>
                       </div>
