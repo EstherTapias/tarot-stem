@@ -14,6 +14,8 @@
   box-shadow: var(--shadow-enchanted);
   border-radius: 12px;
   overflow: hidden;
+  /* Eliminar cualquier background o sombreado de fondo */
+  background: transparent;
 }
 
 .card:hover {
@@ -26,11 +28,13 @@
 .medium { width: 200px; height: 350px; }
 .large { width: 240px; height: 420px; }
 
-/* Imagen ocupa toda la carta */
+/* Imagen ocupa toda la carta - SIN FONDO ADICIONAL */
 .cardImage {
   width: 100%;
   height: 100%;
   overflow: hidden;
+  background: transparent; /* Sin fondo adicional */
+  border-radius: 12px;
 }
 
 .image {
@@ -39,6 +43,8 @@
   object-fit: cover;
   transition: transform 0.4s ease;
   filter: brightness(0.9) contrast(1.1);
+  /* Sin background adicional que pueda crear sombreado */
+  background: transparent;
 }
 
 .card:hover .image {
@@ -46,7 +52,7 @@
   filter: brightness(1) contrast(1.2);
 }
 
-/* Overlay con efectos hover */
+/* Overlay con efectos hover - ELIMINADO PARA CARDGRID */
 .cardOverlay {
   position: absolute;
   top: 0;
@@ -92,7 +98,7 @@
 .cardSubtitle {
   font-size: 10px;
   margin: 2px 0 0 0;
-  color: #74b9ff;
+  color: var(--gold-mystical);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
@@ -130,6 +136,30 @@
   transform: translateY(0);
 }
 
+/* Botón Saber más con estilo místico */
+.saberMasButton {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 11px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--transition);
+  backdrop-filter: blur(10px);
+  background: var(--bg-glass);
+  border: var(--border-golden);
+  color: var(--gold-mystical);
+  font-family: var(--font-heading);
+  box-shadow: var(--shadow-enchanted);
+}
+
+.saberMasButton:hover {
+  background: var(--gold-mystical);
+  color: var(--forest-deep);
+  transform: translateY(-2px);
+  box-shadow: var(--glow-mystical);
+}
+
 .flipButton,
 .detailButton {
   flex: 1;
@@ -143,28 +173,28 @@
 }
 
 .flipButton {
-  border: 1px solid rgba(116, 185, 255, 0.3);
-  background: rgba(0, 0, 0, 0.8);
-  color: #74b9ff;
+  border: var(--border-golden);
+  background: var(--bg-glass);
+  color: var(--gold-mystical);
 }
 
 .flipButton:hover {
-  background: rgba(116, 185, 255, 0.2);
-  border-color: #74b9ff;
+  background: var(--gold-mystical);
+  color: var(--forest-deep);
   transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(116, 185, 255, 0.2);
+  box-shadow: var(--shadow-enchanted);
 }
 
 .detailButton {
-  background: rgba(138, 43, 226, 0.3);
-  border-color: rgba(167, 139, 250, 0.3);
-  color: #ddd6fe;
+  background: var(--bg-glass);
+  border: var(--border-golden);
+  color: var(--gold-mystical);
 }
 
 .detailButton:hover {
-  background: rgba(167, 139, 250, 0.2);
-  border-color: #a78bfa;
-  box-shadow: 0 4px 8px rgba(167, 139, 250, 0.2);
+  background: var(--gold-mystical);
+  color: var(--forest-deep);
+  box-shadow: var(--shadow-enchanted);
 }
 
 /* Tipo de carta */
@@ -175,20 +205,22 @@
   padding: 4px 6px;
   border-radius: 8px;
   backdrop-filter: blur(5px);
-  border: 1px solid;
+  border: var(--border-golden);
   z-index: 5;
+  background: var(--bg-glass);
+  color: var(--gold-mystical);
 }
 
 .typeIndicator.mystical {
-  background: rgba(167, 139, 250, 0.2);
-  border-color: rgba(167, 139, 250, 0.3);
-  color: #ddd6fe;
+  background: var(--bg-glass);
+  border: var(--border-golden);
+  color: var(--gold-mystical);
 }
 
 .typeIndicator.scientific {
-  background: rgba(116, 185, 255, 0.2);
-  border-color: rgba(116, 185, 255, 0.3);
-  color: #74b9ff;
+  background: var(--bg-glass);
+  border: var(--border-golden);
+  color: var(--gold-mystical);
 }
 
 .typeIcon {

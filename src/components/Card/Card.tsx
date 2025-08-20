@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { TarotCard } from '../../types/tarot';
 import styles from './Card.module.css';
@@ -92,13 +91,6 @@ export const Card: React.FC<CardProps> = ({
             </button>
           </div>
         )}
-
-        {/* Indicador de tipo */}
-        <div className={`${styles.typeIndicator} ${currentlyFlipped ? styles.scientific : styles.mystical}`}>
-          <span className={styles.typeIcon}>
-            {currentlyFlipped ? '⚗️' : '✨'}
-          </span>
-        </div>
       </div>
 
       {/* Nombre de la carta debajo de la carta */}
