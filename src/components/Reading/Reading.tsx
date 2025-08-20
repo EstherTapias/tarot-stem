@@ -70,7 +70,7 @@ export const Reading: React.FC<ReadingProps> = ({
       {/* Título de la lectura */}
       <header className={styles.readingHeader}>
         <h2 className={styles.readingTitle}>
-          {isComplete ? '🌟 Tu Lectura Completa' : '🔮 Lectura en Progreso'}
+          {isComplete ? '🌟 Tu Lectura Completa 🌟' : '🔮 Lectura en Progreso'}
         </h2>
         <div className={styles.readingProgress}>
           <div className={styles.progressSteps}>
@@ -180,7 +180,7 @@ export const Reading: React.FC<ReadingProps> = ({
       {isComplete && showInterpretation && (
         <section className={styles.interpretationSection}>
           <h3 className={styles.interpretationTitle}>
-            🌟 Interpretación de tu Lectura
+             Interpretación de tu Lectura
           </h3>
           
           <div className={styles.interpretationContent}>
@@ -223,7 +223,7 @@ export const Reading: React.FC<ReadingProps> = ({
 
             {/* Consejo final */}
             <div className={styles.finalAdvice}>
-              <h4 className={styles.adviceTitle}>✨ Consejo del Cosmos</h4>
+              <h4 className={styles.adviceTitle}>✨ Consejo del Cosmos ✨</h4>
               <p className={styles.adviceText}>
                 La fusión entre misticismo y ciencia en tu lectura sugiere que el camino hacia 
                 la sabiduría requiere tanto intuición como razón. Abraza tanto el misterio 
