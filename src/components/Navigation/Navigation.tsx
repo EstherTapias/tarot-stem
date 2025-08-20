@@ -34,8 +34,8 @@ const Navigation: React.FC = () => {
               <div className={styles.logoGlow}></div>
             </div>
             <div className={styles.logoText}>
-              <span className={styles.logoMain}>Tarot</span>
-              <span className={styles.logoSub}>STEM</span>
+              <span className={styles.logoMain}>Aethra</span>
+              <span className={styles.logoSub}>TAROT</span>
             </div>
           </Link>
         </div>
