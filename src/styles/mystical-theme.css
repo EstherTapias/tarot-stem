@@ -1,10 +1,11 @@
 /* 🌲 TAROT STEM - BOSQUE ENCANTADO Y MÍSTICO */
 /* ARCHIVO GLOBAL PARA VARIABLES, RESET Y UTILIDADES */
 
+/* Importación de fuentes Google Fonts para tipografías Cinzel e Inter */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cinzel+Decorative:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  /* 🌿 PALETA BOSQUE ENCANTADO */
+  /* 🌿 Paleta de colores inspirada en bosque encantado para tonos profundos */
   --forest-deep: #0B2818;
   --forest-shadow: #1A3B2B;
   --forest-emerald: #2E5339;
@@ -12,42 +13,42 @@
   --forest-moss: #6B8E5A;
   --forest-fern: #87A96B;
   
-  /* ✨ ACENTOS MÁGICOS */
+  /* ✨ Colores dorados para acentos mágicos en la UI */
   --gold-mystical: #D4AF37;
   --gold-copper: #B8860B;
   --gold-bronze: #CD7F32;
   --fairy-light: #F0E68C;
   --moonlight: #E6E6FA;
   
-  /* 🍄 COMPLEMENTARIOS */
+  /* 🍄 Colores complementarios para detalles */
   --mushroom-beige: #F5F5DC;
   --bark-brown: #8B4513;
   --night-purple: #483D8B;
   --mist-gray: #D3D3D3;
   --pearl-white: #FFFAF0;
   
-  /* 🎨 GRADIENTES ENCANTADOS */
+  /* 🎨 Gradientes para fondos encantados */
   --bg-main: linear-gradient(135deg, var(--forest-deep) 0%, var(--forest-shadow) 50%, var(--night-purple) 100%);
   --bg-card: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
   --bg-glass: rgba(212, 175, 55, 0.1);
   --bg-mystical: linear-gradient(45deg, var(--forest-emerald), var(--forest-sage));
   
-  /* ✨ EFECTOS */
+  /* ✨ Sombras y bordes con efecto mágico */
   --shadow-enchanted: 0 8px 32px rgba(212, 175, 55, 0.3);
   --shadow-hover: 0 12px 48px rgba(212, 175, 55, 0.4);
   --border-golden: 1px solid rgba(212, 175, 55, 0.3);
   --glow-mystical: 0 0 20px rgba(212, 175, 55, 0.6);
   
-  /* 🔤 TIPOGRAFÍA */
+  /* 🔤 Tipografías específicas para títulos y cuerpo */
   --font-heading: 'Cinzel', serif;
   --font-decorative: 'Cinzel Decorative', serif;
   --font-body: 'Inter', sans-serif;
   
-  /* ⚡ TRANSICIONES */
+  /* ⚡ Transiciones suaves con curva cubic-bezier */
   --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --transition-slow: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   
-  /* 📐 ESPACIADO */
+  /* 📐 Variables para espaciados estandarizados */
   --space-xs: 0.5rem;
   --space-sm: 1rem;
   --space-md: 1.5rem;
@@ -56,13 +57,14 @@
   --space-xxl: 4rem;
 }
 
-/* 🌟 RESET */
+/* 🌟 Reset global para eliminar margenes/paddings y usar box-sizing border-box */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* Estilos base para el body con tipografía, colores y fondo gradiente */
 body {
   font-family: var(--font-body);
   background: var(--bg-main);
@@ -72,7 +74,8 @@ body {
   overflow-x: hidden;
 }
 
-/* 🌌 FONDO ESTRELLADO */
+/* 🌌 Fondo estrellado animado para la página */
+/* Se usa pseudo-elemento fixed, con múltiples gradientes radiales que se animan desplazándose */
 body::before {
   content: '';
   position: fixed;
@@ -89,12 +92,13 @@ body::before {
   pointer-events: none;
 }
 
+/* Animación lenta para desplazar las partículas */
 @keyframes enchantedFloat {
   0% { transform: translateX(0) }
   100% { transform: translateX(-800px) }
 }
 
-/* 🔘 BOTONES */
+/* 🔘 Estilos base para botones místicos con colores dorados y sombras */
 .mystical-button {
   background: var(--gold-mystical);
   border: 2px solid var(--gold-copper);
@@ -118,12 +122,13 @@ body::before {
   transform: translateY(-2px);
   box-shadow: var(--glow-mystical);
 }
+/* Botones grandes para llamados a la acción */
 .mystical-button.large-button {
   font-size: 1.2rem;
   padding: var(--space-lg) var(--space-xl);
 }
 
-/* 🎯 TÍTULOS */
+/* 🎯 Títulos con tipografía Cinzel y sombras para efecto místico */
 .mystical-title {
   font-family: var(--font-heading);
   font-weight: 700;
@@ -136,7 +141,7 @@ body::before {
 .mystical-title.medium { font-size: 2.5rem; }
 .mystical-title.small { font-size: 1.8rem; }
 
-/* ✨ CONTENEDORES */
+/* ✨ Contenedores místicos con efecto cristal, borde dorado y sombra */
 .mystical-container {
   background: var(--bg-glass);
   backdrop-filter: blur(20px);
@@ -156,7 +161,7 @@ body::before {
 }
 
 /* ---------------------- */
-/* 🃏 CARTAS EN SPREAD */
+/* 🃏 CARTAS EN CONFIGURACIÓN SPREAD */
 /* ---------------------- */
 .spread-container {
   display: flex;
@@ -173,13 +178,14 @@ body::before {
 .spread-card {
   width: 120px;
   height: 200px;
-  perspective: 1000px;
+  perspective: 1000px; /* Para posible animación 3D */
   cursor: pointer;
   transition: var(--transition);
 }
 .spread-card:hover {
   transform: scale(1.05) translateY(-6px);
 }
+/* Estilos carta reverso */
 .card-back {
   width: 100%; height: 100%;
   border-radius: 12px;
@@ -194,7 +200,7 @@ body::before {
 }
 
 /* ---------------------- */
-/* 🪞 SLOTS DE POSICIÓN */
+/* 🪞 SLOTS DE POSICIÓN (Pasado, Presente, Futuro) */
 /* ---------------------- */
 .position-slots {
   display: flex;
@@ -222,7 +228,7 @@ body::before {
 }
 
 /* ---------------------- */
-/* 🌟 MODAL DE LECTURA */
+/* 🌟 MODAL DE LECTURA COMPLETA */
 /* ---------------------- */
 .reading-modal-overlay {
   position: fixed;
