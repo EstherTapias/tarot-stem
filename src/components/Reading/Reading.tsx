@@ -26,7 +26,7 @@ export const Reading: React.FC<ReadingProps> = ({
   // Etiquetas de posición
   const getPositionLabel = (position: Position): string => ({
     past: 'Pasado',
-    present: 'Presente', 
+    present: 'Presente',
     future: 'Futuro'
   }[position]);
 
@@ -132,7 +132,6 @@ export const Reading: React.FC<ReadingProps> = ({
                         <div className={styles.cardOverlay}>
                           <div className={styles.cardInfo}>
                             <h4 className={styles.cardName}>{selectedCard.card.arcaneName}</h4>
-                            
                           </div>
                         </div>
                       </div>
