@@ -155,7 +155,9 @@
   color: var(--gold-mystical);
   text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
   position: relative;
+  margin-bottom: 8px; /* Nueva línea: separa el texto del subtítulo */
 }
+
 
 /* Línea debajo del título del logo, animada al posar */
 .logoMain::after {
