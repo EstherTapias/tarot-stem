@@ -5,50 +5,64 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cinzel+Decorative:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  /* 🌿 Paleta de colores inspirada en bosque encantado para tonos profundos */
+  /* 🌿 Paleta base con tonos tierra y verdes oscuros moderados */
   --forest-deep: #0B2818;
   --forest-shadow: #1A3B2B;
   --forest-emerald: #2E5339;
-  --forest-sage: #4A6741;
-  --forest-moss: #6B8E5A;
-  --forest-fern: #87A96B;
-  
-  /* ✨ Colores dorados para acentos mágicos en la UI */
+  --forest-sage: #3C5641;
+  --forest-moss: #4F6A4B;
+  --forest-fern: #67805A;
+
+  /* ✨ Dorados cálidos y clásicos */
   --gold-mystical: #D4AF37;
   --gold-copper: #B8860B;
   --gold-bronze: #CD7F32;
-  --fairy-light: #F0E68C;
+  --fairy-light: #F0E1A5;
   --moonlight: #E6E6FA;
-  
-  /* 🍄 Colores complementarios para detalles */
+
+  /* Complementarios suaves */
   --mushroom-beige: #F5F5DC;
-  --bark-brown: #8B4513;
-  --night-purple: #483D8B;
-  --mist-gray: #D3D3D3;
-  --pearl-white: #FFFAF0;
-  
-  /* 🎨 Gradientes para fondos encantados */
-  --bg-main: linear-gradient(135deg, var(--forest-deep) 0%, var(--forest-shadow) 50%, var(--night-purple) 100%);
-  --bg-card: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-  --bg-glass: rgba(212, 175, 55, 0.1);
-  --bg-mystical: linear-gradient(45deg, var(--forest-emerald), var(--forest-sage));
-  
-  /* ✨ Sombras y bordes con efecto mágico */
-  --shadow-enchanted: 0 8px 32px rgba(212, 175, 55, 0.3);
-  --shadow-hover: 0 12px 48px rgba(212, 175, 55, 0.4);
-  --border-golden: 1px solid rgba(212, 175, 55, 0.3);
-  --glow-mystical: 0 0 20px rgba(212, 175, 55, 0.6);
-  
-  /* 🔤 Tipografías específicas para títulos y cuerpo */
+  --bark-brown: #6B4C3B;
+  --night-purple: #372F47;
+  --mist-gray: #A3A59B;
+  --pearl-white: #FFF9E3;
+
+  /* Gradientes suaves y equilibrados */
+  --bg-main: linear-gradient(
+    135deg,
+    rgba(11, 40, 24, 0.9) 0%,
+    rgba(29, 44, 28, 0.85) 50%,
+    rgba(72, 58, 77, 0.8) 100%
+  );
+
+  --bg-card: linear-gradient(
+    135deg,
+    rgba(212, 175, 55, 0.18),
+    rgba(255, 255, 255, 0.05)
+  );
+  --bg-glass: rgba(11, 40, 24, 0.35);
+  --bg-mystical: linear-gradient(
+    45deg,
+    rgba(46, 83, 57, 0.8),
+    rgba(58, 104, 67, 0.8)
+  );
+
+  /* Sombras y bordes */
+  --shadow-enchanted: 0 8px 24px rgba(212, 175, 55, 0.35);
+  --shadow-hover: 0 12px 36px rgba(212, 175, 55, 0.45);
+  --border-golden: 1px solid rgba(212, 175, 55, 0.4);
+  --glow-mystical: 0 0 22px rgba(212, 175, 55, 0.7);
+
+  /* Tipografías */
   --font-heading: 'Cinzel', serif;
   --font-decorative: 'Cinzel Decorative', serif;
   --font-body: 'Inter', sans-serif;
-  
-  /* ⚡ Transiciones suaves con curva cubic-bezier */
+
+  /* Transiciones */
   --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --transition-slow: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  
-  /* 📐 Variables para espaciados estandarizados */
+
+  /* Espacios */
   --space-xs: 0.5rem;
   --space-sm: 1rem;
   --space-md: 1.5rem;
@@ -57,14 +71,14 @@
   --space-xxl: 4rem;
 }
 
-/* 🌟 Reset global para eliminar margenes/paddings y usar box-sizing border-box */
+/* Reset global */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Estilos base para el body con tipografía, colores y fondo gradiente */
+/* Body base */
 body {
   font-family: var(--font-body);
   background: var(--bg-main);
@@ -74,31 +88,95 @@ body {
   overflow-x: hidden;
 }
 
-/* 🌌 Fondo estrellado animado para la página */
-/* Se usa pseudo-elemento fixed, con múltiples gradientes radiales que se animan desplazándose */
+/* Fondo estrellado animado */
 body::before {
   content: '';
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background: 
-    radial-gradient(1px 1px at 100px 150px, rgba(212,175,55,0.3), transparent),
-    radial-gradient(1px 1px at 300px 50px, rgba(240,230,140,0.2), transparent),
-    radial-gradient(1px 1px at 500px 250px, rgba(255,255,255,0.1), transparent),
-    radial-gradient(1px 1px at 700px 100px, rgba(212,175,55,0.15), transparent);
-  background-size: 800px 400px;
+  background:
+    radial-gradient(circle at 150px 100px, rgba(212, 175, 55, 0.15) 2px, transparent 6px),
+    radial-gradient(circle at 300px 50px, rgba(212, 175, 55, 0.1) 1.5px, transparent 5px),
+    radial-gradient(circle at 600px 200px, rgba(212, 175, 55, 0.12) 2.3px, transparent 6px),
+    radial-gradient(circle at 900px 80px, rgba(212, 175, 55, 0.08) 1.4px, transparent 4.5px);
+  background-size: 1000px 500px;
   animation: enchantedFloat 90s linear infinite;
   z-index: -1;
   pointer-events: none;
 }
 
-/* Animación lenta para desplazar las partículas */
 @keyframes enchantedFloat {
-  0% { transform: translateX(0) }
-  100% { transform: translateX(-800px) }
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-1000px); }
 }
 
-/* 🔘 Estilos base para botones místicos con colores dorados y sombras */
+/* Navegación */
+.navigation {
+  background: rgba(11, 40, 24, 0.85);
+  border-bottom: 2px solid var(--gold-copper);
+  backdrop-filter: saturate(150%) blur(6px);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  padding: 0 var(--space-lg);
+  display: flex;
+  align-items: center;
+  height: 60px;
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.3);
+}
+
+.navigation .logo {
+  font-family: var(--font-decorative);
+  font-size: 1.9rem;
+  color: var(--gold-mystical);
+  text-shadow: 0 0 8px rgba(212, 175, 55, 0.7);
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  user-select: none;
+}
+
+.navigation ul {
+  list-style: none;
+  display: flex;
+  gap: var(--space-lg);
+  margin-left: auto;
+}
+
+.navigation ul li a {
+  color: var(--pearl-white);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  text-decoration: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 12px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.navigation ul li a:hover,
+.navigation ul li a.active {
+  background: var(--gold-mystical);
+  color: var(--forest-deep);
+  box-shadow: 0 0 12px var(--gold-copper);
+}
+
+@media(max-width: 768px) {
+  .navigation {
+    height: 50px;
+    padding: 0 var(--space-md);
+  }
+  .navigation .logo {
+    font-size: 1.4rem;
+  }
+  .navigation ul {
+    gap: var(--space-md);
+  }
+  .navigation ul li a {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.8rem;
+  }
+}
+
+/* Botones */
 .mystical-button {
   background: var(--gold-mystical);
   border: 2px solid var(--gold-copper);
@@ -122,13 +200,12 @@ body::before {
   transform: translateY(-2px);
   box-shadow: var(--glow-mystical);
 }
-/* Botones grandes para llamados a la acción */
 .mystical-button.large-button {
   font-size: 1.2rem;
   padding: var(--space-lg) var(--space-xl);
 }
 
-/* 🎯 Títulos con tipografía Cinzel y sombras para efecto místico */
+/* Títulos */
 .mystical-title {
   font-family: var(--font-heading);
   font-weight: 700;
@@ -141,7 +218,7 @@ body::before {
 .mystical-title.medium { font-size: 2.5rem; }
 .mystical-title.small { font-size: 1.8rem; }
 
-/* ✨ Contenedores místicos con efecto cristal, borde dorado y sombra */
+/* Contenedores */
 .mystical-container {
   background: var(--bg-glass);
   backdrop-filter: blur(20px);
@@ -149,6 +226,7 @@ body::before {
   border: var(--border-golden);
   box-shadow: var(--shadow-enchanted);
   padding: var(--space-xl);
+  color: var(--pearl-white);
 }
 .mystical-carpet {
   background: var(--bg-mystical);
@@ -158,11 +236,10 @@ body::before {
   box-shadow: var(--shadow-hover);
   position: relative;
   overflow: hidden;
+  color: var(--pearl-white);
 }
 
-/* ---------------------- */
-/* 🃏 CARTAS EN CONFIGURACIÓN SPREAD */
-/* ---------------------- */
+/* Cartas spread */
 .spread-container {
   display: flex;
   flex-direction: column;
@@ -178,20 +255,23 @@ body::before {
 .spread-card {
   width: 120px;
   height: 200px;
-  perspective: 1000px; /* Para posible animación 3D */
+  perspective: 1000px;
   cursor: pointer;
   transition: var(--transition);
 }
 .spread-card:hover {
   transform: scale(1.05) translateY(-6px);
 }
-/* Estilos carta reverso */
 .card-back {
   width: 100%; height: 100%;
   border-radius: 12px;
   border: var(--border-golden);
   overflow: hidden;
+  background: linear-gradient(135deg, rgba(212,175,55,0.1), rgba(255,255,255,0.05));
   box-shadow: var(--shadow-enchanted);
+}
+.card-back:hover {
+  box-shadow: var(--glow-mystical);
 }
 .card-back-image {
   width: 100%; height: 100%;
@@ -199,9 +279,7 @@ body::before {
   display: block;
 }
 
-/* ---------------------- */
-/* 🪞 SLOTS DE POSICIÓN (Pasado, Presente, Futuro) */
-/* ---------------------- */
+/* Slots posición */
 .position-slots {
   display: flex;
   justify-content: center;
@@ -220,6 +298,7 @@ body::before {
 .card-slot.filled {
   border-style: solid;
   background: var(--bg-card);
+  box-shadow: var(--shadow-enchanted);
 }
 .selected-card img.slot-card-image {
   width: 100%; height: 100%;
@@ -227,15 +306,15 @@ body::before {
   border-radius: 12px;
 }
 
-/* ---------------------- */
-/* 🌟 MODAL DE LECTURA COMPLETA */
-/* ---------------------- */
+/* Modal */
 .reading-modal-overlay {
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
   background: rgba(0,0,0,0.7);
-  display: flex; align-items: center; justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 1000;
 }
 .reading-modal {
@@ -252,7 +331,9 @@ body::before {
   position: relative;
 }
 .modal-header {
-  display: flex; justify-content: space-between; align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: var(--space-lg);
 }
 .close-modal {
@@ -290,10 +371,41 @@ body::before {
   margin-top: var(--space-lg);
 }
 
-/* 📱 RESPONSIVE */
-@media (max-width: 600px) {
-  .mystical-title.large { font-size: 2.5rem; }
-  .spread-card { width: 90px; height: 150px; }
-  .card-slot { width: 100px; height: 160px; }
-  .summary-image { width: 60px; height: 100px; }
+/* Responsive */
+@media (max-width: 900px) {
+  .spread-card {
+    width: 90px !important;
+    height: 140px !important;
+  }
+  .card-slot {
+    width: 110px !important;
+    height: 165px !important;
+  }
+  .reading-modal {
+    width: 95vw !important;
+    max-height: 85vh !important;
+  }
+}
+
+@media (max-width: 500px) {
+  .reading-modal .reading-summary {
+    flex-direction: column !important;
+    gap: 1rem !important;
+  }
+  .reading-modal .reading-summary .summary-card {
+    width: 100% !important;
+    flex-direction: row !important;
+  }
+  .reading-modal .reading-summary .summary-card img.summary-image {
+    width: 80px !important;
+    height: auto !important;
+  }
+  .spread-card {
+    width: 70px !important;
+    height: 110px !important;
+  }
+  .card-slot {
+    width: 90px !important;
+    height: 140px !important;
+  }
 }
