@@ -4,24 +4,15 @@ import type { TarotCard, SelectedCard, Position, ReadingState } from '../types/t
 import { Reading } from '../components/Reading/Reading';
 import { useTarotCards } from '../hooks/useTarotCards';
 
-/**
- * 🔮 CardReading con Reverso tarot-back.jpg
- * 
- * CARACTERÍSTICAS NUEVAS:
- * ✅ Reverso usando public/tarot-back.jpg
- * ✅ Mazo de cartas con 10 cartas (dos filas de 5)
- * ✅ Selección de 3 cartas para Pasado/Presente/Futuro
- * ✅ Modal con interpretación completa
- * ✅ Botón claro "Reiniciar tirada / Nueva baraja"
- * ✅ Estilos unificados con CardDetail
- * ✅ Errores de TypeScript corregidos
- */
+/*🔮 CardReading */
 export const CardReading: React.FC = () => {
+  // Hooks para ubicación y navegación
   const location = useLocation();
   const navigate = useNavigate();
+  // Uso del hook personalizado para obtener cartas, carga y error
   const { cards, isLoading, error, shuffleForReading } = useTarotCards();
 
-  // Estados principales
+  // Estado general de la lectura: cartas seleccionadas, disponibles, posición actual, si está completa
   const [readingState, setReadingState] = useState<ReadingState>({
     selectedCards: [],
     availableCards: [],
@@ -29,13 +20,16 @@ export const CardReading: React.FC = () => {
     isComplete: false
   });
 
-  // Corección del tipo: ahora solo incluye las fases válidas
+  // Estado de fase del juego: intro, repartiendo, seleccionando, completo
   const [gamePhase, setGamePhase] = useState<'intro' | 'dealing' | 'selecting' | 'complete'>('intro');
+  // Cartas repartidas visibles
   const [dealtCards, setDealtCards] = useState<TarotCard[]>([]);
+  // Indica si las cartas están en animación de reparto
   const [animatingCards, setAnimatingCards] = useState<boolean>(false);
+  // Controla la visibilidad del modal de lectura completa
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  // Inicialización
+  // Al cambiar las cartas cargadas, se barajan y se actualizan las disponibles
   useEffect(() => {
     if (cards.length > 0) {
       shuffleForReading();
@@ -46,7 +40,7 @@ export const CardReading: React.FC = () => {
     }
   }, [cards, shuffleForReading]);
 
-  // Función para manejar selección de carta (declarada antes de ser usada)
+  // Función para manejar la selección de una carta
   const handleCardSelection = (card: TarotCard): void => {
     const nextPos = getNextPosition();
     if (!nextPos) return;
@@ -65,11 +59,11 @@ export const CardReading: React.FC = () => {
       };
     });
 
-    // Remueve la carta del spread
+    // Eliminar carta repartida tras seleccionar
     setDealtCards(prev => prev.filter(c => c.id !== card.id));
 
-    // Si completamos la lectura
-    if (readingState.selectedCards.length === 2) { // Will be 3 after this selection
+    // Si ya seleccionó la tercera carta, cambiar fase y mostrar modal después de 1s
+    if (readingState.selectedCards.length === 2) {
       setTimeout(() => {
         setGamePhase('complete');
         setShowModal(true);
@@ -77,17 +71,17 @@ export const CardReading: React.FC = () => {
     }
   };
 
-  // Manejar preselección
+  // Manejar la preselección si la recibe por el estado de la localización
   useEffect(() => {
     const preselect = location.state?.preselectedCard as TarotCard;
     if (preselect && gamePhase === 'intro') {
       handleCardSelection(preselect);
       setGamePhase('selecting');
     }
-  }, [location.state, gamePhase]); // Removed handleCardSelection from dependencies
+  }, [location.state, gamePhase]);
 
-  /**
-   * 🎴 Inicia el reparto de cartas desde el mazo
+  /** 
+   * 🎴 Inicia el reparto animado de 10 cartas
    */
   const startCardDealing = async (): Promise<void> => {
     if (cards.length < 10) return;
@@ -95,18 +89,18 @@ export const CardReading: React.FC = () => {
     setGamePhase('dealing');
     setAnimatingCards(true);
 
-    // Selecciona 10 cartas aleatorias
+    // Barajar y seleccionar 10 cartas
     const shuffled = [...cards].sort(() => Math.random() - 0.5);
     const selected10 = shuffled.slice(0, 10);
 
-    // Simula el reparto con delay
+    // Animar el reparto con delays escalonados
     for (let i = 0; i < selected10.length; i++) {
       setTimeout(() => {
         setDealtCards(prev => [...prev, selected10[i]]);
       }, i * 200);
     }
 
-    // Finaliza animación
+    // Finalizar animaciones y cambiar a fase de selección
     setTimeout(() => {
       setAnimatingCards(false);
       setGamePhase('selecting');
@@ -114,7 +108,7 @@ export const CardReading: React.FC = () => {
   };
 
   /**
-   * 🎯 Obtiene la próxima posición disponible
+   * 🎯 Devuelve la siguiente posición "past", "present" o "future" no seleccionada
    */
   const getNextPosition = (): Position | null => {
     const positions: Position[] = ['past', 'present', 'future'];
@@ -123,7 +117,7 @@ export const CardReading: React.FC = () => {
   };
 
   /**
-   * 🔄 Reinicia completamente la lectura
+   * 🔄 Reinicia toda la lectura y estados asociados
    */
   const handleResetReading = (): void => {
     shuffleForReading();
@@ -140,7 +134,7 @@ export const CardReading: React.FC = () => {
   };
 
   /**
-   * 📍 Etiquetas de posición
+   * 📍 Etiquetas para posiciones en la lectura
    */
   const getPositionLabel = (position: Position): string => ({
     past: 'Pasado',
@@ -149,7 +143,7 @@ export const CardReading: React.FC = () => {
   }[position]);
 
   /**
-   * 🎭 Renderiza las instrucciones iniciales
+   * 🎭 Muestra instrucciones introductorias para la lectura
    */
   const renderIntroduction = () => (
     <div className="reading-intro mystical-carpet" style={{
@@ -197,7 +191,7 @@ export const CardReading: React.FC = () => {
   );
 
   /**
-   * 🃏 Renderiza el mazo de cartas en esquina
+   * 🃏 Mazo de cartas mostrado en la esquina derecha mientras se reparte o selecciona
    */
   const renderDeck = () => {
     if (gamePhase === 'intro' || gamePhase === 'complete') return null;
@@ -251,7 +245,7 @@ export const CardReading: React.FC = () => {
                 fontWeight: 'bold'
               }}
             >
-
+              {/* Carta reverso visual */}
             </div>
           ))}
         </div>
@@ -260,7 +254,7 @@ export const CardReading: React.FC = () => {
   };
 
   /**
-   * 🎯 Renderiza el spread de cartas (5 arriba, 5 abajo)
+   * 🎯 Spread de cartas repartidas en dos filas (5 arriba, 5 abajo) para seleccionar
    */
   const renderCardSpread = () => {
     if (gamePhase !== 'selecting' || dealtCards.length === 0) return null;
@@ -277,7 +271,6 @@ export const CardReading: React.FC = () => {
             </span>
           </h3>
         )}
-
         <div className="spread-container" style={{
           display: 'flex',
           flexDirection: 'column',
@@ -316,11 +309,10 @@ export const CardReading: React.FC = () => {
                   e.currentTarget.style.boxShadow = 'var(--shadow-enchanted)';
                 }}
               >
-
+                {/* Aquí puede ir un patrón o contenido */}
               </div>
             ))}
           </div>
-
           <div className="card-row bottom-row" style={{
             display: 'flex',
             gap: 'var(--space-md)',
@@ -362,7 +354,7 @@ export const CardReading: React.FC = () => {
                   color: 'var(--gold-mystical)',
                   textShadow: '2px 2px 4px rgba(0,0,0,0.8)'
                 }}>
-
+                  {/* opcional contenido */}
                 </div>
               </div>
             ))}
@@ -373,7 +365,7 @@ export const CardReading: React.FC = () => {
   };
 
   /**
-   * 🎭 Renderiza los espacios de Pasado, Presente, Futuro
+   * 🎭 Renderiza espacios para Pasado, Presente y Futuro con cartas seleccionadas o vacíos
    */
   const renderPositionSlots = () => {
     if (gamePhase === 'intro') return null;
@@ -483,7 +475,7 @@ export const CardReading: React.FC = () => {
   };
 
   /**
-   * 🎉 Modal de lectura completa - ESTILO UNIFICADO CON CardDetail
+   * 🎉 Modal que se muestra al completar la lectura, con resumen y opciones
    */
   const renderCompletionModal = () => {
     if (!showModal || !readingState.isComplete) return null;
@@ -514,6 +506,7 @@ export const CardReading: React.FC = () => {
           }}
           onClick={(e) => e.stopPropagation()}
         >
+          {/* Header del modal con título y botón cerrar */}
           <div className="modal-header" style={{
             display: 'flex',
             justifyContent: 'space-between',
@@ -547,8 +540,9 @@ export const CardReading: React.FC = () => {
               ×
             </button>
           </div>
-  
+          {/* Contenido con resumen y mensajes */}
           <div className="modal-content">
+            {/* Resumen cartas seleccionadas */}
             <div className="reading-summary" style={{
               display: 'flex',
               flexDirection: 'row',
@@ -622,7 +616,8 @@ export const CardReading: React.FC = () => {
                 </div>
               ))}
             </div>
-  
+
+            {/* Mensaje del cosmos con consejo */}
             <div className="quick-interpretation mystical-carpet" style={{
               padding: 'var(--space-xl)',
               textAlign: 'center',
@@ -649,7 +644,8 @@ export const CardReading: React.FC = () => {
               </p>
             </div>
           </div>
-          
+
+          {/* Botones para cerrar modal o empezar nueva lectura */}
           <div className="modal-actions" style={{
             display: 'flex',
             gap: 'var(--space-md)',
@@ -679,7 +675,7 @@ export const CardReading: React.FC = () => {
     );
   };
   
-  // Definir animación CSS en el head del documento
+  // Animaciones CSS agregadas al head para efectos de reparto y flotación
   React.useEffect(() => {
     const style = document.createElement('style');
     style.textContent = `
@@ -706,7 +702,7 @@ export const CardReading: React.FC = () => {
     };
   }, []);
 
-  // Loading state
+  // Estado de carga inicial
   if (isLoading) {
     return (
       <div className="card-reading-page">
@@ -720,7 +716,7 @@ export const CardReading: React.FC = () => {
     );
   }
 
-  // Error state
+  // Mostrar error si ocurre
   if (error) {
     return (
       <div className="card-reading-page">
@@ -733,9 +729,10 @@ export const CardReading: React.FC = () => {
     );
   }
 
+  // Renderizado principal
   return (
     <div className="card-reading-page fade-in" style={{ minHeight: '100vh', padding: 'var(--space-lg)' }}>
-      {/* 🎮 Controles superiores */}
+      {/* Controles para reiniciar la tirada */}
       <div className="reading-controls" style={{
         display: 'flex',
         justifyContent: 'center',
@@ -751,13 +748,14 @@ export const CardReading: React.FC = () => {
         </button>
       </div>
 
-      {/* 🎭 Contenido principal según la fase */}
       <main className="reading-main">
+        {/* Fase de introducción */}
         {gamePhase === 'intro' && renderIntroduction()}
 
+        {/* Fases de reparto, selección y lectura */}
         {(gamePhase === 'dealing' || gamePhase === 'selecting' || gamePhase === 'complete') && (
           <>
-            {/* Estado del progreso */}
+            {/* Indicador de progreso fases */}
             <div className="progress-indicator" style={{
               marginBottom: 'var(--space-xl)'
             }}>
@@ -767,6 +765,7 @@ export const CardReading: React.FC = () => {
                 gap: 'var(--space-lg)',
                 marginBottom: 'var(--space-md)'
               }}>
+                {/* Paso 1: reparto */}
                 <div className={`step ${gamePhase === 'dealing' || gamePhase === 'selecting' || gamePhase === 'complete' ? 'completed' : ''}`} style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -788,6 +787,8 @@ export const CardReading: React.FC = () => {
                   }}>1</span>
                   <span className="step-label mystical-text">Reparto</span>
                 </div>
+
+                {/* Paso 2: selección */}
                 <div className={`step ${gamePhase === 'selecting' || gamePhase === 'complete' ? 'completed' : ''}`} style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -809,6 +810,8 @@ export const CardReading: React.FC = () => {
                   }}>2</span>
                   <span className="step-label mystical-text">Selección</span>
                 </div>
+
+                {/* Paso 3: lectura completa */}
                 <div className={`step ${gamePhase === 'complete' ? 'completed' : ''}`} style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -831,6 +834,8 @@ export const CardReading: React.FC = () => {
                   <span className="step-label mystical-text">Lectura</span>
                 </div>
               </div>
+
+              {/* Barra de progreso visual */}
               <div className="progress-bar" style={{
                 width: '300px',
                 height: '4px',
@@ -856,13 +861,13 @@ export const CardReading: React.FC = () => {
               </div>
             </div>
 
-            {/* Espacios de posición */}
+            {/* Espacios para cartas Pasado, Presente, Futuro */}
             {renderPositionSlots()}
 
-            {/* Spread de cartas */}
+            {/* Spread completo para seleccionar cartas */}
             {renderCardSpread()}
 
-            {/* Estado de dealing */}
+            {/* Mensaje y estado durante reparto */}
             {gamePhase === 'dealing' && (
               <div className="dealing-status mystical-container" style={{
                 textAlign: 'center',
@@ -890,7 +895,7 @@ export const CardReading: React.FC = () => {
               </div>
             )}
 
-            {/* Lectura completa */}
+            {/* Componente que muestra la lectura completa */}
             {readingState.isComplete && gamePhase === 'complete' && (
               <div className="completed-reading mystical-carpet">
                 <Reading
@@ -904,11 +909,11 @@ export const CardReading: React.FC = () => {
         )}
       </main>
 
-      {/* 🃏 Mazo de cartas */}
+      {/* Mazo de cartas en esquina */}
       {renderDeck()}
 
-      {/* 🎉 Modal de finalización */}
+      {/* Modal con resumen e interpretación completa */}
       {renderCompletionModal()}
-
     </div>
-  )}
+  )
+}
