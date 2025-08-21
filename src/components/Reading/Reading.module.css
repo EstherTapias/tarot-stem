@@ -1,5 +1,4 @@
-/* 🔮 READING COMPONENT STYLES - BOSQUE ENCANTADO */
-
+/* Contenedor principal centrado */
 .readingContainer {
   width: 100%;
   max-width: 1200px;
@@ -7,7 +6,7 @@
   padding: 20px;
 }
 
-/* 📄 READING HEADER */
+/* Encabezado de la lectura con fondo translúcido y sombra */
 .readingHeader {
   text-align: center;
   margin-bottom: 40px;
@@ -19,6 +18,7 @@
   box-shadow: var(--shadow-enchanted);
 }
 
+/* Título principal con fuente dorada y sombra */
 .readingTitle {
   font-size: 32px;
   font-weight: bold;
@@ -28,10 +28,12 @@
   font-family: var(--font-heading);
 }
 
+/* Contenedor para progreso */
 .readingProgress {
   margin-top: 20px;
 }
 
+/* Pasos de progreso con espaciado */
 .progressSteps {
   display: flex;
   justify-content: center;
@@ -39,6 +41,7 @@
   align-items: center;
 }
 
+/* Cada paso con flex y animaciones suaves */
 .progressStep {
   display: flex;
   flex-direction: column;
@@ -47,6 +50,7 @@
   transition: var(--transition);
 }
 
+/* Estilo para pasos completados */
 .progressStep.completed .stepNumber {
   background: var(--gold-mystical);
   color: var(--forest-deep);
@@ -54,6 +58,7 @@
   transform: scale(1.1);
 }
 
+/* Circulo numerado de cada paso */
 .stepNumber {
   width: 40px;
   height: 40px;
@@ -68,6 +73,7 @@
   transition: var(--transition);
 }
 
+/* Etiqueta de cada paso */
 .stepLabel {
   font-size: 14px;
   color: var(--fairy-light);
@@ -76,11 +82,7 @@
   letter-spacing: 0.5px;
 }
 
-/* 🎴 READING SPREAD */
-.readingSpread {
-  margin: 40px 0;
-}
-
+/* Layout para la distribución de cartas */
 .spreadLayout {
   display: flex;
   justify-content: center;
@@ -90,7 +92,7 @@
   flex-wrap: wrap;
 }
 
-/* 📍 POSITION SLOT */
+/* Contenedor para cada carta y su posición */
 .positionSlot {
   display: flex;
   flex-direction: column;
@@ -100,6 +102,7 @@
   max-width: 320px;
 }
 
+/* Encabezado de cada posición */
 .positionHeader {
   text-align: center;
   padding: 15px;
@@ -109,6 +112,7 @@
   border: var(--border-golden);
 }
 
+/* Título de posición */
 .positionTitle {
   font-size: 20px;
   font-weight: bold;
@@ -118,6 +122,7 @@
   font-family: var(--font-heading);
 }
 
+/* Descripción de posición */
 .positionDescription {
   font-size: 12px;
   color: var(--moonlight);
@@ -126,7 +131,7 @@
   opacity: 0.9;
 }
 
-/* 🃏 CARD SLOT */
+/* Slot para cartas, con estilos para vacíos y llenos */
 .cardSlot {
   min-height: 400px;
   border-radius: 16px;
@@ -156,7 +161,7 @@
   border-color: var(--gold-mystical);
 }
 
-/* 🎯 SELECTED CARD */
+/* Carta seleccionada con padding y hover para escalar */
 .selectedCard {
   padding: 20px;
   height: 100%;
@@ -171,6 +176,7 @@
   transform: scale(1.02);
 }
 
+/* Imagen principal de la carta con bordes y sombra */
 .cardImage {
   position: relative;
   width: 100%;
@@ -184,6 +190,7 @@
   background: rgba(11, 40, 24, 0.3);
 }
 
+/* Imagen del arcano dentro de la carta */
 .arcaneImage {
   width: auto;
   height: 100%;
@@ -193,16 +200,15 @@
   border-radius: 8px;
 }
 
+/* Efecto hover para escalar imagen arcano */
 .selectedCard:hover .arcaneImage {
   transform: scale(1.05);
 }
 
+/* Overlay con degradado para mejorar contraste */
 .cardOverlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 0; left: 0; right: 0; bottom: 0;
   background: linear-gradient(
     180deg,
     transparent 0%,
@@ -220,6 +226,7 @@
   opacity: 1;
 }
 
+/* Información de la carta en overlay */
 .cardInfo {
   color: var(--pearl-white);
 }
@@ -239,7 +246,7 @@
   font-weight: 500;
 }
 
-/* 📝 CARD DETAILS */
+/* Detalles de la carta con flex y separación */
 .cardDetails {
   flex-grow: 1;
   display: flex;
@@ -268,7 +275,7 @@
   opacity: 0.9;
 }
 
-/* 🔬 SCIENTIFIC PREVIEW */
+/* Vista previa científica con fondo dorado */
 .scientificPreview {
   display: flex;
   align-items: center;
@@ -296,7 +303,7 @@
   letter-spacing: 0.5px;
 }
 
-/* 🔘 DETAILS BUTTON */
+/* Botón para ver detalles */
 .detailsButton {
   padding: 12px 20px;
   background: var(--gold-mystical);
@@ -324,239 +331,7 @@
   transform: translateY(0);
 }
 
-/* 🚫 EMPTY SLOT */
-.emptySlot {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-  color: var(--gold-copper);
-  text-align: center;
-}
-
-.slotIcon {
-  font-size: 48px;
-  opacity: 0.6;
-  animation: float 3s ease-in-out infinite;
-}
-
-.slotText {
-  font-size: 14px;
-  margin: 0;
-  opacity: 0.8;
-  font-weight: 500;
-  color: var(--moonlight);
-}
-
-/* 📖 INTERPRETATION SECTION */
-.interpretationSection {
-  margin-top: 50px;
-  padding: 40px;
-  background: var(--bg-glass);
-  backdrop-filter: blur(20px);
-  border: var(--border-golden);
-  border-radius: 20px;
-  box-shadow: var(--shadow-hover);
-}
-
-.interpretationTitle {
-  text-align: center;
-  font-size: 28px;
-  font-weight: bold;
-  color: var(--gold-mystical);
-  margin: 0 0 30px 0;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
-  font-family: var(--font-heading);
-}
-
-.interpretationContent {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-}
-
-.generalInterpretation {
-  text-align: center;
-  padding: 25px;
-  background: var(--bg-card);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-  border: var(--border-golden);
-}
-
-.interpretationSubtitle {
-  font-size: 20px;
-  font-weight: bold;
-  color: var(--fairy-light);
-  margin: 0 0 15px 0;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
-  font-family: var(--font-heading);
-}
-
-.interpretationText {
-  font-size: 16px;
-  color: var(--pearl-white);
-  line-height: 1.6;
-  margin: 0;
-  text-align: justify;
-}
-
-/* 🎯 POSITION INTERPRETATIONS */
-.positionInterpretations {
-  display: grid;
-  gap: 25px;
-}
-
-.positionInterpretation {
-  padding: 25px;
-  background: var(--bg-card);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-  border: var(--border-golden);
-}
-
-.interpretationHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.interpretationPosition {
-  font-size: 18px;
-  font-weight: bold;
-  color: var(--gold-mystical);
-  margin: 0;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
-  font-family: var(--font-heading);
-}
-
-.interpretationCard {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 2px;
-}
-
-.interpretationArcane {
-  font-size: 14px;
-  font-weight: bold;
-  color: var(--pearl-white);
-  font-family: var(--font-heading);
-}
-
-.interpretationGoddess {
-  font-size: 12px;
-  color: var(--fairy-light);
-}
-
-.interpretationBody {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.arcaneInterpretation,
-.goddessInterpretation {
-  font-size: 14px;
-  line-height: 1.5;
-  margin: 0;
-  color: var(--pearl-white);
-}
-
-/* 💫 FINAL ADVICE */
-.finalAdvice {
-  text-align: center;
-  padding: 30px;
-  background: var(--bg-mystical);
-  border-radius: 15px;
-  border: var(--border-golden);
-  position: relative;
-  overflow: hidden;
-  box-shadow: var(--shadow-enchanted);
-}
-
-.finalAdvice::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
-  animation: rotate 20s linear infinite;
-  z-index: 0;
-}
-
-.adviceTitle {
-  font-size: 22px;
-  font-weight: bold;
-  color: var(--gold-mystical);
-  margin: 0 0 15px 0;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
-  position: relative;
-  z-index: 1;
-  font-family: var(--font-heading);
-}
-
-.adviceText {
-  font-size: 16px;
-  color: var(--pearl-white);
-  line-height: 1.6;
-  margin: 0;
-  text-align: justify;
-  position: relative;
-  z-index: 1;
-}
-
-/* 🏁 READING FOOTER */
-.readingFooter {
-  text-align: center;
-  margin-top: 40px;
-  padding: 25px;
-  background: var(--bg-card);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-  border: var(--border-golden);
-}
-
-.completionBadge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
-  background: var(--gold-mystical);
-  border-radius: 25px;
-  color: var(--forest-deep);
-  font-weight: bold;
-  font-size: 14px;
-  margin-bottom: 15px;
-  box-shadow: var(--shadow-enchanted);
-  font-family: var(--font-heading);
-}
-
-.badgeIcon {
-  font-size: 16px;
-  animation: bounce 2s ease-in-out infinite;
-}
-
-.badgeText {
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.footerText {
-  font-size: 14px;
-  color: var(--moonlight);
-  margin: 0;
-  font-style: italic;
-  opacity: 0.9;
-}
-
-/* 🚫 EMPTY READING */
+/* Estado vacío con icono y texto */
 .emptyReading {
   display: flex;
   flex-direction: column;
@@ -589,7 +364,7 @@
   margin: 0;
 }
 
-/* 🎭 ANIMATIONS */
+/* Animaciones para efectos */
 @keyframes float {
   0%, 100% { transform: translateY(0px) rotate(0deg); }
   50% { transform: translateY(-10px) rotate(2deg); }
@@ -611,7 +386,7 @@
   100% { background-position: 200% 0; }
 }
 
-/* 📱 RESPONSIVE DESIGN */
+/* Ajustes responsivos para tamaño mediano y más */
 @media (max-width: 1024px) {
   .readingContainer {
     padding: 15px;
@@ -647,6 +422,7 @@
   }
 }
 
+/* Ajustes responsivos para tablet */
 @media (max-width: 768px) {
   .readingContainer {
     padding: 10px;
@@ -731,6 +507,7 @@
   }
 }
 
+/* Ajustes responsivos para móvil */
 @media (max-width: 480px) {
   .readingHeader {
     padding: 15px;
