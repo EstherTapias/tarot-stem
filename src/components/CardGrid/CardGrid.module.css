@@ -137,6 +137,55 @@
   transform: translateY(-2px);
 }
 
+/* APLICAR MISMO FONDO SÓLIDO QUE EN CARD.CSS */
+.gridCard .card {
+  background: var(--forest-deep) !important;
+}
+
+.gridCard .cardImage,
+.gridCard.flipped .cardImage {
+  background: var(--forest-deep) !important;
+  background-color: var(--forest-deep) !important;
+}
+
+.gridCard .image,
+.gridCard.flipped .image {
+  background: var(--forest-deep) !important;
+  background-color: var(--forest-deep) !important;
+  display: block;
+}
+
+/* ESPECIAL PARA CARTAS VOLTEADAS (CIENTÍFICAS) EN GRID */
+.gridCard.flipped {
+  /* FORZAR FONDO SÓLIDO */
+  background: var(--forest-deep) !important;
+}
+
+.gridCard.flipped .cardImage {
+  /* FONDO SÓLIDO CONSISTENTE */
+  background: var(--forest-deep) !important;
+  background-color: var(--forest-deep) !important;
+}
+
+.gridCard.flipped .image {
+  /* FONDO SÓLIDO PARA CIENTÍFICAS */
+  background: var(--forest-deep) !important;
+  background-color: var(--forest-deep) !important;
+  
+  /* AJUSTES ESPECÍFICOS PARA CIENTÍFICAS */
+  object-fit: cover;
+  object-position: center;
+  
+  /* FILTRO MEJORADO PARA CIENTÍFICAS */
+  filter: brightness(0.95) contrast(1.15) saturate(1.05);
+}
+
+/* HOVER EFFECTS PARA GRID */
+.gridCard.flipped:hover .image {
+  transform: scale(1.05);
+  filter: brightness(1) contrast(1.25) saturate(1.1);
+}
+
 /* 🔢 CARD POSITION INDICATOR */
 .cardPosition {
   position: absolute;

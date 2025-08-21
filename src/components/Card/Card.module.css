@@ -14,8 +14,8 @@
   box-shadow: var(--shadow-enchanted);
   border-radius: 12px;
   overflow: hidden;
-  /* Eliminar cualquier background o sombreado de fondo */
-  background: transparent;
+  /* FONDO SÓLIDO PARA TODAS LAS CARTAS */
+  background: var(--forest-deep);
 }
 
 .card:hover {
@@ -28,13 +28,15 @@
 .medium { width: 200px; height: 350px; }
 .large { width: 240px; height: 420px; }
 
-/* Imagen ocupa toda la carta - SIN FONDO ADICIONAL */
+/* CONFIGURACIÓN DE IMAGEN UNIFICADA */
 .cardImage {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: transparent; /* Sin fondo adicional */
   border-radius: 12px;
+  position: relative;
+  /* FONDO SÓLIDO CONSISTENTE */
+  background: var(--forest-deep);
 }
 
 .image {
@@ -43,18 +45,59 @@
   object-fit: cover;
   transition: transform 0.4s ease;
   filter: brightness(0.9) contrast(1.1);
-  /* Sin background adicional que pueda crear sombreado */
-  background: transparent;
+  /* FONDO SÓLIDO PARA TODAS LAS IMÁGENES */
+  background: var(--forest-deep);
+  display: block;
 }
 
+/* ESPECIAL PARA CARTAS VOLTEADAS (CIENTÍFICAS) */
+.card.flipped,
+.gridCard.flipped {
+  /* FORZAR FONDO SÓLIDO */
+  background: var(--forest-deep) !important;
+}
 
+.card.flipped .cardImage,
+.gridCard.flipped .cardImage {
+  /* FONDO SÓLIDO CONSISTENTE */
+  background: var(--forest-deep) !important;
+  background-color: var(--forest-deep) !important;
+}
 
+.card.flipped .image,
+.gridCard.flipped .image {
+  /* FONDO SÓLIDO PARA CIENTÍFICAS */
+  background: var(--forest-deep) !important;
+  background-color: var(--forest-deep) !important;
+  
+  /* AJUSTES ESPECÍFICOS PARA CIENTÍFICAS */
+  object-fit: cover;
+  object-position: center;
+  
+  /* FILTRO MEJORADO PARA CIENTÍFICAS */
+  filter: brightness(0.95) contrast(1.15) saturate(1.05);
+}
+
+/* PARA CARTAS NO VOLTEADAS (ARCANOS) - SIN CAMBIOS */
+.card:not(.flipped) .cardImage,
+.card:not(.flipped) .image {
+  /* Los arcanos mantienen su transparencia natural */
+  background: var(--forest-deep);
+}
+
+/* HOVER EFFECTS */
 .card:hover .image {
   transform: scale(1.05);
   filter: brightness(1) contrast(1.2);
 }
 
-/* Overlay con efectos hover - ELIMINADO PARA CARDGRID */
+.card.flipped:hover .image,
+.gridCard.flipped:hover .image {
+  transform: scale(1.05);
+  filter: brightness(1) contrast(1.25) saturate(1.1);
+}
+
+/* Overlay con efectos hover */
 .cardOverlay {
   position: absolute;
   top: 0;
