@@ -22,16 +22,20 @@ src
  ┣ components
  ┃ ┣ Card
  ┃ ┃ ┣ Card.module.css       # Estilos de las cartas
- ┃ ┃ ┗ Card.tsx              # Componente de carta individual
+ ┃ ┃ ┣ Card.tsx              # Componente de carta individual
+ ┃ ┃ ┗ Card.test.tsx         # Test del componente Card
  ┃ ┣ CardGrid
  ┃ ┃ ┣ CardGrid.module.css   # Estilos del grid de cartas
- ┃ ┃ ┗ CardGrid.tsx          # Vista en cuadrícula de las cartas
+ ┃ ┃ ┣ CardGrid.tsx          # Vista en cuadrícula de las cartas
+ ┃ ┃ ┗ CardGrid.test.tsx     # Test del componente CardGrid
  ┃ ┣ Layout
  ┃ ┃ ┣ Layout.module.css     # Estilos del layout general
- ┃ ┃ ┗ Layout.tsx            # Layout principal
+ ┃ ┃ ┣ Layout.tsx            # Layout principal
+ ┃ ┃ ┗ Layout.test.tsx       # Test del componente Layout
  ┃ ┣ Navigation
  ┃ ┃ ┣ Navigation.module.css # Estilos del menú de navegación
- ┃ ┃ ┗ Navigation.tsx        # Barra de navegación
+ ┃ ┃ ┣ Navigation.tsx        # Barra de navegación
+ ┃ ┃ ┗ Navigation.test.tsx   # Test del componente Navigation
  ┃ ┗ Reading
  ┃ ┃ ┣ Reading.module.css    # Estilos de la tirada de cartas
  ┃ ┃ ┗ Reading.tsx           # Lógica de la lectura
@@ -49,6 +53,7 @@ src
  ┃ ┗ tarot.ts                # Tipado de las cartas
  ┣ App.tsx                   # Punto de entrada de la app
  ┗ main.tsx                  # Renderizado de la aplicación
+
  ```
 
 ## 🚀 Cómo Clonar y Ejecutar el Proyecto
@@ -85,6 +90,23 @@ http://localhost:5173
 
 📚 Información educativa → Biografías de científicas y referencias.
 
+## 🧪 Tests
+
+Se han implementado tests unitarios con Vitest
+ para garantizar la calidad y estabilidad de los componentes principales:
+
+✅ Card → renderizado y props.
+
+✅ CardGrid → disposición correcta de cartas.
+
+✅ Navigation → navegación y enlaces.
+
+✅ Layout → estructura general de la app.
+
+Para ejecutar los tests:
+```bash
+npm run test
+```
 ## 👩‍💻 Desarrollado por
 *Esther Tapias*
 
