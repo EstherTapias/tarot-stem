@@ -4,7 +4,7 @@ import { MemoryRouter } from "react-router-dom";
 import { Card } from "./Card";
 import type { TarotCard } from "../../types/tarot";
 
-// Mock de TarotCard con todas las propiedades requeridas por la interfaz
+// Mock completo de una carta Tarot con todas las propiedades necesarias
 const mockCard: TarotCard = {
   id: "1",
   arcaneNumber: "I",
@@ -26,7 +26,7 @@ const mockCard: TarotCard = {
 };
 
 describe("Card Component", () => {
-  // Test: Renderización del nombre del arcano
+  // Test: debería renderizar nombre arcano inicialmente
   it("debería renderizar el nombre del arcano por defecto", () => {
     render(
       <MemoryRouter>
@@ -36,7 +36,7 @@ describe("Card Component", () => {
     expect(screen.getByText("El Mago")).toBeInTheDocument();
   });
 
-  // Test: Click en la carta
+  // Test: al hacer click llama función onClick pasada por prop
   it("debería llamar a la función onClick al hacer click", () => {
     const handleClick = vi.fn();
     render(
@@ -44,12 +44,11 @@ describe("Card Component", () => {
         <Card card={mockCard} onClick={handleClick} />
       </MemoryRouter>
     );
-    // Asumimos que la imagen principal tiene role="img"
     fireEvent.click(screen.getByRole("img"));
     expect(handleClick).toHaveBeenCalledWith(mockCard);
   });
 
-  // Test: Renderizado volteado
+  // Test: si está volteada, muestra nombre de la diosa
   it("debería mostrar el nombre de la diosa si la carta está volteada", () => {
     render(
       <MemoryRouter>

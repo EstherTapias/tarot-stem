@@ -1,3 +1,4 @@
+/* Contenedor principal de la carta, con un diseño en columna centrado y separación */
 .cardWrapper {
   display: flex;
   flex-direction: column;
@@ -6,6 +7,7 @@
   font-family: var(--font-heading);
 }
 
+/* Estilo base de la carta: posición relativa, cursor puntero y efectos 3D */
 .card {
   position: relative;
   cursor: pointer;
@@ -14,78 +16,70 @@
   box-shadow: var(--shadow-enchanted);
   border-radius: 12px;
   overflow: hidden;
-  /* FONDO SÓLIDO PARA TODAS LAS CARTAS */
+  /* Fondo sólido para todas las cartas */
   background: var(--forest-deep);
 }
 
+/* Efecto al posar el ratón: eleva y agranda ligeramente */
 .card:hover {
   transform: translateY(-4px) scale(1.02);
   box-shadow: var(--shadow-hover);
 }
 
-/* Tamaños de carta */
+/* Tamaños predefinidos para las cartas */
 .small { width: 160px; height: 280px; }
 .medium { width: 200px; height: 350px; }
 .large { width: 240px; height: 420px; }
 
-/* CONFIGURACIÓN DE IMAGEN UNIFICADA */
+/* Contenedor para la imagen principal con fondo consistente y bordes redondeados */
 .cardImage {
   width: 100%;
   height: 100%;
   overflow: hidden;
   border-radius: 12px;
   position: relative;
-  /* FONDO SÓLIDO CONSISTENTE */
   background: var(--forest-deep);
 }
 
+/* Imagen con ajuste de tamaño, efectos y fondo para consistencia visual */
 .image {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.4s ease;
   filter: brightness(0.9) contrast(1.1);
-  /* FONDO SÓLIDO PARA TODAS LAS IMÁGENES */
   background: var(--forest-deep);
   display: block;
 }
 
-/* ESPECIAL PARA CARTAS VOLTEADAS (CIENTÍFICAS) */
+/* Estilos específicos para cartas volteadas (científicas) */
 .card.flipped,
 .gridCard.flipped {
-  /* FORZAR FONDO SÓLIDO */
   background: var(--forest-deep) !important;
 }
 
 .card.flipped .cardImage,
 .gridCard.flipped .cardImage {
-  /* FONDO SÓLIDO CONSISTENTE */
   background: var(--forest-deep) !important;
   background-color: var(--forest-deep) !important;
 }
 
 .card.flipped .image,
 .gridCard.flipped .image {
-  /* FONDO SÓLIDO PARA CIENTÍFICAS */
   background: var(--forest-deep) !important;
   background-color: var(--forest-deep) !important;
-  
-  /* AJUSTES ESPECÍFICOS PARA CIENTÍFICAS */
   object-fit: cover;
   object-position: center;
-  
-  /* FILTRO MEJORADO PARA CIENTÍFICAS */
   filter: brightness(0.95) contrast(1.15) saturate(1.05);
 }
 
-/* PARA CARTAS NO VOLTEADAS (ARCANOS) - SIN CAMBIOS */
+/* Estilos para cartas no volteadas (arcanos mayores) */
 .card:not(.flipped) .cardImage,
 .card:not(.flipped) .image {
-  /* Los arcanos mantienen su transparencia natural */
   background: var(--forest-deep);
 }
 
-/* HOVER EFFECTS */
+/* Efectos hover en la imagen para resaltar */
 .card:hover .image {
   transform: scale(1.05);
   filter: brightness(1) contrast(1.2);
@@ -97,7 +91,7 @@
   filter: brightness(1) contrast(1.25) saturate(1.1);
 }
 
-/* Overlay con efectos hover */
+/* Capa overlay con efecto degradado para mejorar lectura encima de la imagen */
 .cardOverlay {
   position: absolute;
   top: 0;
@@ -117,10 +111,12 @@
   padding: 12px;
 }
 
+/* El overlay aparece al posar el ratón */
 .card:hover .cardOverlay {
   opacity: 1;
 }
 
+/* Contenido del overlay con texto alineado a la izquierda y animación de desplazamiento */
 .overlayContent {
   text-align: left;
   color: white;
@@ -132,6 +128,7 @@
   transform: translateY(0);
 }
 
+/* Título de la carta en overlay, con sombra para mejorar visibilidad */
 .cardTitle {
   font-size: 14px;
   font-weight: bold;
@@ -140,6 +137,7 @@
   line-height: 1.2;
 }
 
+/* Subtítulo (nombre secundario) con color dorado y mayúsculas */
 .cardSubtitle {
   font-size: 10px;
   margin: 2px 0 0 0;
@@ -149,7 +147,7 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
 }
 
-/* Número del arcano */
+/* Número del arcano en esquina superior derecha, con fondo semi-transparente */
 .cardNumber {
   position: absolute;
   top: 8px;
@@ -163,7 +161,7 @@
   color: var(--gold-mystical);
 }
 
-/* Controles de la carta */
+/* Controles de la carta (botones), ocultos por defecto */
 .cardControls {
   position: absolute;
   bottom: 8px;
@@ -176,12 +174,13 @@
   transition: all 0.3s ease;
 }
 
+/* Se muestran los controles al posar el ratón */
 .card:hover .cardControls {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* Botón Saber más con estilo místico */
+/* Botón "Saber más" con estilo místico y efectos */
 .saberMasButton {
   flex: 1;
   padding: 8px 12px;
@@ -205,6 +204,7 @@
   box-shadow: var(--glow-mystical);
 }
 
+/* Botones de flip y detalles con estilo y transiciones */
 .flipButton,
 .detailButton {
   flex: 1;
@@ -242,7 +242,7 @@
   box-shadow: var(--shadow-enchanted);
 }
 
-/* Tipo de carta */
+/* Indicador del tipo de carta, con fondo translúcido y borde dorado */
 .typeIndicator {
   position: absolute;
   top: 8px;
@@ -256,6 +256,7 @@
   color: var(--gold-mystical);
 }
 
+/* Estilo para tipos místico y científico */
 .typeIndicator.mystical {
   background: var(--bg-glass);
   border: var(--border-golden);
@@ -268,16 +269,18 @@
   color: var(--gold-mystical);
 }
 
+/* Icono del tipo */
 .typeIcon {
   font-size: 10px;
   filter: drop-shadow(0 0 2px currentColor);
 }
 
-/* Nombre debajo de la carta */
+/* Nombre de la carta debajo centrado */
 .cardName {
   text-align: center;
 }
 
+/* Texto del nombre con estilo principal */
 .nameText {
   font-family: var(--font-heading);
   font-weight: 600;
@@ -286,6 +289,7 @@
   margin: 0;
 }
 
+/* Subtexto debajo del nombre con estilo dorado */
 .nameSubtext {
   font-family: var(--font-body);
   font-size: 0.8rem;
@@ -294,13 +298,14 @@
   text-transform: uppercase;
 }
 
-/* Responsive */
+/* Ajustes responsive para tablets */
 @media (max-width: 768px) {
   .medium { width: 180px; height: 320px; }
   .large { width: 200px; height: 360px; }
   .nameText { font-size: 0.9rem; }
 }
 
+/* Ajustes responsive para móviles */
 @media (max-width: 480px) {
   .small { width: 140px; height: 260px; }
   .medium { width: 160px; height: 290px; }

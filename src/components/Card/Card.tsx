@@ -19,24 +19,30 @@ export const Card: React.FC<CardProps> = ({
   className = '',
   showControls = true
 }) => {
+  // Hook para navegación programática
   const navigate = useNavigate();
 
+  // Estado si la carta está volteada o no
   const currentlyFlipped = isFlipped;
+
+  // Dependiendo del estado, muestra imagen y nombre de la diosa o del arcano mayor
   const displayImage = currentlyFlipped ? card.goddessImage : card.arcaneImage;
   const displayName = currentlyFlipped ? card.goddessName : card.arcaneName;
 
+  // Maneja click en la carta: llama a la función pasada por props si hay
   const handleCardClick = () => {
     if (onClick) {
       onClick(card);
     }
   };
 
+  // Maneja click en botón "Saber más": evita propagación y navega a detalle de la carta
   const handleLearnMore = (e: React.MouseEvent) => {
     e.stopPropagation();
     navigate(`/card/${card.id}`);
   };
 
-  // Función para convertir número a romano
+  // Función para convertir un número a romano (1 → I, 4 → IV, etc)
   const toRoman = (num: number) => {
     const romanMap: [number, string][] = [
       [1000, 'M'], [900, 'CM'], [500, 'D'], [400, 'CD'],
@@ -59,12 +65,12 @@ export const Card: React.FC<CardProps> = ({
         className={`${styles.card} ${styles[size]}`}
         onClick={handleCardClick}
       >
-        {/* Número del arcano en romano */}
+        {/* Número del arcano romano arriba a la derecha */}
         <div className={styles.cardNumber}>
           <span className={styles.numberText}>{toRoman(Number(card.id))}</span>
         </div>
 
-        {/* Imagen principal */}
+        {/* Imagen principal de la carta */}
         <div className={styles.cardImage}>
           <img 
             src={displayImage.imageSrc} 
@@ -72,7 +78,8 @@ export const Card: React.FC<CardProps> = ({
             className={styles.image} 
           />
         </div>
-        {/* Botón Saber más siempre visible */}
+
+        {/* Botón "Saber más" visible si showControls es true */}
         {showControls && (
           <div className={styles.cardControls}>
             <button 
@@ -86,7 +93,7 @@ export const Card: React.FC<CardProps> = ({
         )}
       </div>
 
-      {/* Nombre de la carta debajo de la carta */}
+      {/* Nombre de la carta debajo */}
       <div className={styles.cardName}>
         <h4 className={styles.nameText}>{displayName}</h4>
         <p className={styles.nameSubtext}>
