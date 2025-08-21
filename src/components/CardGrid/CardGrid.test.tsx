@@ -4,7 +4,7 @@ import { MemoryRouter } from "react-router-dom";
 import { CardGrid } from "./CardGrid";
 import type { TarotCard } from "../../types/tarot";
 
-// Dos mocks tipo TarotCard
+// Dos cartas simuladas para pruebas
 const mockCards: TarotCard[] = [
   {
     id: "1",
@@ -47,19 +47,19 @@ const mockCards: TarotCard[] = [
 ];
 
 describe("CardGrid Component", () => {
-  // Test: Estado de carga
+  // Prueba estado de carga: muestra spinner y texto
   it("debería mostrar estado de carga cuando loading=true", () => {
     render(<CardGrid cards={[]} loading />);
     expect(screen.getByText("Invocando las cartas del destino...")).toBeInTheDocument();
   });
 
-  // Test: Estado vacío
+  // Prueba estado sin cartas: muestra mensaje específico
   it("debería mostrar mensaje vacío si no hay cartas", () => {
     render(<CardGrid cards={[]} />);
     expect(screen.getByText("No hay cartas disponibles")).toBeInTheDocument();
   });
 
-  // Test: Renderización normal
+  // Prueba renderizado normal: muestra cartas con nombres
   it("debería renderizar las cartas cuando existen", () => {
     render(
       <MemoryRouter>

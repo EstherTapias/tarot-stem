@@ -1,3 +1,4 @@
+/* Contenedor principal del grid limitado a 1200px y centrado */
 .gridContainer {
   width: 100%;
   max-width: 1200px;
@@ -5,7 +6,7 @@
   padding: 20px;
 }
 
-/* 📊 GRID STATISTICS - COLORES ARMONIZADOS CON MYSTICAL-THEME */
+/* Estadísticas del grid con fondo translúcido y bordes dorados */
 .gridStats {
   background: var(--bg-glass);
   backdrop-filter: blur(20px);
@@ -16,6 +17,7 @@
   box-shadow: var(--shadow-enchanted);
 }
 
+/* Contenido de estadísticas alineado horizontalmente */
 .statsContent {
   display: flex;
   justify-content: center;
@@ -23,6 +25,7 @@
   margin-bottom: 15px;
 }
 
+/* Cada estadística con icono y texto centrados */
 .statItem {
   display: flex;
   flex-direction: column;
@@ -30,6 +33,7 @@
   gap: 5px;
 }
 
+/* Iconos con tamaño y brillo místico animado */
 .statIcon {
   font-size: 24px;
   color: var(--gold-mystical);
@@ -37,6 +41,7 @@
   animation: float 3s ease-in-out infinite;
 }
 
+/* Texto de las estadísticas con fuente blanca y sombra */
 .statLabel {
   font-size: 14px;
   font-weight: bold;
@@ -44,6 +49,7 @@
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
 }
 
+/* Barra de progreso con fondo oscuro y borde dorado */
 .progressBar {
   width: 100%;
   height: 8px;
@@ -55,6 +61,7 @@
   border: 1px solid var(--gold-mystical);
 }
 
+/* Relleno de la barra con degradado y animación de brillo */
 .progressFill {
   height: 100%;
   background: linear-gradient(90deg, var(--gold-mystical), var(--gold-copper));
@@ -67,14 +74,12 @@
 .progressFill::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
   animation: progressShine 2s ease-in-out infinite;
 }
 
+/* Texto del progreso centrado y con color dorado */
 .progressText {
   text-align: center;
   font-size: 12px;
@@ -83,7 +88,7 @@
   font-weight: 500;
 }
 
-/* 🗃️ CARDS GRID */
+/* Contenedor de las cartas en grid con espacio y justificado */
 .cardsGrid {
   display: grid;
   gap: 25px;
@@ -91,6 +96,7 @@
   align-items: start;
 }
 
+/* Configuraciones de columnas para cada tamaño de carta */
 .cardsGrid.small {
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   max-width: 800px;
@@ -109,7 +115,7 @@
   margin: 0 auto;
 }
 
-/* 🃏 CARD WRAPPER */
+/* Contenedor de cada carta, con animación de aparición */
 .cardWrapper {
   position: relative;
   display: flex;
@@ -120,28 +126,31 @@
   animation: cardAppear 0.8s ease-out forwards;
 }
 
-/* Ocultar overlay con nombre en hover - solo mostrar botón "Saber más" */
+/* Oculta overlay del nombre para mostrar solo botón "Saber más" */
 .cardWrapper .card .cardOverlay {
   display: none !important;
 }
 
+/* Estilo base para cartas dentro del grid */
 .gridCard {
   width: 100%;
   max-width: none;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
+/* Estilos para cartas volteadas dentro del grid con sombras y aumento */
 .gridCard.flipped {
   box-shadow: var(--shadow-hover);
   border-color: var(--gold-mystical);
   transform: translateY(-2px);
 }
 
-/* APLICAR MISMO FONDO SÓLIDO QUE EN CARD.CSS */
+/* Fondo sólido consistente con Card.css */
 .gridCard .card {
   background: var(--forest-deep) !important;
 }
 
+/* Fondos sólidos para imágenes y cartas volteadas */
 .gridCard .cardImage,
 .gridCard.flipped .cardImage {
   background: var(--forest-deep) !important;
@@ -155,38 +164,31 @@
   display: block;
 }
 
-/* ESPECIAL PARA CARTAS VOLTEADAS (CIENTÍFICAS) EN GRID */
+/* Específicos para cartas volteadas científicas en grid */
 .gridCard.flipped {
-  /* FORZAR FONDO SÓLIDO */
   background: var(--forest-deep) !important;
 }
 
 .gridCard.flipped .cardImage {
-  /* FONDO SÓLIDO CONSISTENTE */
   background: var(--forest-deep) !important;
   background-color: var(--forest-deep) !important;
 }
 
 .gridCard.flipped .image {
-  /* FONDO SÓLIDO PARA CIENTÍFICAS */
   background: var(--forest-deep) !important;
   background-color: var(--forest-deep) !important;
-  
-  /* AJUSTES ESPECÍFICOS PARA CIENTÍFICAS */
   object-fit: cover;
   object-position: center;
-  
-  /* FILTRO MEJORADO PARA CIENTÍFICAS */
   filter: brightness(0.95) contrast(1.15) saturate(1.05);
 }
 
-/* HOVER EFFECTS PARA GRID */
+/* Hover especial para imágenes de cartas volteadas en grid */
 .gridCard.flipped:hover .image {
   transform: scale(1.05);
   filter: brightness(1) contrast(1.25) saturate(1.1);
 }
 
-/* 🔢 CARD POSITION INDICATOR */
+/* Indicador visual de la posición de la carta */
 .cardPosition {
   position: absolute;
   bottom: -8px;
@@ -203,7 +205,7 @@
   z-index: 10;
 }
 
-/* 🔄 FLIP STATUS INDICATOR */
+/* Indicador del estado flip con animación de pulso */
 .flipStatus {
   position: absolute;
   top: -8px;
@@ -223,7 +225,7 @@
   animation: flipPulse 2s ease-in-out infinite;
 }
 
-/* 📱 LOADING STATE */
+/* Contenedor para estado de carga, centrando contenido y texto */
 .loadingContainer {
   display: flex;
   flex-direction: column;
@@ -232,6 +234,7 @@
   text-align: center;
 }
 
+/* Animación del spinner usando símbolo místico */
 .loadingSpinner {
   font-size: 4rem;
   animation: float 2s ease-in-out infinite;
@@ -240,6 +243,7 @@
   filter: drop-shadow(0 0 20px var(--gold-mystical));
 }
 
+/* Texto de carga centrado y con sombra */
 .loadingText {
   font-size: 18px;
   color: var(--pearl-white);
@@ -248,6 +252,7 @@
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
 }
 
+/* Esqueleto animado para mostrar mientras carga */
 .loadingSkeleton {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -256,6 +261,7 @@
   max-width: 1000px;
 }
 
+/* Tarjeta del esqueleto con fondo translúcido y animación */
 .skeletonCard {
   background: var(--bg-glass);
   border: var(--border-golden);
@@ -266,6 +272,7 @@
   backdrop-filter: blur(5px);
 }
 
+/* Imagen dentro del esqueleto con efecto de brillo animado */
 .skeletonImage {
   width: 100%;
   height: 60%;
@@ -276,6 +283,7 @@
   animation: shimmer 2s infinite;
 }
 
+/* Texto animado para los placeholders */
 .skeletonText,
 .skeletonSubtext {
   background: linear-gradient(90deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.2), rgba(212, 175, 55, 0.1));
@@ -284,6 +292,7 @@
   animation: shimmer 2s infinite;
 }
 
+/* Alturas y anchos del texto esqueleto */
 .skeletonText {
   height: 16px;
   width: 80%;
@@ -296,7 +305,7 @@
   margin: 0 auto;
 }
 
-/* 🚫 EMPTY STATE */
+/* Estado vacío para mostrar mensaje cuando no hay cartas */
 .emptyState {
   display: flex;
   flex-direction: column;
@@ -305,6 +314,7 @@
   text-align: center;
 }
 
+/* Icono grande flotante para el estado vacío */
 .emptyIcon {
   font-size: 4rem;
   margin-bottom: 20px;
@@ -313,6 +323,7 @@
   filter: drop-shadow(0 0 15px var(--gold-mystical));
 }
 
+/* Título del estado vacío con sombra y tamaño */
 .emptyTitle {
   font-size: 24px;
   color: var(--pearl-white);
@@ -321,6 +332,7 @@
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
+/* Texto explicativo del estado vacío */
 .emptyText {
   font-size: 16px;
   color: var(--gold-mystical);
@@ -329,7 +341,7 @@
   margin: 0;
 }
 
-/* 🦶 GRID FOOTER */
+/* Pie de página del grid con fondo traslúcido y bordes dorados */
 .gridFooter {
   margin-top: 40px;
   text-align: center;
@@ -340,11 +352,13 @@
   backdrop-filter: blur(5px);
 }
 
+/* Contenido máximo centrado en el footer */
 .footerContent {
   max-width: 600px;
   margin: 0 auto;
 }
 
+/* Texto principal del footer con sombra y tipo */
 .footerText {
   font-size: 14px;
   color: var(--pearl-white);
@@ -353,6 +367,7 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
 }
 
+/* Subtexto del footer más pequeño y con transparencias */
 .footerSubtext {
   font-size: 12px;
   color: var(--gold-mystical);
@@ -360,38 +375,45 @@
   opacity: 0.8;
 }
 
-/* 🎭 ANIMATIONS */
+/* Animaciones usadas en todo el grid */
+
+/* Animación para aparición de cartas */
 @keyframes cardAppear {
   from { opacity: 0; transform: translateY(30px) scale(0.9); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
+/* Movimiento flotante y rotatorio suave para iconos */
 @keyframes float {
   0%, 100% { transform: translateY(0px) rotate(0deg); }
   50% { transform: translateY(-10px) rotate(2deg); }
 }
 
+/* Pulsación para el icono de flip */
 @keyframes flipPulse {
   0%, 100% { transform: scale(1); box-shadow: var(--shadow-enchanted); }
   50% { transform: scale(1.1); box-shadow: var(--glow-mystical); }
 }
 
+/* Brillo animado en barra de progreso */
 @keyframes progressShine {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(100%); }
 }
 
+/* Pulso en animación esqueletal */
 @keyframes skeletonPulse {
   0%, 100% { opacity: 0.6; }
   50% { opacity: 1; }
 }
 
+/* Animación de brillo para los skeletons */
 @keyframes shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
 }
 
-/* 📱 RESPONSIVE DESIGN */
+/* Diseño responsive para tabletas y móviles */
 @media (max-width: 1024px) {
   .cardsGrid.small { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 20px; }
   .cardsGrid.medium { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; }

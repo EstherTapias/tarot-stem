@@ -5,11 +5,11 @@ import styles from './CardGrid.module.css';
 
 interface CardGridProps {
   cards: TarotCard[];
-  flippedCards?: string[];
+  flippedCards?: string[]; // Lista de cartas volteadas por id
   onCardClick?: (card: TarotCard) => void;
-  loading?: boolean;
+  loading?: boolean; // Muestra estado carga si es true
   cardSize?: 'small' | 'medium' | 'large';
-  showGridStats?: boolean;
+  showGridStats?: boolean; // Muestra estadísticas si es true
   className?: string;
 }
 
@@ -22,15 +22,14 @@ export const CardGrid: React.FC<CardGridProps> = ({
   showGridStats = false,
   className = ''
 }) => {
-  // Loading state
+  // Si está cargando, mostrar spinner y esqueleto
   if (loading) {
     return (
       <div className={`${styles.gridContainer} ${className}`}>
         <div className={styles.loadingContainer}>
           <div className={styles.loadingSpinner}>🔮</div>
           <p className={styles.loadingText}>Invocando las cartas del destino...</p>
-          
-          {/* Loading skeleton */}
+          {/* Skeleton cards animadas */}
           <div className={styles.loadingSkeleton}>
             {[...Array(8)].map((_, index) => (
               <div 
@@ -49,7 +48,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
     );
   }
 
-  // Empty state
+  // Si no hay cartas, mostrar estado vacío
   if (cards.length === 0) {
     return (
       <div className={`${styles.gridContainer} ${className}`}>
@@ -64,9 +63,10 @@ export const CardGrid: React.FC<CardGridProps> = ({
     );
   }
 
+  // Renderizamos las cartas normalmente
   return (
     <div className={`${styles.gridContainer} ${className}`}>
-      {/* Grid Statistics */}
+      {/* Mostrar estadísticas si se pide */}
       {showGridStats && (
         <div className={styles.gridStats}>
           <div className={styles.statsContent}>
@@ -83,26 +83,24 @@ export const CardGrid: React.FC<CardGridProps> = ({
               <span className={styles.statLabel}>{flippedCards.length} Científicas</span>
             </div>
           </div>
-          
-          {/* Progress bar */}
+          {/* Barra de progreso basada en cartas volteadas */}
           <div className={styles.progressBar}>
             <div 
               className={styles.progressFill}
               style={{ width: `${(flippedCards.length / cards.length) * 100}%` }}
             ></div>
           </div>
-          
           <p className={styles.progressText}>
             Progreso de exploración: {Math.round((flippedCards.length / cards.length) * 100)}%
           </p>
         </div>
       )}
 
-      {/* Cards Grid */}
+      {/* Grid con las cartas renderizadas */}
       <div className={`${styles.cardsGrid} ${styles[cardSize]}`}>
         {cards.map((card, index) => {
           const isFlipped = flippedCards.includes(card.id);
-          
+
           return (
             <div 
               key={card.id} 
@@ -117,16 +115,12 @@ export const CardGrid: React.FC<CardGridProps> = ({
                 isFlipped={isFlipped}
                 onClick={onCardClick}
                 size={cardSize}
-                className={`${styles.gridCard} ${isFlipped ? styles.flipped : ''}`}            />
-              
-
-              
-
+                className={`${styles.gridCard} ${isFlipped ? styles.flipped : ''}`}  
+              />
             </div>
           );
         })}
       </div>
-
     </div>
   );
 };
