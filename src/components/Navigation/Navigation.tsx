@@ -2,20 +2,13 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styles from './Navigation.module.css';
 
-/**
- * 🔮 Navigation Component - Más Disruptivo y Bonito
- * 
- * CARACTERÍSTICAS:
- * ✅ Navegación disruptiva pero elegante
- * ✅ Efectos más llamativos respetando la estética
- * ✅ Indicador de página activa mejorado
- * ✅ Efectos hover más impactantes
- * ✅ Logo místico con más personalidad
- */
+/*🔮 Navigation Component*/
 
 const Navigation: React.FC = () => {
+  // Hook para obtener la ruta actual y determinar enlace activo
   const location = useLocation();
 
+  // Función para chequear si el path está activo
   const isActiveRoute = (path: string): boolean => {
     if (path === '/') {
       return location.pathname === '/';
@@ -70,7 +63,7 @@ const Navigation: React.FC = () => {
               <div className={styles.navIndicator}></div>
               <div className={styles.navRipple}></div>
             </Link>
-          </li>         
+          </li>          
         </ul>
 
         {/* 🌟 Efectos Mágicos Potenciados */}
@@ -88,9 +81,4 @@ const Navigation: React.FC = () => {
   );
 };
 
-export default Navigation;0.
-
-
-
-
-
+export default Navigation;

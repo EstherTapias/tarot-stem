@@ -1,5 +1,4 @@
-/* 🔮 NAVEGACIÓN MÍSTICA DISRUPTIVA Y ELEGANTE */
-
+/* Contenedor de toda la navegación con fondo degradado y sombra mística */
 .navigation {
   background: linear-gradient(135deg, 
     rgba(11, 40, 24, 0.98) 0%, 
@@ -8,7 +7,7 @@
   );
   backdrop-filter: blur(25px);
   border-bottom: 2px solid rgba(212, 175, 55, 0.4);
-  position: sticky;
+  position: sticky; /* Se mantiene fija arriba al hacer scroll */
   top: 0;
   z-index: 1000;
   box-shadow: 
@@ -17,13 +16,11 @@
   overflow: hidden;
 }
 
+/* Capa animada shimmer que se mueve horizontalmente */
 .navigation::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 0; left: 0; right: 0; bottom: 0;
   background: linear-gradient(90deg, 
     transparent 0%,
     rgba(212, 175, 55, 0.05) 20%,
@@ -34,11 +31,13 @@
   animation: shimmerWave 8s ease-in-out infinite;
 }
 
+/* Animación del shimmer que recorre horizontalmente */
 @keyframes shimmerWave {
   0%, 100% { transform: translateX(-100%); opacity: 0.3; }
   50% { transform: translateX(100%); opacity: 0.6; }
 }
 
+/* Contenedor interno con máximo ancho y distribución flex para alinear elementos */
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -51,13 +50,14 @@
   z-index: 2;
 }
 
-/* 🔮 LOGO MÍSTICO MEJORADO */
+/* Contenedor para el logo, alineado centrado horizontal y vertical */
 .logo {
   display: flex;
   align-items: center;
   position: relative;
 }
 
+/* Enlace del logo con espacio entre icono y texto, con padding y bordes redondeados */
 .logoLink {
   display: flex;
   align-items: center;
@@ -70,28 +70,29 @@
   overflow: hidden;
 }
 
+/* Efecto radial al posar sobre el logo, aparece un brillo */
 .logoLink::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 0; left: 0; right: 0; bottom: 0;
   background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
   border-radius: 16px;
   opacity: 0;
   transition: opacity 0.4s ease;
 }
 
+/* Se activa brillo radial en el hover del logo */
 .logoLink:hover::before {
   opacity: 1;
 }
 
+/* Escala y sombra al pasar el mouse sobre el logo */
 .logoLink:hover {
   transform: scale(1.08) translateY(-2px);
   box-shadow: 0 12px 40px rgba(212, 175, 55, 0.3);
 }
 
+/* Contenedor para icono del logo */
 .logoIconContainer {
   position: relative;
   display: flex;
@@ -99,6 +100,7 @@
   justify-content: center;
 }
 
+/* Icono principal con tamaño, sombra y animación de flotación */
 .logoIcon {
   font-size: 2.5rem;
   position: relative;
@@ -107,6 +109,7 @@
   animation: logoFloat 4s ease-in-out infinite;
 }
 
+/* Brillo que cambia tamaño y opacidad en animación alterna */
 .logoGlow {
   position: absolute;
   width: 60px;
@@ -117,6 +120,7 @@
   z-index: 1;
 }
 
+/* Animación de flotación del icono del logo */
 @keyframes logoFloat {
   0%, 100% { transform: translateY(0) rotate(0deg); }
   25% { transform: translateY(-3px) rotate(2deg); }
@@ -124,6 +128,7 @@
   75% { transform: translateY(-3px) rotate(-2deg); }
 }
 
+/* Animación de brillo intermitente del glow */
 @keyframes logoGlow {
   from { 
     transform: scale(1);
@@ -135,12 +140,14 @@
   }
 }
 
+/* Texto del logo, en columna para título y subtítulo */
 .logoText {
   display: flex;
   flex-direction: column;
   line-height: 1.1;
 }
 
+/* Título principal del logo, con fuente y sombra */
 .logoMain {
   font-family: var(--font-heading);
   font-size: 1.8rem;
@@ -150,6 +157,7 @@
   position: relative;
 }
 
+/* Línea debajo del título del logo, animada al posar */
 .logoMain::after {
   content: '';
   position: absolute;
@@ -161,10 +169,12 @@
   transition: width 0.5s ease;
 }
 
+/* Ancho de la línea aumenta cuando se posa sobre el link del logo */
 .logoLink:hover .logoMain::after {
   width: 100%;
 }
 
+/* Subtítulo debajo del logo, con estilo pequeño y mayúsculas */
 .logoSub {
   font-family: var(--font-body);
   font-size: 0.8rem;
@@ -175,7 +185,7 @@
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
 }
 
-/* 🧭 MENÚ DE NAVEGACIÓN DISRUPTIVO */
+/* Estilos para el menú horizontal de navegación */
 .navMenu {
   display: flex;
   align-items: center;
@@ -185,10 +195,12 @@
   padding: 0;
 }
 
+/* Cada item del menú con posición relativa */
 .navItem {
   position: relative;
 }
 
+/* Enlaces de navegación estilo botón con transición y efectos */
 .navLink {
   display: flex;
   align-items: center;
@@ -206,13 +218,11 @@
   border: 2px solid transparent;
 }
 
+/* Fondo sutil que aparece en hover del enlace */
 .navLink::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 0; left: 0; right: 0; bottom: 0;
   background: linear-gradient(135deg, 
     rgba(212, 175, 55, 0.1), 
     rgba(240, 230, 140, 0.15)
@@ -222,6 +232,7 @@
   z-index: -1;
 }
 
+/* Efectos al posar sobre el enlace: cambio color, sombra y movimiento */
 .navLink:hover {
   color: var(--gold-mystical);
   transform: translateY(-4px);
@@ -231,10 +242,12 @@
     0 0 30px rgba(212, 175, 55, 0.2);
 }
 
+/* Se hace visible el fondo degradado en hover */
 .navLink:hover::before {
   opacity: 1;
 }
 
+/* Contenedor para iconos dentro de los links */
 .navIconContainer {
   position: relative;
   display: flex;
@@ -242,6 +255,7 @@
   justify-content: center;
 }
 
+/* Iconos de navegación tamaño y posición */
 .navIcon {
   font-size: 1.4rem;
   transition: all 0.4s ease;
@@ -249,6 +263,7 @@
   z-index: 2;
 }
 
+/* Pulso animado detrás del icono */
 .iconPulse {
   position: absolute;
   width: 40px;
@@ -261,22 +276,26 @@
   z-index: 1;
 }
 
+/* Al posar, el icono crece y rota con sombra */
 .navLink:hover .navIcon {
   transform: scale(1.3) rotate(10deg);
   filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.8));
 }
 
+/* El pulso detrás del icono se vuelve visible y anima */
 .navLink:hover .iconPulse {
   opacity: 1;
   transform: scale(1.5);
   animation: iconPulse 1.5s ease-in-out infinite;
 }
 
+/* Animación del pulso del icono */
 @keyframes iconPulse {
   0%, 100% { transform: scale(1.5); opacity: 0.6; }
   50% { transform: scale(2); opacity: 0.2; }
 }
 
+/* Texto de opciones de navegación estilo uppercase */
 .navText {
   font-weight: 600;
   letter-spacing: 0.05em;
@@ -284,6 +303,7 @@
   transition: all 0.3s ease;
 }
 
+/* Efecto ripple circular al posar */
 .navRipple {
   position: absolute;
   width: 0;
@@ -298,13 +318,14 @@
   z-index: -1;
 }
 
+/* Ripple crece y se vuelve muy tenue al posar */
 .navLink:hover .navRipple {
   width: 200px;
   height: 200px;
   opacity: 0.1;
 }
 
-/* 🎯 INDICADOR DE PÁGINA ACTIVA MEJORADO */
+/* Estilos para el enlace activo con fondo y sombra dorada */
 .navLink.active {
   color: var(--gold-mystical);
   background: rgba(212, 175, 55, 0.2);
@@ -315,17 +336,20 @@
   transform: translateY(-2px);
 }
 
+/* Icono del enlace activo con brillo y pulsación */
 .navLink.active .navIcon {
   transform: scale(1.2);
   filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.9));
   animation: activeIconGlow 2s ease-in-out infinite alternate;
 }
 
+/* Animación del brillo alterno del icono activo */
 @keyframes activeIconGlow {
   from { filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.9)); }
   to { filter: drop-shadow(0 0 25px rgba(212, 175, 55, 1)); }
 }
 
+/* Indicador (linea debajo) que muestra página activa */
 .navIndicator {
   position: absolute;
   bottom: -4px;
@@ -345,32 +369,33 @@
   box-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
 }
 
+/* Indicador visible y animado en página activa */
 .navLink.active .navIndicator {
   width: 90%;
   animation: indicatorPulse 2s ease-in-out infinite;
 }
 
+/* Animación de pulso para el indicador */
 @keyframes indicatorPulse {
   0%, 100% { box-shadow: 0 0 8px rgba(212, 175, 55, 0.6); }
   50% { box-shadow: 0 0 16px rgba(212, 175, 55, 0.9); }
 }
 
+/* Cambio de tamaño del indicador al hover */
 .navLink:hover .navIndicator {
   width: 70%;
 }
 
-/* 🌟 EFECTOS MÁGICOS POTENCIADOS */
+/* Contenedor para efectos mágicos que cubren la navegación */
 .magicalEffects {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 0; left: 0; right: 0; bottom: 0;
   pointer-events: none;
   overflow: hidden;
   z-index: 0;
 }
 
+/* Partículas mágicas con animación flotante y sombra */
 .starParticle,
 .moonParticle,
 .crystalParticle {
@@ -381,6 +406,7 @@
   filter: drop-shadow(0 0 6px currentColor);
 }
 
+/* Partícula estrella, posición y color */
 .starParticle {
   top: 15%;
   left: 12%;
@@ -388,6 +414,7 @@
   color: var(--fairy-light);
 }
 
+/* Partícula luna, posición y color */
 .moonParticle {
   top: 70%;
   left: 75%;
@@ -395,6 +422,7 @@
   color: var(--moonlight);
 }
 
+/* Partícula cristal, posición y color */
 .crystalParticle {
   top: 40%;
   left: 88%;
@@ -402,6 +430,7 @@
   color: var(--gold-mystical);
 }
 
+/* Animación flotante mejorada para las partículas */
 @keyframes enhancedParticleFloat {
   0%, 100% { 
     transform: translateY(0) translateX(0) rotate(0deg); 
@@ -425,6 +454,7 @@
   }
 }
 
+/* Línea decorativa tipo polvo cósmico que se mueve continuamente */
 .cosmicDust {
   position: absolute;
   width: 100%;
@@ -440,11 +470,13 @@
   animation: cosmicFlow 12s linear infinite;
 }
 
+/* Animación de flujo lineal */
 @keyframes cosmicFlow {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(100%); }
 }
 
+/* Onda de energía radial animada */
 .energyWave {
   position: absolute;
   width: 200%;
@@ -458,6 +490,7 @@
   left: -50%;
 }
 
+/* Animación de pulso escalado */
 @keyframes energyPulse {
   0%, 100% { 
     transform: scale(0.8) rotate(0deg); 
@@ -469,7 +502,7 @@
   }
 }
 
-/* 🎭 ELEMENTO DECORATIVO CENTRAL */
+/* Decoración central absoluta para efectos visuales */
 .centerDecoration {
   position: absolute;
   top: 50%;
@@ -479,6 +512,7 @@
   z-index: 0;
 }
 
+/* Orbe místico con efecto radial y animación de pulso */
 .mysticalOrb {
   width: 80px;
   height: 80px;
@@ -492,6 +526,7 @@
   position: relative;
 }
 
+/* Capa interna del orbe con mayor brillo y animación inversa */
 .mysticalOrb::before {
   content: '';
   position: absolute;
@@ -508,6 +543,7 @@
   animation: innerOrb 4s ease-in-out infinite reverse;
 }
 
+/* Animaciones del orbe */
 @keyframes orbPulse {
   0%, 100% { 
     transform: scale(1) rotate(0deg); 
@@ -530,7 +566,7 @@
   }
 }
 
-/* 📱 RESPONSIVE MEJORADO */
+/* Estilos responsive para tablets */
 @media (max-width: 768px) {
   .container {
     padding: 0 1rem;
@@ -572,6 +608,7 @@
   }
 }
 
+/* Estilos responsive para móviles */
 @media (max-width: 480px) {
   .container {
     padding: 0 0.75rem;
