@@ -44,7 +44,38 @@ export const CardReading: React.FC = () => {
         availableCards: [...cards]
       }));
     }
-  }, [cards]);
+  }, [cards, shuffleForReading]);
+
+  // Función para manejar selección de carta (declarada antes de ser usada)
+  const handleCardSelection = (card: TarotCard): void => {
+    const nextPos = getNextPosition();
+    if (!nextPos) return;
+
+    const newSelected: SelectedCard = { position: nextPos, card };
+
+    setReadingState(prev => {
+      const newSelectedCards = [...prev.selectedCards, newSelected];
+      const isComplete = newSelectedCards.length === 3;
+
+      return {
+        selectedCards: newSelectedCards,
+        availableCards: prev.availableCards.filter(c => c.id !== card.id),
+        currentPosition: isComplete ? null : getNextPosition(),
+        isComplete
+      };
+    });
+
+    // Remueve la carta del spread
+    setDealtCards(prev => prev.filter(c => c.id !== card.id));
+
+    // Si completamos la lectura
+    if (readingState.selectedCards.length === 2) { // Will be 3 after this selection
+      setTimeout(() => {
+        setGamePhase('complete');
+        setShowModal(true);
+      }, 1000);
+    }
+  };
 
   // Manejar preselección
   useEffect(() => {
@@ -53,7 +84,7 @@ export const CardReading: React.FC = () => {
       handleCardSelection(preselect);
       setGamePhase('selecting');
     }
-  }, [location.state, gamePhase]);
+  }, [location.state, gamePhase]); // Removed handleCardSelection from dependencies
 
   /**
    * 🎴 Inicia el reparto de cartas desde el mazo
@@ -89,39 +120,6 @@ export const CardReading: React.FC = () => {
     const positions: Position[] = ['past', 'present', 'future'];
     const selectedPositions = readingState.selectedCards.map(sc => sc.position);
     return positions.find(pos => !selectedPositions.includes(pos)) ?? null;
-  };
-
-  /**
-   * 🃏 Maneja la selección de una carta
-   */
-  const handleCardSelection = (card: TarotCard): void => {
-    const nextPos = getNextPosition();
-    if (!nextPos) return;
-
-    const newSelected: SelectedCard = { position: nextPos, card };
-
-    setReadingState(prev => {
-      const newSelectedCards = [...prev.selectedCards, newSelected];
-      const isComplete = newSelectedCards.length === 3;
-
-      return {
-        selectedCards: newSelectedCards,
-        availableCards: prev.availableCards.filter(c => c.id !== card.id),
-        currentPosition: isComplete ? null : getNextPosition(),
-        isComplete
-      };
-    });
-
-    // Remueve la carta del spread
-    setDealtCards(prev => prev.filter(c => c.id !== card.id));
-
-    // Si completamos la lectura
-    if (readingState.selectedCards.length === 2) { // Will be 3 after this selection
-      setTimeout(() => {
-        setGamePhase('complete');
-        setShowModal(true);
-      }, 1000);
-    }
   };
 
   /**
@@ -424,7 +422,9 @@ export const CardReading: React.FC = () => {
                 {selectedCard ? (
                   <div
                     className="selected-card"
-                    onClick={() => navigate(`/card/${selectedCard.card.id}`)}
+                    onClick={() => navigate(`/card/${selectedCard.card.id}`, { 
+                      state: { from: '/reading' }
+                    })}
                     style={{
                       width: '100%',
                       height: '100%',
@@ -505,11 +505,11 @@ export const CardReading: React.FC = () => {
         <div
           className="reading-modal mystical-container"
           style={{
-            maxWidth: '1100px', // Modal ancho
+            maxWidth: '1100px',
             width: '100%',
             maxHeight: '95vh',
-            overflowY: 'auto', // Solo scroll vertical si es necesario
-            overflowX: 'hidden', // Nunca scroll horizontal
+            overflowY: 'auto',
+            overflowX: 'hidden',
             position: 'relative'
           }}
           onClick={(e) => e.stopPropagation()}
@@ -549,7 +549,6 @@ export const CardReading: React.FC = () => {
           </div>
   
           <div className="modal-content">
-            {/* Cartas centradas, alineadas horizontalmente */}
             <div className="reading-summary" style={{
               display: 'flex',
               flexDirection: 'row',
@@ -558,7 +557,7 @@ export const CardReading: React.FC = () => {
               gap: 'var(--space-xl)',
               marginBottom: 'var(--space-xl)',
               width: '100%',
-              flexWrap: 'nowrap' // nunca saltan una debajo de la otra
+              flexWrap: 'nowrap'
             }}>
               {readingState.selectedCards.map((selectedCard) => (
                 <div key={selectedCard.position} className="summary-card mystical-container" style={{
@@ -624,7 +623,6 @@ export const CardReading: React.FC = () => {
               ))}
             </div>
   
-            {/* Mensaje del cosmos */}
             <div className="quick-interpretation mystical-carpet" style={{
               padding: 'var(--space-xl)',
               textAlign: 'center',
@@ -662,7 +660,6 @@ export const CardReading: React.FC = () => {
               className="mystical-button"
               onClick={() => {
                 setShowModal(false);
-                // Aquí podrías mostrar la interpretación completa
               }}
             >
               🔮 Ver Interpretación Completa
@@ -682,8 +679,6 @@ export const CardReading: React.FC = () => {
     );
   };
   
-  
-
   // Definir animación CSS en el head del documento
   React.useEffect(() => {
     const style = document.createElement('style');
@@ -762,7 +757,7 @@ export const CardReading: React.FC = () => {
 
         {(gamePhase === 'dealing' || gamePhase === 'selecting' || gamePhase === 'complete') && (
           <>
-            {/* Estado del progreso - CON COLORES ARMONIZADOS */}
+            {/* Estado del progreso */}
             <div className="progress-indicator" style={{
               marginBottom: 'var(--space-xl)'
             }}>
@@ -772,23 +767,23 @@ export const CardReading: React.FC = () => {
                 gap: 'var(--space-lg)',
                 marginBottom: 'var(--space-md)'
               }}>
-                <div className={`step ${gamePhase !== 'intro' ? 'completed' : ''}`} style={{
+                <div className={`step ${gamePhase === 'dealing' || gamePhase === 'selecting' || gamePhase === 'complete' ? 'completed' : ''}`} style={{
                   display: 'flex',
                   alignItems: 'center',
                   gap: 'var(--space-sm)',
-                  opacity: gamePhase !== 'intro' ? 1 : 0.5
+                  opacity: gamePhase === 'dealing' || gamePhase === 'selecting' || gamePhase === 'complete' ? 1 : 0.5
                 }}>
                   <span className="step-number" style={{
                     width: '30px',
                     height: '30px',
                     borderRadius: '50%',
-                    background: gamePhase !== 'intro' ? 'var(--gold-mystical)' : 'transparent',
+                    background: gamePhase === 'dealing' || gamePhase === 'selecting' || gamePhase === 'complete' ? 'var(--gold-mystical)' : 'transparent',
                     border: '2px solid var(--gold-mystical)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     fontWeight: 'bold',
-                    color: gamePhase !== 'intro' ? 'var(--forest-deep)' : 'var(--gold-mystical)',
+                    color: gamePhase === 'dealing' || gamePhase === 'selecting' || gamePhase === 'complete' ? 'var(--forest-deep)' : 'var(--gold-mystical)',
                     fontFamily: 'var(--font-heading)'
                   }}>1</span>
                   <span className="step-label mystical-text">Reparto</span>
@@ -901,7 +896,6 @@ export const CardReading: React.FC = () => {
                 <Reading
                   selectedCards={readingState.selectedCards}
                   isComplete={true}
-                  onCardClick={(card) => navigate(`/card/${card.id}`)}
                   showInterpretation={true}
                 />
               </div>
@@ -917,5 +911,4 @@ export const CardReading: React.FC = () => {
       {renderCompletionModal()}
 
     </div>
-  );
-};
+  )}
