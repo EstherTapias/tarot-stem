@@ -841,4 +841,154 @@
   .footerText {
     font-size: 12px;
   }
+  /* Mejoras para pantallas pequeñas en lectura */
+
+/* Contenedor principal lectura limita ancho y padding */
+@media (max-width: 480px) {
+  .readingContainer {
+    padding: 10px !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+  }
+
+  /* Títulos adaptados a móvil */
+  .readingTitle {
+    font-size: 18px !important;
+  }
+
+  /* Ajuste en la disposición de los steps para que no se eliminen */
+  .progressSteps {
+    gap: 15px !important;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .stepNumber {
+    width: 30px !important;
+    height: 30px !important;
+    font-size: 12px !important;
+  }
+
+  .stepLabel {
+    font-size: 10px !important;
+  }
+
+  /* Spread cartas: ajuste tamaño y distribución */
+  .spreadLayout {
+    flex-wrap: wrap !important;
+    gap: 15px !important;
+    justify-content: center !important;
+  }
+
+  .positionSlot {
+    min-width: 220px !important;
+    max-width: 100% !important;
+  }
+
+  /* Card Slot tamaño más pequeño e imágenes responsivas */
+  .cardSlot {
+    min-height: 280px !important;
+  }
+
+  .selectedCard {
+    padding: 10px !important;
+  }
+
+  .cardImage {
+    height: 160px !important;
+  }
+
+  .arcaneImage {
+    max-height: 100% !important;
+    width: auto !important;
+  }
+
+  /* Texto y nombres más legibles en pequeño */
+  .arcaneName {
+    font-size: 14px !important;
+  }
+
+  .goddessName {
+    font-size: 12px !important;
+  }
+
+  /* Botón detalles más compacto */
+  .detailsButton {
+    padding: 8px 14px !important;
+    font-size: 11px !important;
+  }
+
+  /* Interpretation blocks padding y fuente más adecuadas */
+  .interpretationSection {
+    padding: 20px !important;
+  }
+
+  .interpretationTitle {
+    font-size: 20px !important;
+  }
+
+  .interpretationSubtitle {
+    font-size: 16px !important;
+  }
+
+  .interpretationText,
+  .arcaneInterpretation,
+  .goddessInterpretation {
+    font-size: 13px !important;
+  }
+
+  /* Footer compactado */
+  .completionBadge {
+    font-size: 12px !important;
+    padding: 8px 14px !important;
+  }
+
+  .footerText {
+    font-size: 12px !important;
+  }
+}
+/* Cartas spread y slots con tamaño adaptable */
+.spread-card {
+  max-width: 100%;
+  height: auto;
+  min-width: 70px !important;
+  max-height: 110px !important;
+}
+.card-slot {
+  width: 90px !important;
+  height: 140px !important;
+}
+
+/* Ajustes para texto de títulos y etiquetas en móvil */
+@media (max-width: 500px) {
+  .readingTitle {
+    font-size: 20px !important;
+  }
+  .mystical-title,
+  .mystical-text,
+  .summary-name,
+  .card-label {
+    font-size: 0.85rem !important;
+  }
+  .detailsButton {
+    font-size: 11px !important;
+    padding: 8px 14px !important;
+  }
+}
+
+/* Contenedores de texto que evitan overflow y activan scroll si muy largos */
+.description-section .section-content {
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+/* Scroll personalizado */
+.description-section .section-content::-webkit-scrollbar {
+  width: 6px;
+}
+.description-section .section-content::-webkit-scrollbar-thumb {
+  background-color: var(--gold-mystical);
+  border-radius: 3px;
+}
+
 }
