@@ -131,61 +131,19 @@
   display: none !important;
 }
 
-/* Estilo base para cartas dentro del grid */
-.gridCard {
-  width: 100%;
-  max-width: none;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
+/* Cambiar a esto para que las cartas científicas tengan fondo transparente */
 
-/* Estilos para cartas volteadas dentro del grid con sombras y aumento */
 .gridCard.flipped {
-  box-shadow: var(--shadow-hover);
-  border-color: var(--gold-mystical);
-  transform: translateY(-2px);
+  background: transparent !important;
 }
 
-/* Fondo sólido consistente con Card.css */
-.gridCard .card {
-  background: var(--forest-deep) !important;
-}
-
-/* Fondos sólidos para imágenes y cartas volteadas */
-.gridCard .cardImage,
-.gridCard.flipped .cardImage {
-  background: var(--forest-deep) !important;
-  background-color: var(--forest-deep) !important;
-}
-
-.gridCard .image,
+.gridCard.flipped .cardImage,
 .gridCard.flipped .image {
-  background: var(--forest-deep) !important;
-  background-color: var(--forest-deep) !important;
-  display: block;
-}
-
-/* Específicos para cartas volteadas científicas en grid */
-.gridCard.flipped {
-  background: var(--forest-deep) !important;
-}
-
-.gridCard.flipped .cardImage {
-  background: var(--forest-deep) !important;
-  background-color: var(--forest-deep) !important;
-}
-
-.gridCard.flipped .image {
-  background: var(--forest-deep) !important;
-  background-color: var(--forest-deep) !important;
+  background: transparent !important;
+  background-color: transparent !important;
   object-fit: cover;
   object-position: center;
   filter: brightness(0.95) contrast(1.15) saturate(1.05);
-}
-
-/* Hover especial para imágenes de cartas volteadas en grid */
-.gridCard.flipped:hover .image {
-  transform: scale(1.05);
-  filter: brightness(1) contrast(1.25) saturate(1.1);
 }
 
 /* Indicador visual de la posición de la carta */
