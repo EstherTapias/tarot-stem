@@ -1,5 +1,4 @@
-/* 🔮 LAYOUT PRINCIPAL CON FOOTER MÍSTICO SIMPLIFICADO */
-
+/* Contenedor principal que ocupa toda la altura de la pantalla con flex vertical */
 .layout {
   min-height: 100vh;
   display: flex;
@@ -7,19 +6,21 @@
   position: relative;
 }
 
+/* Área principal de contenido que crece para ocupar espacio */
 .mainContent {
   flex: 1;
   padding: 2rem 0;
   position: relative;
 }
 
+/* Contenedor centrado y con máximo ancho para el contenido */
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
 
-/* 🌌 FOOTER MÍSTICO */
+/* Estilos para el footer místico con degradados y desenfoque */
 .footer {
   background: linear-gradient(135deg, 
     rgba(11, 40, 24, 0.9) 0%, 
@@ -33,19 +34,18 @@
   overflow: hidden;
 }
 
+/* Gradientes sutiles decorativos detrás del footer */
 .footer::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 0; left: 0; right: 0; bottom: 0;
   background: 
     radial-gradient(circle at 20% 20%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
     radial-gradient(circle at 80% 80%, rgba(240, 230, 140, 0.05) 0%, transparent 50%);
   pointer-events: none;
 }
 
+/* Línea divisoria decorativa arriba del contenido del footer */
 .footerDivider {
   height: 1px;
   background: linear-gradient(90deg, 
@@ -58,6 +58,7 @@
   margin-bottom: 2rem;
 }
 
+/* Contenido del footer centrado y con padding */
 .footerContent {
   padding: 2rem 0;
   text-align: center;
@@ -65,11 +66,12 @@
   z-index: 2;
 }
 
-/* 🔮 LOGO DEL FOOTER */
+/* Bloque principal del footer donde está el logo */
 .footerMain {
   margin-bottom: 2rem;
 }
 
+/* Contenedor para logo con espacio entre icono y texto */
 .footerLogo {
   display: flex;
   align-items: center;
@@ -78,17 +80,20 @@
   margin-bottom: 1rem;
 }
 
+/* Icono animado flotante con sombra */
 .footerIcon {
   font-size: 1.5rem;
   filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.6));
   animation: gentleFloat 4s ease-in-out infinite;
 }
 
+/* Animación suave de flotación y rotación */
 @keyframes gentleFloat {
   0%, 100% { transform: translateY(0) rotate(0deg); }
   50% { transform: translateY(-3px) rotate(5deg); }
 }
 
+/* Texto principal del footer con fuente y sombreado místico */
 .footerTitle {
   font-family: var(--font-heading);
   font-size: 1.3rem;
@@ -97,6 +102,7 @@
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
 }
 
+/* Descripción debajo del logo con color y opacidad */
 .footerDescription {
   color: var(--pearl-white);
   font-family: var(--font-body);
@@ -107,7 +113,7 @@
   margin: 0 auto;
 }
 
-/* 💼 ICONOS SOCIALES REDONDOS - SOLO ICONOS */
+/* Contenedor para iconos sociales con espacio */
 .socialLinks {
   display: flex;
   justify-content: center;
@@ -116,6 +122,7 @@
   margin: 2rem 0;
 }
 
+/* Estilo para iconos sociales redondos */
 .socialIcon {
   display: flex;
   align-items: center;
@@ -132,13 +139,11 @@
   overflow: hidden;
 }
 
+/* Degradado sutil animado en hover */
 .socialIcon::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 0; left: 0; right: 0; bottom: 0;
   background: linear-gradient(45deg, 
     rgba(212, 175, 55, 0.2), 
     rgba(240, 230, 140, 0.2)
@@ -148,6 +153,7 @@
   transition: opacity 0.3s ease;
 }
 
+/* Cambio visual al posar encima */
 .socialIcon:hover {
   background: rgba(212, 175, 55, 0.25);
   border-color: rgba(212, 175, 55, 0.6);
@@ -159,13 +165,14 @@
   opacity: 1;
 }
 
-/* ✨ FIRMA */
+/* Sección para firma con separación y borde superior */
 .footerSignature {
   margin-top: 2rem;
   padding-top: 1.5rem;
   border-top: 1px solid rgba(212, 175, 55, 0.2);
 }
 
+/* Texto de la firma con estilo itálica y opacidad */
 .signatureText {
   color: rgba(248, 250, 252, 0.7);
   font-family: var(--font-body);
@@ -174,17 +181,15 @@
   line-height: 1.5;
 }
 
-/* 🌟 EFECTOS DECORATIVOS */
+/* Contenedores para partículas místicas decorativas */
 .footerEffects {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 0; left: 0; right: 0; bottom: 0;
   pointer-events: none;
   z-index: 1;
 }
 
+/* Partículas con animación flotante */
 .mysticalParticle,
 .cosmicParticle,
 .energyParticle {
@@ -194,24 +199,24 @@
   animation: mysticalFloat 8s ease-in-out infinite;
 }
 
+/* Partículas posicionadas con diferente delay para efecto */
 .mysticalParticle {
   top: 20%;
   left: 10%;
   animation-delay: 0s;
 }
-
 .cosmicParticle {
   top: 60%;
   right: 15%;
   animation-delay: 2.5s;
 }
-
 .energyParticle {
   bottom: 30%;
   left: 50%;
   animation-delay: 5s;
 }
 
+/* Animación de flotación mística con movimiento rotatorio y variación de opacidad */
 @keyframes mysticalFloat {
   0%, 100% { 
     transform: translateY(0) translateX(0) rotate(0deg); 
@@ -231,7 +236,7 @@
   }
 }
 
-/* 📱 RESPONSIVE */
+/* Diseño responsive para tablets */
 @media (max-width: 768px) {
   .container {
     padding: 0 1rem;
@@ -264,6 +269,7 @@
   }
 }
 
+/* Diseño responsive para móviles */
 @media (max-width: 480px) {
   .socialIcon {
     width: 40px;
@@ -279,13 +285,16 @@
     font-size: 0.8rem;
   }
 }
+
+/* Color y tamaño de iconos svg sociales */
 .socialIcon svg {
   width: 28px;
   height: 28px;
-  color: var(--pearl-white); /* que aparezcan blancos (puedes cambiarlo) */
+  color: var(--pearl-white); /* Iconos blancos */
   transition: color 0.3s ease;
 }
 
+/* Cambio de color al pasar sobre iconos sociales */
 .socialIcon:hover svg {
   color: var(--gold-mystical);
 }

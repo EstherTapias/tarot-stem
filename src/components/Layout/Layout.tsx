@@ -2,28 +2,26 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Navigation from '../Navigation/Navigation';
 import styles from './Layout.module.css';
-// 👇 Importamos los iconos de react-icons
+// Importación de iconos sociales
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 const Layout: React.FC = () => {
   return (
     <div className={styles.layout}>
-      {/* 🔮 Navegación */}
+      {/* Navegación superior */}
       <Navigation />
-      
-      {/* 📱 Contenido principal */}
+
+      {/* Contenido principal donde se inyecta el Outlet de rutas */}
       <main className={styles.mainContent}>
         <div className={styles.container}>
           <Outlet />
         </div>
       </main>
 
-      {/* 🌌 Footer */}
+      {/* Pie de página místico con contenido y vínculos sociales */}
       <footer className={styles.footer}>
         <div className={styles.container}>
-          
           <div className={styles.footerDivider}></div>
-          
           <div className={styles.footerContent}>
             <div className={styles.footerMain}>
               <div className={styles.footerLogo}>
@@ -34,7 +32,7 @@ const Layout: React.FC = () => {
                  Conectando la sabiduría ancestral con la ciencia moderna 
               </p>
             </div>
-            
+
             {/* Enlaces sociales */}
             <div className={styles.socialLinks}>
               <a 
@@ -46,7 +44,6 @@ const Layout: React.FC = () => {
               >
                 <FaLinkedin />
               </a>
-              
               <a 
                 href="https://github.com/EstherTapias" 
                 target="_blank" 
@@ -57,15 +54,14 @@ const Layout: React.FC = () => {
                 <FaGithub />
               </a>
             </div>
-            
+
+            {/* Texto firma */}
             <div className={styles.footerSignature}>
               <p className={styles.signatureText}>
-                Creado con 💜 para celebrar a las Diosas Contemporáneas de STEM    ·    Realizado por Esther Tapias.
+                Creado con 💜 para celebrar a las Diosas Contemporáneas de STEM    ·    Realizado por Esther Tapias.
               </p>
             </div>
           </div>
-
-
         </div>
       </footer>
     </div>
