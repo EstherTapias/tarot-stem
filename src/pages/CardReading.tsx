@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import type { TarotCard, SelectedCard, Position, ReadingState } from '../types/tarot';
+import type { TarotCard, Position, ReadingState } from '../types/tarot';
 import { Reading } from '../components/Reading/Reading';
 import { useTarotCards } from '../hooks/useTarotCards';
+
 
 /*🔮 CardReading */
 export const CardReading: React.FC = () => {
@@ -12,6 +13,7 @@ export const CardReading: React.FC = () => {
   // Uso del hook personalizado para obtener cartas, carga y error
   const { cards, isLoading, error, shuffleForReading } = useTarotCards();
 
+
   // Estado general de la lectura: cartas seleccionadas, disponibles, posición actual, si está completa
   const [readingState, setReadingState] = useState<ReadingState>({
     selectedCards: [],
@@ -19,6 +21,7 @@ export const CardReading: React.FC = () => {
     currentPosition: 'past',
     isComplete: false
   });
+
 
   // Estado de fase del juego: intro, repartiendo, seleccionando, completo
   const [gamePhase, setGamePhase] = useState<'intro' | 'dealing' | 'selecting' | 'complete'>('intro');
@@ -28,6 +31,7 @@ export const CardReading: React.FC = () => {
   const [animatingCards, setAnimatingCards] = useState<boolean>(false);
   // Controla la visibilidad del modal de lectura completa
   const [showModal, setShowModal] = useState<boolean>(false);
+
 
   // Al cambiar las cartas cargadas, se barajan y se actualizan las disponibles
   useEffect(() => {
@@ -40,21 +44,28 @@ export const CardReading: React.FC = () => {
     }
   }, [cards, shuffleForReading]);
 
-  // Función para manejar la selección de una carta
+
+  // Función corregida para manejar la selección de una carta y actualizar currentPosition correcto
   const handleCardSelection = (card: TarotCard): void => {
-    const nextPos = getNextPosition();
-    if (!nextPos) return;
-
-    const newSelected: SelectedCard = { position: nextPos, card };
-
     setReadingState(prev => {
-      const newSelectedCards = [...prev.selectedCards, newSelected];
+      const positions: Position[] = ['past', 'present', 'future'];
+      // Calculamos la siguiente posición en base a las cartas seleccionadas (incluyendo la que vamos a añadir)
+      const newSelectedCards = [...prev.selectedCards, { position: null as any, card }];
+      // Encontramos la primera posición disponible para asignar a la carta actual
+      const selectedPositions = prev.selectedCards.map(sc => sc.position);
+      const nextPosForNewCard = positions.find(pos => !selectedPositions.includes(pos)) ?? null;
+
+      // Asignamos esta posición a la nueva carta
+      newSelectedCards[newSelectedCards.length - 1] = { position: nextPosForNewCard!, card };
       const isComplete = newSelectedCards.length === 3;
+
+      // Calculamos el next currentPosition para mostrar: la siguiente no seleccionada, o null si completo
+      const nextCurrentPosition = isComplete ? null : positions.find(pos => !newSelectedCards.map(sc => sc.position).includes(pos)) ?? null;
 
       return {
         selectedCards: newSelectedCards,
         availableCards: prev.availableCards.filter(c => c.id !== card.id),
-        currentPosition: isComplete ? null : getNextPosition(),
+        currentPosition: nextCurrentPosition,
         isComplete
       };
     });
@@ -105,15 +116,6 @@ export const CardReading: React.FC = () => {
       setAnimatingCards(false);
       setGamePhase('selecting');
     }, 10 * 200 + 500);
-  };
-
-  /**
-   * 🎯 Devuelve la siguiente posición "past", "present" o "future" no seleccionada
-   */
-  const getNextPosition = (): Position | null => {
-    const positions: Position[] = ['past', 'present', 'future'];
-    const selectedPositions = readingState.selectedCards.map(sc => sc.position);
-    return positions.find(pos => !selectedPositions.includes(pos)) ?? null;
   };
 
   /**
