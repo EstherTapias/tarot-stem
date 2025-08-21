@@ -3,18 +3,27 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import type { TarotCard } from '../types/tarot';
 import { getCardById } from '../services/api';
 
+// Componente para mostrar el detalle de una carta de tarot
 export const CardDetail: React.FC = () => {
+  // Obtener el parámetro 'id' de la URL para cargar la carta correspondiente
   const { id } = useParams<{ id: string }>();
+  // Hook para navegar entre páginas
   const navigate = useNavigate();
+  // Obtener información de la ubicación actual (útil para saber desde dónde venimos)
   const location = useLocation();
 
+  // Estado para almacenar la carta cargada (o null si no hay)
   const [card, setCard] = useState<TarotCard | null>(null);
+  // Estado para controlar si está cargando la carta
   const [loading, setLoading] = useState(true);
+  // Estado para errores de carga
   const [error, setError] = useState<string | null>(null);
 
+  // Efecto para cargar la carta al montar el componente o cambiar el id
   useEffect(() => {
     const loadCard = async () => {
       if (!id) {
+        // Si no hay id válido, seteamos error y detenemos carga
         setError('ID de carta no válido.');
         setLoading(false);
         return;
@@ -22,31 +31,35 @@ export const CardDetail: React.FC = () => {
       try {
         setLoading(true);
         setError(null);
+        // Petición para obtener los datos de la carta por id
         const cardData = await getCardById(id);
         setCard(cardData);
       } catch (err) {
+        // Captura cualquier error y muestra mensaje
         setError('Error al cargar la carta.');
       } finally {
+        // Indicar que terminó la carga
         setLoading(false);
       }
     };
     loadCard();
   }, [id]);
 
+  // Función para manejar el botón "Regresar"
   const handleGoBack = () => {
-    // Verificar si venimos de la página de lectura
+    // Comprobar si venimos desde la página de lectura para navegar específicamente ahí
     const fromReading = location.state?.from === '/reading';
     
     if (fromReading) {
-      // Si venimos de lectura, volver específicamente ahí
+      // Volver directamente a la ruta "/reading" y reemplazar entrada en el historial
       navigate('/reading', { replace: true });
     } else {
-      // Si venimos de otro lugar (como Home), usar navigate(-1)
+      // Si venimos de otro lado, usar la navegación atrás normal del navegador
       navigate(-1);
     }
   };
 
-  // Función para convertir número a romano
+  // Función que convierte un número a su representación en números romanos
   const toRoman = (num: number) => {
     const romanMap: [number, string][] = [
       [1000, 'M'], [900, 'CM'], [500, 'D'], [400, 'CD'],
@@ -63,6 +76,7 @@ export const CardDetail: React.FC = () => {
     return result;
   };
 
+  // Mostrar pantalla de carga mientras se obtiene la carta
   if (loading) {
     return (
       <div className="card-detail-page fade-in">
@@ -76,6 +90,7 @@ export const CardDetail: React.FC = () => {
     );
   }
 
+  // Mostrar error si ocurre o si no se encontró la carta
   if (error || !card) {
     return (
       <div className="card-detail-page fade-in">
@@ -90,9 +105,10 @@ export const CardDetail: React.FC = () => {
     );
   }
 
+  // UI principal mostrando detalles de la carta con arcano y científica
   return (
     <div className="card-detail-page fade-in">
-      {/* 🧭 Navegación Superior - Solo botón Regresar */}
+      {/* Navegación superior con botón regresar */}
       <nav className="detail-navigation" style={{ 
         display: 'flex', 
         justifyContent: 'center', 
@@ -104,7 +120,7 @@ export const CardDetail: React.FC = () => {
         </button>
       </nav>
 
-      {/* 🎯 Dos cartas lado a lado en la parte superior */}
+      {/* Sección superior con ambas cartas lado a lado */}
       <header className="detail-header mystical-container" style={{ marginBottom: 'var(--space-xxl)' }}>
         <div className="cards-display" style={{
           display: 'flex',
@@ -113,7 +129,7 @@ export const CardDetail: React.FC = () => {
           alignItems: 'flex-start',
           flexWrap: 'wrap'
         }}>
-          {/* Carta del Arcano */}
+          {/* Carta del arcano mayor */}
           <div className="card-wrapper" style={{ 
             display: 'flex', 
             flexDirection: 'column', 
@@ -129,6 +145,7 @@ export const CardDetail: React.FC = () => {
               boxShadow: 'var(--shadow-enchanted)',
               border: 'var(--border-golden)'
             }}>
+              {/* Número romano del arcano */}
               <div className="card-number" style={{
                 position: 'absolute',
                 top: '8px',
@@ -143,6 +160,7 @@ export const CardDetail: React.FC = () => {
               }}>
                 {toRoman(Number(card.id))}
               </div>
+              {/* Imagen del arcano */}
               <img 
                 src={card.arcaneImage.imageSrc} 
                 alt={card.arcaneName}
@@ -163,8 +181,8 @@ export const CardDetail: React.FC = () => {
               {card.arcaneName}
             </p>
           </div>
-          
-          {/* Carta de la Científica */}
+
+          {/* Carta de la diosa científica */}
           <div className="card-wrapper" style={{ 
             display: 'flex', 
             flexDirection: 'column', 
@@ -180,6 +198,7 @@ export const CardDetail: React.FC = () => {
               boxShadow: 'var(--shadow-enchanted)',
               border: 'var(--border-golden)'
             }}>
+              {/* Número romano igual para la científica */}
               <div className="card-number" style={{
                 position: 'absolute',
                 top: '8px',
@@ -194,6 +213,7 @@ export const CardDetail: React.FC = () => {
               }}>
                 {toRoman(Number(card.id))}
               </div>
+              {/* Imagen de la diosa */}
               <img 
                 src={card.goddessImage.imageSrc} 
                 alt={card.goddessName}
@@ -217,7 +237,7 @@ export const CardDetail: React.FC = () => {
         </div>
       </header>
 
-      {/* 📖 Descripción debajo de las cartas */}
+      {/* Descripción y logros debajo de las cartas */}
       <main className="detail-main">
         <section className="description-section mystical-container">
           <div className="content-grid" style={{
@@ -226,7 +246,7 @@ export const CardDetail: React.FC = () => {
             gap: 'var(--space-xl)',
             marginBottom: 'var(--space-xl)'
           }}>
-            {/* 🔮 Sección del Arcano */}
+            {/* Sección para descripción del arcano */}
             <div className="content-section">
               <div className="section-header" style={{ marginBottom: 'var(--space-lg)' }}>
                 <h3 className="mystical-title medium">El Arcano</h3>
@@ -240,7 +260,7 @@ export const CardDetail: React.FC = () => {
                   {card.arcaneDescription}
                 </p>
                 
-                {/* Elementos simbólicos */}
+                {/* Elementos simbólicos del arcano */}
                 <div className="symbolic-elements">
                   <h4 className="sub-title" style={{
                     fontFamily: 'var(--font-heading)',
@@ -253,6 +273,7 @@ export const CardDetail: React.FC = () => {
                     gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
                     gap: 'var(--space-md)'
                   }}>
+                    {/* Cada símbolo con icono y texto */}
                     <div className="symbol-item" style={{
                       display: 'flex',
                       flexDirection: 'column',
@@ -266,6 +287,7 @@ export const CardDetail: React.FC = () => {
                       <span className="symbol" style={{ fontSize: '1.5rem' }}>🌟</span>
                       <span className="mystical-text" style={{ fontSize: '0.9rem' }}>Inspiración</span>
                     </div>
+                    {/* Otros símbolos similares */}
                     <div className="symbol-item" style={{
                       display: 'flex',
                       flexDirection: 'column',
@@ -310,7 +332,7 @@ export const CardDetail: React.FC = () => {
               </div>
             </div>
 
-            {/* 🔬 Sección de la Científica */}
+            {/* Sección para descripción de la científica */}
             <div className="content-section">
               <div className="section-header" style={{ marginBottom: 'var(--space-lg)' }}>
                 <h3 className="mystical-title medium">La Diosa Contemporánea</h3>
@@ -337,6 +359,7 @@ export const CardDetail: React.FC = () => {
                     gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
                     gap: 'var(--space-md)'
                   }}>
+                    {/* Elementos de logros */}
                     <div className="achievement-item" style={{
                       display: 'flex',
                       flexDirection: 'column',
@@ -396,7 +419,7 @@ export const CardDetail: React.FC = () => {
           </div>
         </section>
 
-        {/* 🎯 Conexión Arcano-Científica */}
+        {/* Sección que describe la conexión entre el arcano y la científica */}
         <section className="connection-section mystical-carpet">
           <h3 className="mystical-title medium">La Conexión Sagrada</h3>
           <div className="connection-content">
@@ -408,7 +431,7 @@ export const CardDetail: React.FC = () => {
               marginBottom: 'var(--space-lg)',
               flexWrap: 'wrap'
             }}>
-
+              {/* Aquí podrías agregar elementos visuales */}
             </div>
             <p className="mystical-text connection-text" style={{
               lineHeight: '1.7',
