@@ -371,7 +371,101 @@ body::before {
   margin-top: var(--space-lg);
 }
 
-/* Responsive */
+/* CORRECCIONES RESPONSIVE MÓVIL - PÁGINA CARDDETAIL Y GENERAL */
+/* Ajuste de contenedores principales en páginas de detalle y lectura */
+@media (max-width: 480px) {
+  /* CORRECCIÓN 1: Padding y márgenes para evitar desbordamiento horizontal */
+  .mystical-container,
+  .mystical-carpet {
+    padding: 1rem !important;
+    margin: 0.5rem !important;
+    max-width: calc(100vw - 1rem) !important;
+  }
+  
+  /* CORRECCIÓN 2: Títulos más pequeños y responsive */
+  .mystical-title.large { font-size: 2rem !important; }
+  .mystical-title.medium { font-size: 1.5rem !important; }
+  .mystical-title.small { font-size: 1.3rem !important; }
+  
+  /* CORRECCIÓN 3: Botones más compactos */
+  .mystical-button {
+    font-size: 0.85rem !important;
+    padding: 0.6rem 1rem !important;
+  }
+  .mystical-button.large-button {
+    font-size: 1rem !important;
+    padding: 0.8rem 1.2rem !important;
+  }
+  
+  /* CORRECCIÓN 4: Variables de espacio reducidas para móvil */
+  :root {
+    --space-xs: 0.3rem;
+    --space-sm: 0.6rem;
+    --space-md: 1rem;
+    --space-lg: 1.3rem;
+    --space-xl: 2rem;
+    --space-xxl: 2.5rem;
+  }
+}
+
+/* CORRECCIONES ESPECÍFICAS PARA CARDDETAIL */
+@media (max-width: 480px) {
+  /* CORRECCIÓN 5: Grid de cartas en detalle - stack vertical en móvil */
+  .cards-display {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 1.5rem !important;
+  }
+  
+  /* CORRECCIÓN 6: Tamaño de cartas de detalle más pequeño */
+  .detail-card {
+    width: 160px !important;
+    height: 280px !important;
+  }
+  
+  /* CORRECCIÓN 7: Grid de contenido en detalle - una columna */
+  .content-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+  
+  /* CORRECCIÓN 8: Grids de símbolos y logros más compactos */
+  .symbol-grid,
+  .achievement-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.8rem !important;
+  }
+  
+  /* CORRECCIÓN 9: Items de símbolos más pequeños */
+  .symbol-item,
+  .achievement-item {
+    padding: 0.8rem !important;
+  }
+  
+  .symbol-item span,
+  .achievement-item span {
+    font-size: 1.2rem !important;
+  }
+  
+  .symbol-item .mystical-text,
+  .achievement-item .mystical-text {
+    font-size: 0.8rem !important;
+  }
+  
+  /* CORRECCIÓN 10: Texto de descripción más legible */
+  .description {
+    font-size: 0.9rem !important;
+    line-height: 1.5 !important;
+  }
+  
+  /* CORRECCIÓN 11: Navegación de detalle centrada */
+  .detail-navigation {
+    padding: 1rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+}
+
+/* Responsive existente mantenido */
 @media (max-width: 900px) {
   .spread-card {
     width: 90px !important;
@@ -408,8 +502,8 @@ body::before {
     width: 90px !important;
     height: 140px !important;
   }
-  /* Limitar ancho y padding en contenedores principales para móviles */
-@media (max-width: 768px) {
+  
+  /* CORRECCIÓN 12: Limitar ancho y padding en contenedores principales para móviles */
   .readingContainer,
   .spreadLayout,
   .positionSlot,
@@ -421,8 +515,7 @@ body::before {
     box-sizing: border-box !important;
     overflow-x: hidden !important;
   }
-}
-@media (max-width: 500px) {
+  
   .spreadLayout,
   .positionSlot,
   .reading-summary {
@@ -430,21 +523,21 @@ body::before {
     justify-content: center !important;
     gap: 1rem !important;
   }
-}
-.spread-card,
-.card-slot,
-.selectedCard img,
-.summary-image,
-.cardImage img,
-.arcaneImage {
-  max-width: 100% !important; 
-  height: auto !important;
-  border-radius: 12px;
-  display: block;
-  object-fit: cover;
-}
+  
+  /* CORRECCIÓN 13: Imágenes responsive */
+  .spread-card,
+  .card-slot,
+  .selectedCard img,
+  .summary-image,
+  .cardImage img,
+  .arcaneImage {
+    max-width: 100% !important; 
+    height: auto !important;
+    border-radius: 12px;
+    display: block;
+    object-fit: cover;
+  }
 
-@media (max-width: 500px) {
   .spread-card {
     width: 70px !important;
     height: 110px !important;
@@ -459,8 +552,8 @@ body::before {
   .cardImage {
     height: 160px !important;
   }
-}
-@media (max-width: 500px) {
+  
+  /* CORRECCIÓN 14: Texto más pequeño pero legible */
   .readingTitle {
     font-size: 20px !important;
   }
@@ -478,7 +571,4 @@ body::before {
     padding: 10px 16px !important;
     font-size: 11px !important;
   }
-}
-
-
 }
