@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import type { TarotCard } from '../../types/tarot';
 import { Card } from '../Card/Card';
 import styles from './CardGrid.module.css';
 
 interface CardGridProps {
   cards: TarotCard[];
-  flippedCards?: string[]; // Lista de cartas volteadas por id
+  flippedCards?: string[];
   onCardClick?: (card: TarotCard) => void;
-  loading?: boolean; // Muestra estado carga si es true
+  loading?: boolean;
   cardSize?: 'small' | 'medium' | 'large';
-  showGridStats?: boolean; // Muestra estadísticas si es true
+  showGridStats?: boolean;
   className?: string;
 }
 
@@ -22,16 +22,56 @@ export const CardGrid: React.FC<CardGridProps> = ({
   showGridStats = false,
   className = ''
 }) => {
-  // Si está cargando, mostrar spinner y esqueleto
+  // Estado para manejar si estamos en cliente (evita problemas de hydratación)
+  const [isClient, setIsClient] = useState(false);
+  
+  // Estado para detectar móvil real
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+    
+    // Detectar si realmente estamos en móvil
+    const checkMobile = () => {
+      const userAgent = navigator.userAgent.toLowerCase();
+      const isMobileDevice = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+      const isSmallScreen = window.innerWidth <= 768;
+      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      
+      return isMobileDevice || (isSmallScreen && isTouchDevice);
+    };
+
+    setIsMobile(checkMobile());
+
+    const handleResize = () => {
+      setIsMobile(checkMobile());
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // No renderizar en servidor para evitar hydratación mismatch
+  if (!isClient) {
+    return (
+      <div className={`${styles.gridContainer} ${className}`}>
+        <div className={styles.loadingContainer}>
+          <div className={styles.loadingSpinner}>🔮</div>
+          <p className={styles.loadingText}>Cargando...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Si está cargando, mostrar spinner
   if (loading) {
     return (
       <div className={`${styles.gridContainer} ${className}`}>
         <div className={styles.loadingContainer}>
           <div className={styles.loadingSpinner}>🔮</div>
           <p className={styles.loadingText}>Invocando las cartas del destino...</p>
-          {/* Skeleton cards animadas */}
           <div className={styles.loadingSkeleton}>
-            {[...Array(8)].map((_, index) => (
+            {[...Array(isMobile ? 4 : 8)].map((_, index) => (
               <div 
                 key={index} 
                 className={styles.skeletonCard}
@@ -48,7 +88,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
     );
   }
 
-  // Si no hay cartas, mostrar estado vacío
+  // Si no hay cartas
   if (cards.length === 0) {
     return (
       <div className={`${styles.gridContainer} ${className}`}>
@@ -63,13 +103,15 @@ export const CardGrid: React.FC<CardGridProps> = ({
     );
   }
 
-  // Renderizamos las cartas normalmente
+  // Cálculo seguro del progreso
+  const progress = cards.length > 0 ? Math.round((flippedCards.length / cards.length) * 100) : 0;
+
   return (
     <div className={`${styles.gridContainer} ${className}`}>
-      {/* Mostrar estadísticas si se pide */}
+      {/* Estadísticas mejoradas para móvil */}
       {showGridStats && (
         <div className={styles.gridStats}>
-          <div className={styles.statsContent}>
+          <div className={`${styles.statsContent} ${isMobile ? styles.mobileStats : ''}`}>
             <div className={styles.statItem}>
               <span className={styles.statIcon}>🃏</span>
               <span className={styles.statLabel}>{cards.length} Cartas</span>
@@ -83,28 +125,33 @@ export const CardGrid: React.FC<CardGridProps> = ({
               <span className={styles.statLabel}>{flippedCards.length} Científicas</span>
             </div>
           </div>
-          {/* Barra de progreso basada en cartas volteadas */}
+          
+          {/* Barra de progreso con animación segura */}
           <div className={styles.progressBar}>
             <div 
               className={styles.progressFill}
-              style={{ width: `${(flippedCards.length / cards.length) * 100}%` }}
-            ></div>
+              style={{ 
+                width: `${progress}%`,
+                transition: 'width 0.8s ease-out'
+              }}
+            />
           </div>
+          
           <p className={styles.progressText}>
-            Progreso de exploración: {Math.round((flippedCards.length / cards.length) * 100)}%
+            Progreso de exploración: {progress}%
           </p>
         </div>
       )}
 
-      {/* Grid con las cartas renderizadas */}
-      <div className={`${styles.cardsGrid} ${styles[cardSize]}`}>
+      {/* Grid responsivo */}
+      <div className={`${styles.cardsGrid} ${styles[cardSize]} ${isMobile ? styles.mobileGrid : ''}`}>
         {cards.map((card, index) => {
           const isFlipped = flippedCards.includes(card.id);
 
           return (
             <div 
               key={card.id} 
-              className={styles.cardWrapper}
+              className={`${styles.cardWrapper} ${isMobile ? styles.mobileCardWrapper : ''}`}
               style={{ 
                 animationDelay: `${index * 0.1}s`,
                 '--card-index': index

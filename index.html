@@ -1,13 +1,31 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/jpeg" href="/tarot-back.jpg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Aethra Tarot</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/jpeg" href="/tarot-back.jpg" />
+
+  <!-- Viewport más específico para móviles -->
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+
+  <!-- Mejorar performance en móvil -->
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <!-- Etiquetas cuando compartimos en vercel -->
+  <meta property="og:title" content="Aethra Tarot - Descubre tu Destino a través de las Cartas" />
+  <meta property="og:description" content="Explora los misterios del tarot con Aethra. Descubre cartas místicas, obtén lecturas personalizadas y conecta con la sabiduría ancestral del tarot." />
+  <meta property="og:image" content="/aethra.png" />
+  <meta property="og:url" content="https://tarot-stem.vercel.app/" />
+  <meta property="og:type" content="Aethra Tarot" />
+  <title>Aethra Tarot - Descubre tu Destino a través de las Cartas</title>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
 </html>
