@@ -1,11 +1,22 @@
-import React from 'react';
-import { Outlet } from 'react-router-dom';
-import Navigation from '../Navigation/Navigation';
-import styles from './Layout.module.css';
+import React, { useState } from "react";
+import { Outlet } from "react-router-dom";
+import Navigation from "../Navigation/Navigation";
+import styles from "./Layout.module.css";
 // Importación de iconos sociales
 import { FaGithub, FaLinkedin } from "react-icons/fa";
+import type { SelectedCard } from "../../types/tarot";
+
+export type ReadingOutletContext = {
+  selectedCards: SelectedCard[];
+  setSelectedCards: React.Dispatch<React.SetStateAction<SelectedCard[]>>;
+  isComplete: boolean;
+  setIsComplete: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
 const Layout: React.FC = () => {
+  const [selectedCards, setSelectedCards] = useState<SelectedCard[]>([]);
+  const [isComplete, setIsComplete] = useState(false);
+
   return (
     <div className={styles.layout}>
       {/* Navegación superior */}
@@ -14,7 +25,16 @@ const Layout: React.FC = () => {
       {/* Contenido principal donde se inyecta el Outlet de rutas */}
       <main className={styles.mainContent}>
         <div className={styles.container}>
-          <Outlet />
+          <Outlet
+            context={
+              {
+                selectedCards,
+                setSelectedCards,
+                isComplete,
+                setIsComplete,
+              } as ReadingOutletContext
+            }
+          />
         </div>
       </main>
 
@@ -29,24 +49,24 @@ const Layout: React.FC = () => {
                 <span className={styles.footerTitle}>Aethra TAROT</span>
               </div>
               <p className={styles.footerDescription}>
-                 Conectando la sabiduría ancestral con la ciencia moderna 
+                Conectando la sabiduría ancestral con la ciencia moderna
               </p>
             </div>
 
             {/* Enlaces sociales */}
             <div className={styles.socialLinks}>
-              <a 
-                href="https://www.linkedin.com/in/esther-tapias-paez-camino/" 
-                target="_blank" 
+              <a
+                href="https://www.linkedin.com/in/esther-tapias-paez-camino/"
+                target="_blank"
                 rel="noopener noreferrer"
                 className={styles.socialIcon}
                 title="LinkedIn"
               >
                 <FaLinkedin />
               </a>
-              <a 
-                href="https://github.com/EstherTapias" 
-                target="_blank" 
+              <a
+                href="https://github.com/EstherTapias"
+                target="_blank"
                 rel="noopener noreferrer"
                 className={styles.socialIcon}
                 title="GitHub"
@@ -58,7 +78,8 @@ const Layout: React.FC = () => {
             {/* Texto firma */}
             <div className={styles.footerSignature}>
               <p className={styles.signatureText}>
-                Creado con 💜 para celebrar a las Diosas Contemporáneas de STEM    ·    Realizado por Esther Tapias.
+                Creado con 💜 para celebrar a las Diosas Contemporáneas de STEM
+                   ·    Realizado por Esther Tapias.
               </p>
             </div>
           </div>
