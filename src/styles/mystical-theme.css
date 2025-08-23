@@ -370,6 +370,570 @@ body::before {
   gap: var(--space-md);
   margin-top: var(--space-lg);
 }
+/* ========================================================================
+   ESTILOS PARA CARD READING COMPONENT
+   ======================================================================== */
+
+/* Layout principal */
+.card-reading-page {
+  min-height: 100vh;
+  padding: var(--space-lg);
+}
+
+.reading-controls {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+  flex-wrap: wrap;
+}
+
+/* ========================================================================
+   INTRODUCCIÓN
+   ======================================================================== */
+.reading-intro {
+  text-align: center;
+  padding: var(--space-xxl);
+  margin-bottom: var(--space-xl);
+}
+
+.intro-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.intro-text {
+  margin-bottom: var(--space-xl);
+  font-size: 1.1rem;
+  line-height: 1.7;
+}
+
+.intro-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-lg);
+  margin-bottom: var(--space-xl);
+}
+
+.step {
+  padding: var(--space-lg);
+  text-align: center;
+}
+
+.step-icon {
+  font-size: 2rem;
+  margin-bottom: var(--space-md);
+}
+
+/* ========================================================================
+   MAZO DE CARTAS (DECK)
+   ======================================================================== */
+.card-deck {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.deck-info {
+  padding: var(--space-sm);
+  text-align: center;
+  min-width: 80px;
+}
+
+.deck-counter {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  color: var(--gold-mystical);
+}
+
+.deck-label {
+  font-size: 0.8rem;
+}
+
+.deck-cards-container {
+  position: relative;
+}
+
+.deck-card {
+  width: 60px;
+  height: 90px;
+  background: url('/tarot-back.jpg') center/cover;
+  border-radius: 8px;
+  border: 2px solid var(--gold-mystical);
+  box-shadow: var(--shadow-enchanted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold-mystical);
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* ========================================================================
+   SPREAD DE CARTAS
+   ======================================================================== */
+.card-spread-area {
+  text-align: center;
+  margin-bottom: var(--space-xl);
+}
+
+.spread-title {
+  margin-bottom: var(--space-xl);
+}
+
+.current-position {
+  color: var(--fairy-light);
+}
+
+.spread-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.card-row {
+  display: flex;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.spread-card {
+  width: 100px;
+  height: 150px;
+  background: url('/tarot-back.jpg') center/cover;
+  border-radius: 12px;
+  border: 2px solid var(--gold-mystical);
+  box-shadow: var(--shadow-enchanted);
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+}
+
+.spread-card:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: var(--glow-mystical);
+}
+
+/* ========================================================================
+   SLOTS DE POSICIONES (PASADO, PRESENTE, FUTURO)
+   ======================================================================== */
+.position-slots {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-xl);
+  margin-bottom: var(--space-xl);
+  flex-wrap: wrap;
+}
+
+.position-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  min-width: 180px;
+}
+
+.position-label {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--gold-mystical);
+}
+
+.card-slot {
+  width: 120px;
+  height: 180px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  position: relative;
+}
+
+.card-slot.filled {
+  border: 2px solid var(--gold-mystical);
+  background: transparent;
+  box-shadow: var(--shadow-enchanted);
+  cursor: pointer;
+}
+
+.card-slot.empty {
+  border: 2px dashed var(--gold-mystical);
+  background: var(--bg-glass);
+  box-shadow: none;
+  cursor: default;
+}
+
+.selected-card {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.selected-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.8));
+  padding: var(--space-sm);
+  color: white;
+  text-align: center;
+}
+
+.card-name {
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.empty-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  color: var(--gold-mystical);
+}
+
+.empty-slot.current {
+  opacity: 1;
+}
+
+.empty-slot:not(.current) {
+  opacity: 0.5;
+}
+
+.slot-placeholder {
+  font-size: 2rem;
+}
+
+.slot-text {
+  font-size: 0.8rem;
+}
+
+/* ========================================================================
+   INDICADOR DE PROGRESO
+   ======================================================================== */
+.progress-indicator {
+  margin-bottom: var(--space-xl);
+}
+
+.progress-steps {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-md);
+}
+
+.progress-step {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.progress-step:not(.completed) {
+  opacity: 0.5;
+}
+
+.progress-step.completed {
+  opacity: 1;
+}
+
+.step-number {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid var(--gold-mystical);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-family: var(--font-heading);
+}
+
+.progress-step.completed .step-number {
+  background: var(--gold-mystical);
+  color: var(--forest-deep);
+}
+
+.progress-step:not(.completed) .step-number {
+  background: transparent;
+  color: var(--gold-mystical);
+}
+
+.progress-bar {
+  width: 300px;
+  height: 4px;
+  background: var(--bg-glass);
+  border-radius: 2px;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid var(--gold-mystical);
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold-mystical), var(--gold-copper));
+  border-radius: 2px;
+  transition: width 0.5s ease;
+  box-shadow: var(--glow-mystical);
+}
+
+.progress-fill[data-phase="dealing"] {
+  width: 33%;
+}
+
+.progress-fill[data-phase="selecting"] {
+  width: 66%;
+}
+
+.progress-fill[data-phase="complete"] {
+  width: 100%;
+}
+
+.progress-fill:not([data-phase]) {
+  width: 0%;
+}
+
+/* ========================================================================
+   ESTADO DE REPARTO
+   ======================================================================== */
+.dealing-status {
+  text-align: center;
+  padding: var(--space-xl);
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.dealing-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+}
+
+.dealing-counter {
+  font-size: 2rem;
+  font-family: var(--font-heading);
+  font-weight: bold;
+  color: var(--gold-mystical);
+}
+
+/* ========================================================================
+   MODAL DE FINALIZACIÓN
+   ======================================================================== */
+.reading-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: var(--space-lg);
+}
+
+.reading-modal {
+  max-width: 1100px;
+  width: 100%;
+  max-height: 95vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-xl);
+  border-bottom: 1px solid var(--gold-mystical);
+  padding-bottom: var(--space-lg);
+}
+
+.close-modal {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: var(--gold-mystical);
+  cursor: pointer;
+  padding: var(--space-sm);
+  transition: var(--transition);
+}
+
+.close-modal:hover {
+  color: var(--fairy-light);
+  transform: scale(1.1);
+}
+
+.reading-summary {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: stretch;
+  gap: var(--space-xl);
+  margin-bottom: var(--space-xl);
+  width: 100%;
+  flex-wrap: nowrap;
+}
+
+.summary-card {
+  width: 240px;
+  min-height: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: var(--space-lg);
+  text-align: center;
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  border: var(--border-golden);
+  box-shadow: var(--shadow-enchanted);
+}
+
+.summary-position {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  color: var(--gold-mystical);
+  margin-bottom: var(--space-md);
+  font-weight: 600;
+}
+
+.summary-card-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.summary-card-image {
+  width: 100px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid var(--gold-mystical);
+  box-shadow: var(--shadow-enchanted);
+}
+
+.summary-name {
+  font-weight: bold;
+  margin-bottom: var(--space-xs);
+  color: var(--pearl-white);
+  font-family: var(--font-heading);
+}
+
+.summary-scientist {
+  color: var(--gold-mystical);
+  font-size: 0.9rem;
+}
+
+.quick-interpretation {
+  padding: var(--space-xl);
+  text-align: center;
+  margin-bottom: var(--space-xl);
+  background: var(--bg-mystical);
+  border-radius: 20px;
+  border: var(--border-golden);
+  box-shadow: var(--shadow-hover);
+  position: relative;
+  overflow: hidden;
+}
+
+.interpretation-title {
+  color: var(--gold-mystical);
+  margin-bottom: var(--space-lg);
+}
+
+.interpretation-text {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  font-style: italic;
+  color: var(--pearl-white);
+}
+
+.modal-actions {
+  display: flex;
+  gap: var(--space-md);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ========================================================================
+   ESTADOS DE CARGA Y ERROR
+   ======================================================================== */
+.loading-content {
+  text-align: center;
+  padding: var(--space-xxl);
+}
+
+.loading-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  animation: float 2s ease-in-out infinite;
+}
+
+/* ========================================================================
+   RESPONSIVE DESIGN
+   ======================================================================== */
+@media (max-width: 768px) {
+  .card-deck {
+    position: static;
+    order: -1;
+    margin-bottom: var(--space-lg);
+  }
+  
+  .position-slots {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .reading-summary {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .summary-card {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .spread-container {
+    padding: 0 var(--space-md);
+  }
+  
+  .card-row {
+    gap: var(--space-sm);
+  }
+  
+  .spread-card {
+    width: 80px;
+    height: 120px;
+  }
+  
+  .progress-bar {
+    width: 250px;
+  }
+}
 
 /* CORRECCIONES RESPONSIVE MÓVIL - PÁGINA CARDDETAIL Y GENERAL */
 /* Ajuste de contenedores principales en páginas de detalle y lectura */
